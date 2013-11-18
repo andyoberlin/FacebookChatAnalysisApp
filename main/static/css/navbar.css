@@ -17,3 +17,12 @@
     color: white;
     background-color: #1a3c6c;
 }
+
+.facebookLogo {
+	background-image: url(/static/img/FacebookIcons.png);
+	background-repeat: no-repeat;
+	background-size: 49px 1682px;
+	background-position: 0 -735px;
+	height: 41px;
+	width: 41px;
+}
