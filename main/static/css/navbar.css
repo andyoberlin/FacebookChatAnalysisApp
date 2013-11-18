@@ -1,0 +1,10 @@
+.blueBar {
+	background-image: url(static/img/FacebookGradient.png);
+	background-repeat: repeat-x;
+	background-size: 1px 42px;
+	background-position: 0 0;
+	background-color: #4c66a4;
+	border: 0;
+	-webkit-box-shadow: none;
+	position: relative;
+}
