@@ -21,4 +21,7 @@ require.config({
 	}
 })
 
-require(['fb']);
+require(['jquery'], function($) {
+	$('#loginPrompt').removeClass('show').fadeOut();
+	$('#appHub').removeClass('hidden').fadeIn();
+});
