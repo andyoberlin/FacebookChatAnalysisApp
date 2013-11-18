@@ -1,10 +1,19 @@
 .blueBar {
-	background-image: url(static/img/FacebookGradient.png);
+	background-image: url(/static/img/FacebookGradient.png);
 	background-repeat: repeat-x;
-	background-size: 1px 42px;
+	background-size: 1px 50px;
 	background-position: 0 0;
 	background-color: #4c66a4;
 	border: 0;
 	-webkit-box-shadow: none;
 	position: relative;
+}
+
+.navbar-custom-text {
+    color: white;
+}
+
+.navbar-custom-text:hover {
+    color: white;
+    background-color: #1a3c6c;
 }
