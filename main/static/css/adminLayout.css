@@ -1,22 +1,3 @@
-#header {
-  	background-color: transparent;
-    color: white;
-    font-family: Times New Roman;
-    font-variant: small-caps;
-    font-size: 30px;
-    font-family: lighter;
-    padding: 4px;
-    text-align: center;
-}
-
-#footer {
-    background-color: dimgray;
-    border: 1px solid black;
-    border-radius: 0 0 11px 11px;
-    height: 28px;
-    padding: 4px;
-}
-
 #holder {
     border: 1px solid black;
     width: 918px;
