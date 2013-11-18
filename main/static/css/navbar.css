@@ -8,7 +8,7 @@
 	-webkit-box-shadow: none;
 	position: relative;
 }
-
+§
 .navbar-custom-text {
     color: white;
 }
@@ -21,8 +21,7 @@
 .facebookLogo {
 	background-image: url(/static/img/FacebookIcons.png);
 	background-repeat: no-repeat;
-	background-size: 49px 1682px;
-	background-position: 0 -735px;
-	height: 41px;
-	width: 41px;
+	background-size: 49px 1600px;
+	background-position: 0 -707px;
+	padding-left: 40px;
 }
