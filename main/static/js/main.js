@@ -15,9 +15,9 @@ require.config({
 	},
 	paths: {
 		facebook : '//connect.facebook.net/en_US/all',
-		jquery : 'js/lib/jquery-1.10.2.min',
-		underscore : 'js/lib/underscore.min',
-		bootstrap: 'js/lib/bootstrap.min'
+		jquery : '/static/js/lib/jquery-1.10.2.min',
+		underscore : '/static/js/lib/underscore.min',
+		bootstrap: '/static/js/lib/bootstrap.min'
 	}
 })
 
