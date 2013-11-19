@@ -22,3 +22,9 @@
 #loginPrompt > div {
 	max-width: 710px;
 }
+
+.text-overflow {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}

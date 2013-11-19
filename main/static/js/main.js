@@ -45,13 +45,13 @@ require(dependencies, function($, LoginSDK, Util, ConversationSDK, ConversationV
 			
 			// when the SDK next function is called we will render the conversations
 			// using a ConversationView
-			$(convoSDK).on('convos.next', function(e) {
-				convosPanel.append(ConversationView.render(e.convos));
-				convosPanel.append($(this));
-			});
-			
 			var nextButton = ConversationView.nextButton().on('click', function() {
 				convoSDK.next();
+			});
+			
+			$(convoSDK).on('convos.next', function(e) {
+				convosPanel.append(ConversationView.render(e.convos));
+				convosPanel.append(nextButton);
 			});
 			
 			// trigger first retrieval of conversations

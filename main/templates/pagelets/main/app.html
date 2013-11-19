@@ -3,6 +3,12 @@
 	<script data-main="{{ STATIC_URL }}js/main" src="{{ STATIC_URL }}js/lib/require.js"></script>
 </head>
 <body>
+	<script id="conversationTemplate" type="text/template">
+		<div class="conversation">
+			<div class="text-overflow"><strong><%= participants %></strong></div>
+			<div class="text-overflow"><%= message %></div>
+		</div>
+	</script>
 	<div>
 		<div id="loginPrompt" class="container hidden panel panel-default card">
 		    <div class="center-block">
@@ -30,9 +36,7 @@
 		        <div class="col-md-5">
 			        <div class="panel panel-default">
 					    <div class="panel-heading">Conversations</div>
-					    <div id="conversations" class="panel-body">
-					    
-					    </div>
+					    <div id="conversations" class="panel-body"></div>
 					</div>
 		        </div>
 		        <div class="col-md-7">

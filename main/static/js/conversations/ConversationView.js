@@ -8,12 +8,15 @@ define(['jquery', 'underscore'], function($, _) {
 		 * @param convos The set of conversations to render
 		 */
 		render: function(convos) {
+			var ConversationTemplate = _.template($('#conversationTemplate').html());
 			
-			var str = [];
-			$.each(convos, function(index, val) {
-				str.push(val.id);
-			})
-			return $('<div />').text(str.join());
+			var temp = $();
+			
+			$.each(convos, function(index, convo) {
+				temp.add(ConversationTemplate(convo));
+			});
+			
+			return temp;
 		},
 		/**
 		 * Returns a correctly rendered button to be used for indicating a
