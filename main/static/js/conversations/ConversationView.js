@@ -21,10 +21,12 @@ define(['jquery', 'underscore'], function($, _) {
 			var temp = $();
 			
 			$.each(convos, function(index, convo) {
-				temp.add(ConversationTemplate({
-					participants: getParticipants(convo.to.data),
-					message: convo.comments.data[0].message
-				}));
+				if (convo.comments && convo.to) {
+					temp.add(ConversationTemplate({
+						participants: getParticipants(convo.to.data),
+						message: convo.comments.data[0].message
+					}));
+				}
 			});
 			
 			return temp;
