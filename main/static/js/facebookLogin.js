@@ -22,7 +22,7 @@ define(['facebook'], function(FB) {
 				// and signed request each expire
 				var uid = response.authResponse.userID;
 				var accessToken = response.authResponse.accessToken;
-				self.success();
+				self.success(uid);
 			}
 		 });
 	}
@@ -32,7 +32,7 @@ define(['facebook'], function(FB) {
 		FB.login(function(response) {
 		    if (response.authResponse) {
 		        // The person logged into your app
-		    	self.success();
+		    	self.success(response.authResponse.userID);
 		    }
 		    else {
 		        // The person cancelled the login dialog

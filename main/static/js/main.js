@@ -35,7 +35,7 @@ require(dependencies, function($, LoginSDK, Util, ConversationSDK, ConversationV
 	var appHub = $('#appHub');
 	
 	var loginSDK = LoginSDK.createInstance({
-		success: function() {
+		success: function(userID) {
 			loginPanel.hide();
 			appHub.removeClass('hidden').fadeIn();
 			
@@ -50,7 +50,7 @@ require(dependencies, function($, LoginSDK, Util, ConversationSDK, ConversationV
 			});
 			
 			$(convoSDK).on('convos.next', function(e) {
-				convosPanel.append(ConversationView.render(e.convos));
+				convosPanel.append(ConversationView.render(e.convos, userID));
 				convosPanel.append(nextButton);
 			});
 			

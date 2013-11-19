@@ -1,9 +1,11 @@
 define(['jquery', 'underscore'], function($, _) {
 	
-	function getParticipants(people) {
+	function getParticipants(people, userID) {
 		var str = [];
 		$.each(people, function(index, person) {
-			str.push(person.name);
+			if (person.id != userID) {
+				str.push(person.name);
+			}
 		});
 		return str.join(", ");
 	}
@@ -15,7 +17,7 @@ define(['jquery', 'underscore'], function($, _) {
 		 * 
 		 * @param convos The set of conversations to render
 		 */
-		render: function(convos) {
+		render: function(convos, userID) {
 			var ConversationTemplate = _.template($('#conversationTemplate').html());
 			
 			var temp = $();
@@ -23,7 +25,7 @@ define(['jquery', 'underscore'], function($, _) {
 			$.each(convos, function(index, convo) {
 				if (convo.comments && convo.to) {
 					var lst = ConversationTemplate({
-						participants: getParticipants(convo.to.data),
+						participants: getParticipants(convo.to.data, userID),
 						message: convo.comments.data[0].message
 					});
 					
