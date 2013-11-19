@@ -7,22 +7,6 @@
 	margin-bottom: 0px;
 }
 
-.facebookLoginButton {
-	margin: 10px;
-}
-
-@media (min-width: @screen-md-min) {
-    .facebookLoginButton[data-src-desktop] {
-        content: attr(data-src-desktop, url);
-    }
-}
-
-@media (min-width: @screen-md-min) {
-	.facebookLoginButton:active {
-		content: url(/static/img/facebook_login_buttons/pressed_600@2x.png);
-	}
-}
-
 .facebookLoginButton:active {
 	content: url(/static/img/facebook_login_buttons/pressed_404@2x.png);
 }
