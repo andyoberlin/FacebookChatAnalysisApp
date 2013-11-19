@@ -6,3 +6,17 @@
 .panel {
 	margin-bottom: 0px;
 }
+
+.facebookLoginButton {
+	background-image: url(/static/img/facebook_login_buttons/active_600@2x.png);
+	width: 600px;
+	height: 200px;
+}
+
+.facebookLoginButton:active {
+	background-image: url(/static/img/facebook_login_buttons/pressed_600@2x.png);
+}
+
+.facebookLoginButton:hover {
+	cursor: pointer;
+}
