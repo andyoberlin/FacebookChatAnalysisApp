@@ -40,7 +40,7 @@ define(['facebook', 'jquery'], function(FB, $) {
 		else {
 			// we have not made our initial call to the Facebook API to get the
 			// conversations yet
-			FB.api(nextURL, function(response) {
+			FB.api(self.nextURL, function(response) {
 				self.accessToken = response.session.access_token;
 				self.nextURL = response.paging.next;
 				
