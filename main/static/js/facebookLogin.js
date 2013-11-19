@@ -38,7 +38,7 @@ define(['facebook'], function(FB) {
 		        // The person cancelled the login dialog
 		    	self.error();
 		    }
-		}, {scope: 'user_friends,read_mailbox', display: 'touch', redirect_uri: '/'});
+		}, {scope: 'user_friends,read_mailbox', display: 'touch'});
 	};
 	
 	var LoginSDKFactory = {
