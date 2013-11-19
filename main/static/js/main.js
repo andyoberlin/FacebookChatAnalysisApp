@@ -55,9 +55,9 @@ require(dependencies, function($, LoginSDK, Util, ConversationSDK, ConversationV
 				convoEls.on('click', function() {
 					// check to see if they are aligned vertically and scroll if so
 					var analyticsTop = appHub.find('#analytics').parent().parent().offset().top;
-					var convosTop = convosPanel.parent().parent().offest().top;
+					var convosTop = convosPanel.parent().parent().offset().top;
 					if (analyticsTop > convosTop) {
-						$(document).scrollTop();
+						$(document).scrollTop(analyticsTop);
 					}
 				});
 			});
