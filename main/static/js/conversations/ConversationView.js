@@ -22,10 +22,12 @@ define(['jquery', 'underscore'], function($, _) {
 			
 			$.each(convos, function(index, convo) {
 				if (convo.comments && convo.to) {
-					temp.add(ConversationTemplate({
+					var lst = ConversationTemplate({
 						participants: getParticipants(convo.to.data),
 						message: convo.comments.data[0].message
-					}));
+					});
+					
+					temp.add(lst);
 				}
 			});
 			
