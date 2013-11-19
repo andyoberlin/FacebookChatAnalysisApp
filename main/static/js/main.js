@@ -31,7 +31,6 @@ require(dependencies, function($, LoginSDK, Util, ConversationSDK, ConversationV
 	// and switches between the main application and the login prompt to
 	// start
 	var loginPanel = $('#loginPrompt');
-	
 	var appHub = $('#appHub');
 	
 	var loginSDK = LoginSDK.createInstance({
@@ -50,8 +49,13 @@ require(dependencies, function($, LoginSDK, Util, ConversationSDK, ConversationV
 			});
 			
 			$(convoSDK).on('convos.next', function(e) {
-				convosPanel.append(ConversationView.render(e.convos, userID));
+				var convoEls = ConversationView.render(e.convos, userID);
+				convosPanel.append(convoEls);
 				convosPanel.append(nextButton);
+				convoEls.on('click', function() {
+					$(document).scrollTo($('#analytics').offset().top);
+					console.log('Scrolled');
+				});
 			});
 			
 			// trigger first retrieval of conversations
