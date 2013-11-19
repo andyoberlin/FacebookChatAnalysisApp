@@ -21,7 +21,7 @@ require.config({
 	}
 })
 
-require(['jquery', 'facebook/login'], function($, LoginSDK) {
+require(['jquery', 'facebookLogin'], function($, LoginSDK) {
 	// Sets up the Facebook Login for this app with the proper permissions
 	// and switches between the main application and the login prompt to
 	// start
