@@ -20,3 +20,11 @@
 .facebookLoginButton:hover {
 	cursor: pointer;
 }
+
+.facebookMessengerLogo {
+	max-height: 200px;
+}
+
+#loginPrompt > div {
+	max-width: 710px;
+}
