@@ -36,4 +36,9 @@
 .conversation {
 	border-bottom: 1px solid #CCC;
 	padding: 10px;
+	cursor: pointer;
+}
+
+.conversation:hover {
+	background-color: #f4f6f9;
 }
