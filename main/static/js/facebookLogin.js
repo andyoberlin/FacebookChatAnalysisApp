@@ -24,6 +24,9 @@ define(['facebook'], function(FB) {
 				var accessToken = response.authResponse.accessToken;
 				self.success(uid);
 			}
+			else {
+				self.error();
+			}
 		 });
 	}
 	

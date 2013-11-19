@@ -26,7 +26,7 @@ define(['jquery', 'underscore'], function($, _) {
 				if (convo.comments && convo.to) {
 					var lst = ConversationTemplate({
 						participants: getParticipants(convo.to.data, userID),
-						message: convo.comments.data[0].message
+						message: convo.comments.data[convo.comments.data.length - 1].message
 					});
 					
 					temp = temp.add($(lst));
