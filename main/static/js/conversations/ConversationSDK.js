@@ -14,7 +14,7 @@ define(['FB', 'jquery'], function(FB, $) {
 	 * pagination system or an original FB API call. Requires that the FB.init
 	 * has already completed.
 	 */
-	ConversationSDK.prototype.next() {
+	ConversationSDK.prototype.next = function() {
 		var self = this;
 		
 		if (self.accessToken) {
