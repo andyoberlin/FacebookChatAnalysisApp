@@ -10,6 +10,21 @@ define(['facebook'], function(FB) {
 		    cookie: true, // enable cookies to allow the server to access the session
 		    xfbml: true  // parse XFBML
 		});
+		
+		var self = this;
+		
+		FB.getLoginStatus(function(response) {
+			if (response.status === 'connected') {
+				// the user is logged in and has authenticated your
+				// app, and response.authResponse supplies
+				// the user's ID, a valid access token, a signed
+				// request, and the time the access token 
+				// and signed request each expire
+				var uid = response.authResponse.userID;
+				var accessToken = response.authResponse.accessToken;
+				self.success();
+			}
+		 });
 	}
 	
 	LoginSDK.prototype.login = function() {
@@ -23,7 +38,7 @@ define(['facebook'], function(FB) {
 		        // The person cancelled the login dialog
 		    	self.error();
 		    }
-		}, {scope: 'user_friends,read_mailbox', display: 'touch'});
+		}, {scope: 'user_friends,read_mailbox', display: 'touch', redirect_uri: '/'});
 	};
 	
 	var LoginSDKFactory = {
