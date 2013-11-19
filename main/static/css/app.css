@@ -7,6 +7,10 @@
 	margin-bottom: 0px;
 }
 
+.facebookLoginButton {
+	margin: 10px;
+}
+
 .facebookLoginButton:active {
 	content: url(/static/img/facebook_login_buttons/pressed_600@2x.png);
 }
