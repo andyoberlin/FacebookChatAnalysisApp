@@ -26,7 +26,7 @@ var dependencies = [
 	'conversations/ConversationView'
 ];
 
-require(dependencies, function($, LoginSDK, Util) {
+require(dependencies, function($, LoginSDK, Util, ConversationSDK, ConversationView) {
 	// Sets up the Facebook Login for this app with the proper permissions
 	// and switches between the main application and the login prompt to
 	// start
