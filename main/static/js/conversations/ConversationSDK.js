@@ -1,4 +1,4 @@
-define(['FB', 'jquery'], function(FB, $) {
+define(['facebook', 'jquery'], function(FB, $) {
 	
 	/**
 	 * Object for tracking progress in downloading the conversations of
