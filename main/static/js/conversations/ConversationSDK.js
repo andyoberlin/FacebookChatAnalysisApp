@@ -5,7 +5,7 @@ define(['facebook', 'jquery'], function(FB, $) {
 	 * a user.
 	 */
 	function ConversationSDK() {
-		this.nextURL = '/inbox';
+		this.nextURL = '/me/inbox';
 		this.accessToken = null;
 	}
 	
