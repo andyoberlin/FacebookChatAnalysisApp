@@ -1,4 +1,4 @@
-define(['jquery', 'underscore'], function() {
+define(['jquery', 'underscore'], function($, _) {
 	
 	var ConversationView = {
 		/**
@@ -9,13 +9,18 @@ define(['jquery', 'underscore'], function() {
 		 */
 		render: function(convos) {
 			
+			var str = [];
+			$.each(convos, function(index, val) {
+				str.push(val.id);
+			})
+			return $('<div />').text(", ".join(str));
 		},
 		/**
 		 * Returns a correctly rendered button to be used for indicating a
 		 * user's intent to move to the next set of conversations.
 		 */
 		nextButton: function() {
-			
+			return $('<button />').text('Button');
 		}
 	};
 	

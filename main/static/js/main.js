@@ -41,19 +41,21 @@ require(dependencies, function($, LoginSDK, Util) {
 			
 			// in here FB will be logged in
 			var convoSDK = ConversationSDK.createInstance();
-			var convos = appHub.find('#conversations');
-			var nextButton = ConversationView.nextButton().on('click', function() {
-				convos.append(ConversationView.render(convoSDK.next()));
-				if (convoSDK.hasNext()) {
-					convos.append($(this));
-				}
-				else {
-					$(this).remove();
-				}
-			});
-			convos.append(ConversationView.render(convoSDK.next()));
-			convos.append(nextButton);
+			var convosPanel = appHub.find('#conversations');
 			
+			// when the SDK next function is called we will render the conversations
+			// using a ConversationView
+			convoSDK.on('convos.next', function(convos) {
+				convosPanel.append(ConversationView.render(convos));
+				convosPanel.append($(this));
+			});
+			
+			var nextButton = ConversationView.nextButton().on('click', function() {
+				convoSDK.next();
+			});
+			
+			// trigger first retrieval of conversations
+			convoSDK.next();
 		},
 		error: function() {
 			if (loginPanel.hasClass('hidden')) {
