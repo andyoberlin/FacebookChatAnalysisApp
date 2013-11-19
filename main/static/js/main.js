@@ -31,11 +31,14 @@ require(['jquery', 'facebookLogin', 'lib/util'], function($, LoginSDK, Util) {
 	
 	var loginSDK = LoginSDK.createInstance({
 		success: function() {
-			loginPanel.removeClass('show').hide();
+			loginPanel.hide();
 			appHub.removeClass('hidden').fadeIn();
 		},
 		error: function() {
-			alert("Fuck it didn't work.");
+			if (loginPanel.hasClass('hidden')) {
+				loginPanel.removeClass('hidden').fadeIn();
+				appHub.hide();
+			}
 		}
 	});
 	
