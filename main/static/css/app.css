@@ -7,6 +7,10 @@
 	margin-bottom: 0px;
 }
 
+.facebookLoginButton {
+    margin-top: 10px;
+}
+
 .facebookLoginButton:active {
 	content: url(/static/img/facebook_login_buttons/pressed_404@2x.png);
 }
