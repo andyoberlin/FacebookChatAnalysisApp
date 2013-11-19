@@ -39,5 +39,5 @@ require(['jquery', 'facebook/login'], function($, LoginSDK) {
 		}
 	});
 	
-	loginPanel.find('#loginButton').on('click', loginSDK.login);
+	loginPanel.find('.facebookLoginButton').on('click', loginSDK.login);
 });
