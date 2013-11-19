@@ -9,8 +9,10 @@
 
 .facebookLoginButton {
 	background-image: url(/static/img/facebook_login_buttons/active_600@2x.png);
-	width: 600px;
-	height: 200px;
+	width: 480px;
+	height: 69px;
+	background-repeat: no-repeat;
+	background-size: 480px 70px;
 }
 
 .facebookLoginButton:active {
