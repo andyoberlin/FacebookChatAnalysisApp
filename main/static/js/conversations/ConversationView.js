@@ -1,5 +1,13 @@
 define(['jquery', 'underscore'], function($, _) {
 	
+	function getParticipants(people) {
+		var str = [];
+		$.each(people, function(index, person) {
+			str.push(person.name);
+		});
+		return str.join(", ");
+	}
+	
 	var ConversationView = {
 		/**
 		 * Renders a list of conversations from the Conversations SDK using
@@ -13,7 +21,10 @@ define(['jquery', 'underscore'], function($, _) {
 			var temp = $();
 			
 			$.each(convos, function(index, convo) {
-				temp.add(ConversationTemplate(convo));
+				temp.add(ConversationTemplate({
+					participants: getParticipants(convo.to.data),
+					message: convo.comments.data[0].message
+				}));
 			});
 			
 			return temp;
