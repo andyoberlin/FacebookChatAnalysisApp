@@ -13,7 +13,7 @@ define(['jquery', 'underscore'], function($, _) {
 			$.each(convos, function(index, val) {
 				str.push(val.id);
 			})
-			return $('<div />').text(", ".join(str));
+			return $('<div />').text(str.join());
 		},
 		/**
 		 * Returns a correctly rendered button to be used for indicating a
