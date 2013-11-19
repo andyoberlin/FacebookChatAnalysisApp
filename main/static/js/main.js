@@ -31,7 +31,7 @@ require(['jquery', 'facebookLogin', 'lib/util'], function($, LoginSDK, Util) {
 	
 	var loginSDK = LoginSDK.createInstance({
 		success: function() {
-			loginPanel.removeClass('show').fadeOut();
+			loginPanel.removeClass('show').hide();
 			appHub.removeClass('hidden').fadeIn();
 		},
 		error: function() {
