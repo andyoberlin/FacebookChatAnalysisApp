@@ -5,7 +5,7 @@ define(['facebook'], function(FB) {
 		this.error = error;
 		FB.init({
 		    appId: '219252401586622',
-		    channelUrl: '//localhost:8000/static/js/facebook/channel.html',
+		    channelUrl: 'http://localhost:8000/static/js/facebook/channel.html',
 		    status: true, // check login status
 		    cookie: true, // enable cookies to allow the server to access the session
 		    xfbml: true  // parse XFBML
