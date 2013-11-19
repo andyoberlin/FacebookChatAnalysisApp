@@ -53,8 +53,7 @@ require(dependencies, function($, LoginSDK, Util, ConversationSDK, ConversationV
 				convosPanel.append(convoEls);
 				convosPanel.append(nextButton);
 				convoEls.on('click', function() {
-					$(document).scrollTop($('#analytics').scrollTop());
-					console.log('Scrolled');
+					$(document).scrollTop($('#analytics').offset().top);
 				});
 			});
 			
