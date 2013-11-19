@@ -21,7 +21,7 @@ require.config({
 	}
 })
 
-require(['jquery', 'facebookLogin'], function($, LoginSDK) {
+require(['jquery', 'facebookLogin', 'lib/util'], function($, LoginSDK, Util) {
 	// Sets up the Facebook Login for this app with the proper permissions
 	// and switches between the main application and the login prompt to
 	// start
@@ -39,5 +39,5 @@ require(['jquery', 'facebookLogin'], function($, LoginSDK) {
 		}
 	});
 	
-	loginPanel.find('.facebookLoginButton').on('click', loginSDK.login);
+	loginPanel.find('.facebookLoginButton').on('click', Util.scopeCallback(loginSDK, loginSDK.login));
 });
