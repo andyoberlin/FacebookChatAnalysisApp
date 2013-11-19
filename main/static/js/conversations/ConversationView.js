@@ -27,7 +27,7 @@ define(['jquery', 'underscore'], function($, _) {
 						message: convo.comments.data[0].message
 					});
 					
-					temp.add(lst);
+					temp.add($(lst));
 				}
 			});
 			
