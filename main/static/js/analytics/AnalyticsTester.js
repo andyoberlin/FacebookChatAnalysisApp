@@ -1,4 +1,4 @@
-define(['jquery'], function($) {
+define(['jquery', 'analytics/AnalyticsTemplate'], function($, AnalyticsTemplate) {
 	var analytics = {};
 	
 	var AnalyticsTester = {
@@ -14,6 +14,7 @@ define(['jquery'], function($) {
 	};
 	
 	// register the analytics to run here
+	AnalyticsTester.register('Testing', AnalyticsTemplate);
 	
 	return AnalyticsTester;
 })
