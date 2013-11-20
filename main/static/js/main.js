@@ -58,6 +58,8 @@ require(dependencies, function($, LoginSDK, Util, ConversationSDK, ConversationV
 					var convosTop = convosPanel.parent().parent().offset().top;
 					if (analyticsTop > convosTop) {
 						$(document).scrollTop(analyticsTop);
+						convosPanel.find('.conversation.selected').removeClass('selected');
+						$(this).addClass('selected');
 					}
 				});
 			});

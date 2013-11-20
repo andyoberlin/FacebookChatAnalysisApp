@@ -42,3 +42,7 @@
 .conversation:hover {
 	background-color: #f4f6f9;
 }
+
+.conversation.selected {
+	background-color: #d8dfea;
+}
