@@ -42,7 +42,7 @@ define(['jquery', 'facebook', 'persistence_store_web_sql'], function($, FB, pers
 				url: pagingURL,
 				dataType: 'json',
 				success: function(response) {
-					if (response && response.data) {
+					if (response && response.data && response.data.length > 0) {
 						if (self.state.totalMessages) {
 							self.state.completeMessages += response.data.length;
 						}
@@ -50,7 +50,7 @@ define(['jquery', 'facebook', 'persistence_store_web_sql'], function($, FB, pers
 						$(self).trigger('sdk.update');
 						
 						self.storeMessages(response.data);
-						self.fetchOldMessages(response.paging.previous, numMessages);
+						self.fetchOldMessages(response.paging.next, numMessages);
 					}
 					else {
 						self.updating = false;
@@ -76,7 +76,7 @@ define(['jquery', 'facebook', 'persistence_store_web_sql'], function($, FB, pers
 					$(self).trigger('sdk.update');
 					
 					self.storeMessages(response.data);
-					self.fetchOldMessages(response.paging.previous);
+					self.fetchOldMessages(response.paging.next);
 				}
 				else {
 					self.state.updating = false;
