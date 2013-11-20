@@ -24,7 +24,9 @@ require.config({
 	    },
 	    bootstrap: ['jquery'],
 	    persistence: {
-	    	exports : 'persistence'
+	    	init: function() {
+	    		return persistence;
+	    	}
 	    },
 	    persistence_store_sql: ['persistence'],
 	    persistence_store_web_sql: ['persistence', 'persistence_store_sql']
