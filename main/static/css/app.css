@@ -86,12 +86,12 @@
 	margin-right: 15px;	
 }
 
-.appDescriptionContainer {
+#appDescriptionContainer {
 	padding-top: 30px;
     padding-bottom: 40px;
 }
 
-.conversationProgressBarContainer {
+#conversationProgressBarContainer {
 	padding-top: 70px;
     padding-bottom: 40px;
 }
