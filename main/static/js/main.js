@@ -23,9 +23,9 @@ require.config({
 		jquery: '/static/js/lib/jquery-1.10.2.min',
 		underscore: '/static/js/lib/underscore.min',
 		bootstrap: '/static/js/lib/bootstrap.min',
-		persistence: '/static/js/lib/persistence/persistence.js',
-		persistence_store_sql: '/static/js/lib/persistence/persistence.store.sql.js',
-		persistence_store_web_sql: '/static/js/lib/persistence/persistence.store.websql.js'
+		persistence: '/static/js/lib/persistence/persistence',
+		persistence_store_sql: '/static/js/lib/persistence/persistence.store.sql',
+		persistence_store_web_sql: '/static/js/lib/persistence/persistence.store.websql'
 	}
 })
 
