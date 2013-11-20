@@ -28,8 +28,18 @@ require.config({
 	    		return persistence;
 	    	}
 	    },
-	    persistence_store_sql: ['persistence'],
-	    persistence_store_web_sql: ['persistence', 'persistence_store_sql']
+	    persistence_store_sql: {
+	    	deps: ['persistence'],
+	    	init: function() {
+	    		return persistence;
+	    	}
+	    },
+	    persistence_store_web_sql: {
+	    	deps: ['persistence', 'persistence_store_sql'],
+	    	init: function() {
+	    		return persistence;
+	    	}
+	    }
 	},
 	paths: {
 		facebook: '//connect.facebook.net/en_US/all',
