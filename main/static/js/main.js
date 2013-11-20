@@ -113,7 +113,7 @@ require(dependencies, function($, LoginSDK, Util, ConversationSDK, ConversationV
 				
 				$(msgSDK).on('sdk.complete', function() {
 					loadingMsg.text(msgSDK.state.message);
-					progressBar.removeClass("active");
+					progressBar.parent().removeClass("active");
 				});
 				
 				msgSDK.update();
