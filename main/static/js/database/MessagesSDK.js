@@ -1,7 +1,14 @@
-define(['persistence_store_web_sql'], function(persistence) {
+define(['jquery', 'facebook', 'persistence_store_web_sql'], function($, FB, persistence) {
 	
 	function MessagesSDK(conversation) {
 		this.conversation = conversation;
+		this.initialized = false;
+		this.state = {
+			message: "Message database not initialized",
+			updating: false,
+			totalMessages: 0,
+			completeMessages: 0
+		};
 	}
 	
 	/**
@@ -11,10 +18,108 @@ define(['persistence_store_web_sql'], function(persistence) {
 	 * minimize amount needed to be downloaded.
 	 */
 	MessagesSDK.prototype.update = function() {
-		var p = persistence;
+		this.initializeDatabase();
+		
+		this.getLastMessage(
+			function(lastMessage) {
+				this.fetchNewMessages(lastMessage);
+			},
+			function() {
+				this.fetchOldMessages();
+			}
+		);
 	};
 	
+	MessagesSDK.prototype.fetchOldMessages(pagingURL) {
+		var self = this;
+		self.state.updating = true;
+		self.state.message = "Loading previous messages...";
+		
+		if (pagingURL) {
+			$.ajax({
+				url: pagingURL,
+				dataType: 'json',
+				success: function(response) {
+					if (response && response.data) {
+						if (self.state.totalMessages) {
+							self.state.completeMessages += response.data.length;
+						}
+						
+						$(self).trigger('sdk.update');
+						
+						self.storeMessages(response.data);
+						self.fetchOldMessages(response.paging.previous, numMessages);
+					}
+					else {
+						self.updating = false;
+						self.state.message = "Completed downloading messages.";
+					}
+				},
+				error: function() {
+					console.log("There was an error trying to reach the server");
+				}
+			});
+		}
+		else {
+			FB.api('/' + this.conversation + '/comments', function(response) {
+				if (response && response.data) {
+					// get the message count by analyzing the id of the most recent message
+					var numMessages = parseInt(response.data[response.data.length - 1].split("_")[1]);
+					
+					if (!isNaN(numMessages)) {
+						self.state.totalMessages = numMessages;
+						self.state.completeMessages = response.data.length;
+					}
+					
+					$(self).trigger('sdk.update');
+					
+					self.storeMessages(response.data);
+					self.fetchOldMessages(response.paging.previous);
+				}
+				else {
+					self.state.updating = false;
+					self.state.message = "Completed downloading messages.";
+				}
+			});
+		}
+	};
 	
+	MessagesSDK.prototype.fetchNewMessages = function(lastMessage) {
+		var self = this;
+		self.state.message = "Loading new messages...";
+		self.state.updating = true;
+		self.state.completedMessages = 0;
+		self.state.totalMessages = 0;
+		
+		setTimeout(function() {
+			self.state.message = "Completed message update.";
+			self.state.updating = false;
+			self.state.completedMessages = 1;
+			self.state.totalMessages = 1;
+		}, 1000);
+	};
+	
+	MessagesSDK.prototype.getLastMessage = function(success, error) {
+		error();
+	};
+	
+	MessagesSDK.prototype.initializeDatabase = function() {
+		if (this.initialized) {
+			//persistence.store.websql.config(persistence, 'conversation_' + this.conversation,
+			//	'Stores the messages from Facebook for analysis purposes', 10 * 1024 * 1024);
+			
+			this.initialized = true;
+		}
+	};
+	
+	MessagesSDK.prototype.storeMessages = function(messages) {
+		if (this.initialized) {
+			console.log(messages);
+		}
+		else {
+			console.log("Trying to store messages before database initialization.");
+		}
+	};
 	
 	var MessagesSDKFactory = {
 		/**
