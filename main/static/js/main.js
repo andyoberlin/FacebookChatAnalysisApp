@@ -97,7 +97,7 @@ require(dependencies, function($, LoginSDK, Util, ConversationSDK, ConversationV
 				$('#appDescriptionContainer').hide();
 				$('#conversationProgressBarContainer').removeClass('hidden').show();
 				var progressBar = $('#conversationProgressBar');
-				var loadingMsg = $('.conversationProgressBarContainer #currentLoadingState');
+				var loadingMsg = $('#currentLoadingState');
 				// download new messages for the conversation using the MessagesSDK
 				var msgSDK = MessagesSDK.createInstance(convosPanel.find('.conversation.selected').data('convoid'));
 				
