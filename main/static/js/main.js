@@ -61,6 +61,8 @@ require(dependencies, function($, LoginSDK, Util, ConversationSDK, ConversationV
 					}
 					convosPanel.find('.conversation.selected').removeClass('selected');
 					$(this).addClass('selected');
+					$('#analysisBtn').attr('disabled', '');
+					$('#cancelBtn').attr('disabled', '');
 				});
 			});
 			
@@ -68,6 +70,12 @@ require(dependencies, function($, LoginSDK, Util, ConversationSDK, ConversationV
 			convoSDK.next();
 			
 			// setup the analytics platform
+			
+			// setup the analysis runner
+			$('#analysisBtn').on('click', function() {
+				$('#appDescriptionContainer').hide();
+				$('#conversationProgressBarContainer').removeClass('hidden');
+			});
 		},
 		error: function() {
 			if (loginPanel.hasClass('hidden')) {

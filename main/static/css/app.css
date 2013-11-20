@@ -46,12 +46,15 @@
 
 @media (max-width: 768px) {
 	#conversations {
-		min-height: 200px;
+		min-height: 100px;
 	}
 	
 	#analytics {
+		min-height: 100px;
+	}
+	
+	.appHub .appContainer {
 		margin-top: 20px;
-		min-height: 200px;
 	}
 }
 
@@ -69,8 +72,8 @@
 	background-color: #d8dfea;
 }
 
-.conversationProgressBarContainer {	
-    height: 200px;
+.descriptionProgressContainer {	
+    min-height: 200px;
     padding-top: 60px;
     padding-bottom: 50px;
     padding-left: 20px;
@@ -84,4 +87,7 @@
 #analyzeBtn {
 	margin-right: 15px;	
 }
+
+.descriptionProgressContainer {
+	
 }

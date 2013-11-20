@@ -38,19 +38,19 @@
 		</div>
 	    <div id="appHub" class="container hidden panel panel-default card">
 	    	<div class="row">
-		        <div class="col-md-4">
+		        <div class="col-md-4 appContainer">
 			        <div class="panel panel-default">
 					    <div class="panel-heading"><h3 style="margin:5px;">Conversations</h3></div>
 					    <div id="conversations"></div>
 					</div>
 		        </div>
-		        <div class="col-md-4">
+		        <div class="col-md-4 appContainer">
 		        	<div class="panel panel-default">
 					    <div class="panel-heading"><h3 style="margin:5px;">Analytics</h3></div>
 					    <div id="analytics"></div>
 					</div>
 		        </div>
-		        <div class="col-md-4">
+		        <div class="col-md-4 appContainer">
 		        	<div class="row">
 		        		<div class="col-sm-4">
 							<img class="img-responsive facebookMessengerLogo center-block" src="{{ STATIC_URL }}img/facebook-messenger-icon.png" />
@@ -59,22 +59,30 @@
 					    	<div><h1>Facebook Chat Analysis</h1></div>
 					    </div>
 		        	</div>
-		        	<div class="row conversationProgressBarContainer">
-		        		<div class="center-block" style="text-align:center;">
+		        	<div class="row descriptionProgressContainer">
+		        		<div id="appDescriptionContainer" class="center-block">
+		        			<div><span class="text-muted">This application is not affiliated with Facebook.</span></div>
+						    <div>
+						    	<p>This application aims to provide you with an analysis of <strong>YOUR</strong> messages. This free
+						    	app was developed with you in mind providing many metrics to gauge message content. This is intended to
+						    	be a fun app with no actual implications.</p>
+						    </div>
+		        		</div>
+		        		<div id="conversationProgressBarContainer" class="center-block hidden" style="text-align:center;">
 		        			<div class="progress progress-striped active">
-							    <div id="conversationProgressBar" class="progress-bar active" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100">
-							    	<div class="bar" style="width: 40%;"></div>
+							    <div id="conversationProgressBar" class="progress-bar"  role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 45%">
+							        <span class="sr-only">45% Complete</span>
 							    </div>
 							</div>
 							<div class="center-block">
-								<span id="currentLoadingState"></span>
+								<span id="currentLoadingState">Loading messages...</span>
 							</div>
 		        		</div>
 		        	</div>
 		        	<div class="row">
-		        		<div class="col-xs-12 analysisBtnConatiner">
-		        			<button id="analyzeBtn" type="button" class="btn btn-primary">Analyze</button>
-		        			<button id="cancelBtn" type="button" class="btn btn-default">Cancel</button>
+		        		<div class="col-xs-12 analysisBtnContainer">
+		        			<button id="analyzeBtn" type="button" class="btn btn-primary" disabled="disabled">Analyze</button>
+		        			<button id="cancelBtn" type="button" class="btn btn-default" disabled="disabled">Cancel</button>
 		        		</div>
 		        	</div>
 		        </div>
