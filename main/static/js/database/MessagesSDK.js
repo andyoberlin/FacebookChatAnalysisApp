@@ -106,7 +106,7 @@ define(['jquery', 'facebook', 'persistence_store_web_sql'], function($, FB, pers
 	};
 	
 	MessagesSDK.prototype.initializeDatabase = function() {
-		if (this.initialized) {
+		if (!this.initialized) {
 			//persistence.store.websql.config(persistence, 'conversation_' + this.conversation,
 			//	'Stores the messages from Facebook for analysis purposes', 10 * 1024 * 1024);
 			
