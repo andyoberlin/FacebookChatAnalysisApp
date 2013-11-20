@@ -1,13 +1,13 @@
 require.config({
 	map: {
 	    '*': {
-	      'persistence': 'lib/persistence/persistence-adapter'
+	        'persistence': 'lib/persistence/persistence-adapter'
 	    },
 	    'persistence_store_sql': {
-	      'persistence': 'persistence'
+	        'persistence': 'persistence'
 	    },
 	    'persistence_store_web_sql': {
-	      'persistence': 'persistence'
+	        'persistence': 'persistence'
 	    }
 	},
 	shim: {
