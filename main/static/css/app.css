@@ -80,14 +80,10 @@
     padding-right: 20px;
 }
 
-.analysisBtnContainer {
+.analyzeBtnContainer {
 	text-align: center;
 }
 
 #analyzeBtn {
 	margin-right: 15px;	
-}
-
-.descriptionProgressContainer {
-	
 }

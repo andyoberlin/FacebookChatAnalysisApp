@@ -61,8 +61,9 @@ require(dependencies, function($, LoginSDK, Util, ConversationSDK, ConversationV
 					}
 					convosPanel.find('.conversation.selected').removeClass('selected');
 					$(this).addClass('selected');
-					$('#analyzeBtn').attr('disabled', '');
-					$('#cancelBtn').attr('disabled', '');
+					var holder = $('.analyzeBtnContainer');
+					holder.find('#analyzeBtn').removeAttr('disabled');
+					holder.find('#cancelBtn').removeAttr('disabled');
 				});
 			});
 			
