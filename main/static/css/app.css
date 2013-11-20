@@ -35,8 +35,23 @@
 
 @media (min-width: 768px) {
 	#conversations {
-		max-height: 400px;
+		height: 400px;
 		overflow-y: scroll;
+	}
+	
+	#analytics {
+		height: 400px;
+	}
+}
+
+@media (max-width: 768px) {
+	#conversations {
+		min-height: 200px;
+	}
+	
+	#analytics {
+		margin-top: 20px;
+		min-height: 200px;
 	}
 }
 
@@ -52,4 +67,21 @@
 
 .conversation.selected {
 	background-color: #d8dfea;
+}
+
+.conversationProgressBarContainer {	
+    height: 200px;
+    padding-top: 60px;
+    padding-bottom: 50px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.analysisBtnContainer {
+	text-align: center;
+}
+
+#analyzeBtn {
+	margin-right: 15px;	
+}
 }
