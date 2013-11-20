@@ -6,7 +6,7 @@ define(['jquery'], function($) {
 			analytics[name] = metric;
 		},
 		run: function() {
-			$.each(anlytics, function(name, metric) {
+			$.each(analytics, function(name, metric) {
 				console.log("Running metric: " + name + "....");
 				console.log(metric.run());
 			});
