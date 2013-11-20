@@ -11,22 +11,30 @@ require.config({
 	    underscore : {
 	    	exports : '_'
 	    },
-	    bootstrap: ['jquery']
+	    bootstrap: ['jquery'],
+	    persistence: {
+	    	exports : 'persistence'
+	    },
+	    persistence_store_sql: ['persistence']
+	    persistence_store_web_sql: ['persistence', 'persistence_store_sql']
 	},
 	paths: {
-		facebook : '//connect.facebook.net/en_US/all',
-		jquery : '/static/js/lib/jquery-1.10.2.min',
-		underscore : '/static/js/lib/underscore.min',
-		bootstrap: '/static/js/lib/bootstrap.min'
+		facebook: '//connect.facebook.net/en_US/all',
+		jquery: '/static/js/lib/jquery-1.10.2.min',
+		underscore: '/static/js/lib/underscore.min',
+		bootstrap: '/static/js/lib/bootstrap.min',
+		persistence: '/static/js/lib/persistence/persistence.js',
+		persistence_store_sql: '/static/js/lib/persistence/persistence.store.sql.js',
+		persistence_store_web_sql: '/static/js/lib/persistence/persistence.store.websql.js'
 	}
 })
 
 var dependencies = [
 	'jquery', 'facebookLogin', 'lib/util', 'conversations/ConversationSDK',
-	'conversations/ConversationView', 'analytics/AnalyticsTester'
+	'conversations/ConversationView', 'database/MessagesSDK', 'analytics/AnalyticsTester'
 ];
 
-require(dependencies, function($, LoginSDK, Util, ConversationSDK, ConversationView, AnalyticsTester) {
+require(dependencies, function($, LoginSDK, Util, ConversationSDK, ConversationView, MessagesSDK, AnalyticsTester) {
 	// Sets up the Facebook Login for this app with the proper permissions
 	// and switches between the main application and the login prompt to
 	// start
@@ -75,7 +83,16 @@ require(dependencies, function($, LoginSDK, Util, ConversationSDK, ConversationV
 			// setup the analysis runner
 			$('#analyzeBtn').on('click', function() {
 				$('#appDescriptionContainer').hide();
-				$('#conversationProgressBarContainer').removeClass('hidden');
+				$('#conversationProgressBarContainer').removeClass('hidden').show();
+				
+				// download new messages for the conversation using the MessagesSDK
+				var msgSDK = MessagesSDK.createInstance(0);
+				msgSDK.update();
+			});
+			
+			$('#cancelBtn').on('click', function() {
+				$('#appDescriptionContainer').show();
+				$('#conversationProgressBarContainer').hide();
 			});
 		},
 		error: function() {
