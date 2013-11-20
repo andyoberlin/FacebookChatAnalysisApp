@@ -66,7 +66,7 @@ define(['jquery', 'facebook', 'persistence_store_web_sql'], function($, FB, pers
 			FB.api('/' + this.conversation + '/comments', function(response) {
 				if (response && response.data) {
 					// get the message count by analyzing the id of the most recent message
-					var numMessages = parseInt(response.data[response.data.length - 1].split("_")[1]);
+					var numMessages = parseInt(response.data[response.data.length - 1].id.split("_")[1]);
 					
 					if (!isNaN(numMessages)) {
 						self.state.totalMessages = numMessages;
