@@ -20,12 +20,14 @@ define(['jquery', 'facebook', 'persistence_store_web_sql'], function($, FB, pers
 	MessagesSDK.prototype.update = function() {
 		this.initializeDatabase();
 		
+		var self = this;
+		
 		this.getLastMessage(
 			function(lastMessage) {
-				this.fetchNewMessages(lastMessage);
+				self.fetchNewMessages(lastMessage);
 			},
 			function() {
-				this.fetchOldMessages();
+				self.fetchOldMessages();
 			}
 		);
 	};
