@@ -34,7 +34,7 @@
 }
 
 @media (min-width: 768px) {
-	.conversations {
+	#conversations {
 		max-height: 400px;
 		overflow-y: scroll;
 	}
