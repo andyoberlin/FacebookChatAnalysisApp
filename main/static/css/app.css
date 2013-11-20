@@ -33,6 +33,13 @@
 	text-overflow: ellipsis;
 }
 
+@media (min-width: 768px) {
+	.conversations {
+		max-height: 400px;
+		overflow-y: scroll;
+	}
+}
+
 .conversation {
 	border-bottom: 1px solid #CCC;
 	padding: 10px;
