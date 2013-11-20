@@ -66,6 +66,8 @@ require(dependencies, function($, LoginSDK, Util, ConversationSDK, ConversationV
 			
 			// trigger first retrieval of conversations
 			convoSDK.next();
+			
+			// setup the analytics platform
 		},
 		error: function() {
 			if (loginPanel.hasClass('hidden')) {
