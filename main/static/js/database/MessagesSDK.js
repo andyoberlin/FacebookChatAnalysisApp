@@ -50,7 +50,7 @@ define(['jquery', 'facebook', 'persistence_store_web_sql'], function($, FB, pers
 						$(self).trigger('sdk.update');
 						
 						self.storeMessages(response.data);
-						self.fetchOldMessages(response.paging.next, numMessages);
+						self.fetchOldMessages(response.paging.next);
 					}
 					else {
 						self.updating = false;
