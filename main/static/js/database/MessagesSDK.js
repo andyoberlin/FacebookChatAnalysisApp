@@ -1,4 +1,4 @@
-define(['persistence_store_web_sql'], function(persistence) {
+define(['persistence'], function(persistence) {
 	
 	function MessagesSDK(conversation) {
 		this.conversation = conversation;
