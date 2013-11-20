@@ -99,7 +99,7 @@ require(dependencies, function($, LoginSDK, Util, ConversationSDK, ConversationV
 				var progressBar = $('#conversationProgressBar');
 				
 				// download new messages for the conversation using the MessagesSDK
-				var msgSDK = MessagesSDK.createInstance(convosPanel.find('.conversation.selected').data('convoID'));
+				var msgSDK = MessagesSDK.createInstance(convosPanel.find('.conversation.selected').data('convoid'));
 				
 				$(msgSDK).on('sdk.update', function() {
 					if (msgSDK.state.totalMessages) {
