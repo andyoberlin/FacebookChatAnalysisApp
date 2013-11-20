@@ -99,14 +99,16 @@ require(dependencies, function($, LoginSDK, Util, ConversationSDK, ConversationV
 				var progressBar = $('#conversationProgressBar');
 				
 				// download new messages for the conversation using the MessagesSDK
-				var msgSDK = MessagesSDK.createInstance(convosPanel.find('.conversation.selected').data('id'));
-				msgSDK.update();
+				var msgSDK = MessagesSDK.createInstance(convosPanel.find('.conversation.selected').data('convoID'));
+				
 				$(msgSDK).on('sdk.update', function() {
 					if (msgSDK.state.totalMessages) {
 						var value = 100 * (msgSDK.state.completeMessages + 0.0) / msgSDK.state.totalMessages;
 						progressBar.css('width', "" + value + "%").attr('aria-valuenow', value);
 					}
 				});
+				
+				msgSDK.update();
 			});
 			
 			$('#cancelBtn').on('click', function() {

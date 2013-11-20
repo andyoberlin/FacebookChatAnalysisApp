@@ -25,6 +25,7 @@ define(['jquery', 'underscore'], function($, _) {
 			$.each(convos, function(index, convo) {
 				if (convo.comments && convo.to) {
 					var lst = ConversationTemplate({
+						id: convo.id,
 						participants: getParticipants(convo.to.data, userID),
 						message: convo.comments.data[convo.comments.data.length - 1].message
 					});

@@ -30,7 +30,7 @@ define(['jquery', 'facebook', 'persistence_store_web_sql'], function($, FB, pers
 		);
 	};
 	
-	MessagesSDK.prototype.fetchOldMessages(pagingURL) {
+	MessagesSDK.prototype.fetchOldMessages = function(pagingURL) {
 		var self = this;
 		self.state.updating = true;
 		self.state.message = "Loading previous messages...";
