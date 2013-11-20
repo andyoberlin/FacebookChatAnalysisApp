@@ -97,15 +97,23 @@ require(dependencies, function($, LoginSDK, Util, ConversationSDK, ConversationV
 				$('#appDescriptionContainer').hide();
 				$('#conversationProgressBarContainer').removeClass('hidden').show();
 				var progressBar = $('#conversationProgressBar');
-				
+				var loadingMsg = $('.conversationProgressBarContainer #currentLoadingState');
 				// download new messages for the conversation using the MessagesSDK
 				var msgSDK = MessagesSDK.createInstance(convosPanel.find('.conversation.selected').data('convoid'));
 				
 				$(msgSDK).on('sdk.update', function() {
+					if (loadingMsg.text() != msgSDK.state.message) {
+						loadingMsg.text(msgSDK.state.message);
+					}
 					if (msgSDK.state.totalMessages) {
 						var value = 100 * (msgSDK.state.completeMessages + 0.0) / msgSDK.state.totalMessages;
 						progressBar.css('width', "" + value + "%").attr('aria-valuenow', value);
 					}
+				});
+				
+				$(msgSDK).on('sdk.complete', function() {
+					loadingMsg.text(msgSDK.state.message);
+					progressBar.removeClass("active");
 				});
 				
 				msgSDK.update();

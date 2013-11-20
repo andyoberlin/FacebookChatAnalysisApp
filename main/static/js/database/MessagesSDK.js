@@ -55,10 +55,12 @@ define(['jquery', 'facebook', 'persistence_store_web_sql'], function($, FB, pers
 					else {
 						self.updating = false;
 						self.state.message = "Completed downloading messages.";
+						$(self).trigger('sdk.complete');
 					}
 				},
 				error: function() {
 					console.log("There was an error trying to reach the server");
+					$(self).trigger('sdk.error');
 				}
 			});
 		}
@@ -81,6 +83,7 @@ define(['jquery', 'facebook', 'persistence_store_web_sql'], function($, FB, pers
 				else {
 					self.state.updating = false;
 					self.state.message = "Completed downloading messages.";
+					$(self).trigger('sdk.complete');
 				}
 			});
 		}
@@ -116,7 +119,7 @@ define(['jquery', 'facebook', 'persistence_store_web_sql'], function($, FB, pers
 	
 	MessagesSDK.prototype.storeMessages = function(messages) {
 		if (this.initialized) {
-			console.log(messages);
+			console.log("Stored messages");
 		}
 		else {
 			console.log("Trying to store messages before database initialization.");
