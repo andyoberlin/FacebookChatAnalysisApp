@@ -74,8 +74,6 @@
 
 .descriptionProgressContainer {	
     min-height: 200px;
-    padding-top: 60px;
-    padding-bottom: 50px;
     padding-left: 20px;
     padding-right: 20px;
 }
@@ -86,4 +84,14 @@
 
 #analyzeBtn {
 	margin-right: 15px;	
+}
+
+.appDescriptionContainer {
+	padding-top: 30px;
+    padding-bottom: 40px;
+}
+
+.conversationProgressBarContainer {
+	padding-top: 70px;
+    padding-bottom: 40px;
 }
