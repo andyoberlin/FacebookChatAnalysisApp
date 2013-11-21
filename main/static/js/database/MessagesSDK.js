@@ -178,6 +178,70 @@ define(['jquery', 'facebook', 'persistence_store_web_sql'], function($, FB, pers
 		}
 	};
 	
+	/**
+	 * Gets messages from the database with the given filter type
+	 * and the object to filter.
+	 * 
+	 * @param opts: The options to get the messages desired with the
+	 * following possible properties:
+	 * 		userID: The uid of the user whose messages are desired
+	 * 		time:   The time range for the desired messages
+	 * 		stickers: Whether to include stickers ("only", "with", "without")
+	 */
+	MessagesSDK.prototype.getMessages = function(opts) {
+		var self = this;
+		
+		return $.Deferred(function(deferredObj) {
+			var query = self.MessageModel.all();
+			
+			// deal with user queries
+			if (opts.userID) {
+				query = query.filter('from', '=', self.FriendModel({ uid : userID }));
+			}
+			
+			// deal with sticker queries
+			if (opts.stickers == 'only') {
+				query = query.filter('message', '=', 'NULL');
+			}
+			else if (opts.stickers == 'without') {
+				query = query.filter('message', '!=', 'NULL');
+			}
+			
+			query.list(null, function(results) {
+				var messages = [];
+				
+				$.each(results, function (r) {
+			        messages.push({
+			        	uid: r.uid,
+			        	message: r.message,
+			        	time: r.time
+			        });
+			    });
+				
+				deferredObj.resolve(messages);
+			});
+		}).promise();
+	};
+	
+	MessagesSDK.prototype.getUsers = function() {
+		var self = this;
+		
+		return $.Deferred(function(deferredObj) {
+			self.FriendModel.all().list(null, function(results) {
+				var friends = [];
+				
+				$.each(results, function (r) {
+			        friends.push({
+			        	uid: r.uid,
+			        	name: r.name
+			        });
+			    });
+				
+				deferredObj.resolve(friends);
+			});
+		}).promise();
+	};
+	
 	var MessagesSDKFactory = {
 		/**
 		 * Creates a new connection to the database for messages
