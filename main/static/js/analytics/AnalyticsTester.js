@@ -7,8 +7,10 @@ define(['jquery', 'analytics/AnalyticsTemplate'], function($, AnalyticsTemplate)
 		},
 		run: function() {
 			$.each(analytics, function(name, metric) {
-				console.log("Running metric: " + name + "....");
-				console.log(metric.run());
+				metric.run(function(result) {
+					console.log("Running metric: " + name + "....");
+					console.log(result);
+				});
 			});
 		}
 	};
