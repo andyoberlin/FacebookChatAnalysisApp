@@ -1,7 +1,7 @@
-var deps=['jquery', 'analytics/TotalMessages', 'analytics/TotalStickers'];
+var deps=['jquery', 'analytics/TotalMessages', 'analytics/TotalStickers', 'analytics/StickersMessageRatio'];
 
 
-define(deps, function($, TotalMessages, TotalStickers) {
+define(deps, function($, TotalMessages, TotalStickers, StickersMessageRatio) {
 	var analytics = {};
 	
 	var AnalyticsTester = {
@@ -21,6 +21,6 @@ define(deps, function($, TotalMessages, TotalStickers) {
 	// register the analytics to run here
 	AnalyticsTester.register('Testing', TotalMessages);
 	AnalyticsTester.register('Testing1', TotalStickers);
-	
+	AnalyticsTester.register('Testing2', StickersMessageRatio);
 	return AnalyticsTester;
 })

@@ -9,8 +9,8 @@ define(['jquery', 'database/DatabaseUtil'], function($, DatabaseUtil) {
 		
 				$.each(users, function(index, user) {
 					promises.push(
-						dbUtil.getMessages('person', {
-							uid: user.uid,
+						dbUtil.getMessages({
+							userID: user.uid,
 							stickers: 'only' 
 							}).then(
 								function(messages) {
