@@ -9,7 +9,7 @@ define(['jquery', 'database/DatabaseUtil'], function($, DatabaseUtil) {
 		
 				$.each(users, function(index, user) {
 					promises.push(
-						dbUtil.getMessages('person', x).then(
+						dbUtil.getMessages('person', user).then(
 							function(messages) {
 								list[user.name] = messages.length;
 							}
