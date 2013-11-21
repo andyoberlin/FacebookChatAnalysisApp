@@ -137,7 +137,7 @@ define(['jquery', 'facebook', 'persistence_store_web_sql'], function($, FB, pers
 			
 			this.MessageModel.hasOne('from', this.FriendModel);
 			
-			persistence.syncSchema();
+			persistence.schemaSync();
 			
 			this.initialized = true;
 		}
