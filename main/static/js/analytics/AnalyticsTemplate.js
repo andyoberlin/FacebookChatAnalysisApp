@@ -1,20 +1,21 @@
 define(['jquery', 'database/DatabaseUtil'], function($, DatabaseUtil) {
 	var Analytic = {
 		run: function(callback) {
-			DatabaseUtil.getUsers(function(users) {
-				var deferred = $.Deferred();
-			
+			$.when(DatabaseUtil.getUsers()).then(function(users) {
+				var promises = [];
 				var list = {};
-			
+		
 				$.each(users, function(index, user) {
-					deferred = deferred.when(
-						DatabaseUtil.getMessages('person', x, function(messages) {
-							list[user.name] = messages.length;
-						})
+					promises.push(
+						DatabaseUtil.getMessages('person', x).then(
+							function(messages) {
+								list[user.name] = messages.length;
+							}
+						)
 					); 
 				});
 				
-				deferred.then(function() {
+				$.when.apply($, promises).then(function() {
 					callback(list);
 				});
 			});	

@@ -21,8 +21,42 @@ define([], function() {
 	 * 		"person.time" : TimeRange,
 	 * 		null          : Ignored
 	 */
-	DatabaseUtil.prototype.getMessages = function(filter, arg1, arg2) {
-		
+	DatabaseUtil.prototype.getMessages = function(filter, opts) {
+		return $.Deferred(function(deferred_obj) {
+			deferred_obj.resolve([
+				{
+					message: 'This is a message',
+					from: {
+						uid: '98128163723',
+						name: 'Test user 1'
+					},
+					time: 'TestDate'
+				},
+				{
+					message: 'This is a message 2',
+					from: {
+						uid: '73287328764',
+						name: 'Test user 2'
+					},
+					time: 'TestDate2'
+				}
+			]);
+		}).promise();
+	};
+	
+	DatabaseUtil.prototype.getUsers = function() {
+		return $.Deferred(function(deferred_obj) {
+			deferred_obj.resolve([
+				{
+					uid: '98128163723',
+					name: 'Test user 1'
+				},
+				{
+					uid: '73287328764',
+					name: 'Test user 2'
+				}
+			]);
+		}).promise();
 	};
 	
 	/**
@@ -31,7 +65,7 @@ define([], function() {
 	 * @param msg: The original message
 	 * @param n: The number of messages to get after the original message
 	 */
-	DatabaseUtil.prototype.getNextMessages = function(msg, n) {
+	DatabaseUtil.prototype.getNextMessages = function(msg, n, callback) {
 		
 	};
 	
