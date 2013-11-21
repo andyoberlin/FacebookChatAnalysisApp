@@ -10,9 +10,9 @@ define(['jquery', 'database/DatabaseUtil'], function($, DatabaseUtil) {
 					deferred = deferred.when(
 						DatabaseUtil.getMessages('person', x, function(messages) {
 							list[user.name] = messages.length;
-						});
+						})
 					); 
-				}
+				});
 				
 				deferred.then(function() {
 					callback(list);
