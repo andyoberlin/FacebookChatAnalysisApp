@@ -2,15 +2,15 @@ define(['jquery', 'database/DatabaseUtil'], function($, DatabaseUtil) {
 	var Analytic = {
 		run: function(callback) {
 			DatabaseUtil.getUsers(function(users) {
-				var deferred = $.deferredObject();
+				var deferred = $.Deferred();
 			
 				var list = {};
 			
 				$.each(users, function(index, user) {
-					deferred.when(
+					deferred = deferred.when(
 						DatabaseUtil.getMessages('person', x, function(messages) {
 							list[user.name] = messages.length;
-						})
+						});
 					); 
 				}
 				
