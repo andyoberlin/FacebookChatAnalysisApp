@@ -1,7 +1,7 @@
 define(['jquery', 'database/DatabaseUtil'], function($, DatabaseUtil) {
 	var Analytic = {
 		run: function(callback) {
-			DatabasUtil.getUsers(function(users) {
+			DatabaseUtil.getUsers(function(users) {
 				var deferred = $.deferredObject();
 			
 				var list = {};
