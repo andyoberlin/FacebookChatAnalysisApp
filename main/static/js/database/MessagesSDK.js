@@ -53,7 +53,7 @@ define(['jquery', 'facebook', 'persistence_store_web_sql'], function($, FB, pers
 						self.fetchOldMessages(response.paging.next);
 					}
 					else {
-						self.updating = false;
+						self.state.updating = false;
 						self.state.message = "Completed downloading messages.";
 						$(self).trigger('sdk.complete');
 					}

@@ -43,10 +43,11 @@ require.config({
 
 var dependencies = [
 	'jquery', 'facebookLogin', 'lib/util', 'conversations/ConversationSDK',
-	'conversations/ConversationView', 'database/MessagesSDK', 'analytics/AnalyticsTester'
+	'conversations/ConversationView', 'database/MessagesSDK', 
+	'analytics/AnalyticsPlatform', 'analytics/AnalyticsTester'
 ];
 
-require(dependencies, function($, LoginSDK, Util, ConversationSDK, ConversationView, MessagesSDK, AnalyticsTester) {
+require(dependencies, function($, LoginSDK, Util, ConversationSDK, ConversationView, MessagesSDK, AnalyticsPlatform, AnalyticsTester) {
 	// Sets up the Facebook Login for this app with the proper permissions
 	// and switches between the main application and the login prompt to
 	// start
@@ -91,6 +92,7 @@ require(dependencies, function($, LoginSDK, Util, ConversationSDK, ConversationV
 			convoSDK.next();
 			
 			// setup the analytics platform
+			$('#analytics').append(AnalyticsPlatform.render());
 			
 			// setup the analysis runner
 			$('#analyzeBtn').on('click', function() {
@@ -112,6 +114,7 @@ require(dependencies, function($, LoginSDK, Util, ConversationSDK, ConversationV
 				});
 				
 				$(msgSDK).on('sdk.complete', function() {
+					progressBar.css('width', "100%").attr('aria-valuenow', 100);
 					loadingMsg.text(msgSDK.state.message);
 					progressBar.parent().removeClass("active");
 				});
