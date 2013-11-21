@@ -17,7 +17,7 @@ define(['jquery', 'database/DatabaseUtil'], function($, DatabaseUtil) {
 					}).then(dbUtil.getMessages(user).then(
 						function(messages) {
 							list[user.name] = stickers/messages.length;
-					});
+					})
 				});
 				
 				$.when.apply($, promises).then(function() {
