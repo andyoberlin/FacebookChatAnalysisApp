@@ -8,7 +8,7 @@ define(['jquery', 'database/DatabaseUtil'], function($, DatabaseUtil) {
 				var list = {};
 				
 				$.each(users, function(index, user) {
-				var stickers
+					var stickers;
 					promises.push(
 						dbUtil.getMessages({
 							userID: user.uid,							
@@ -22,7 +22,7 @@ define(['jquery', 'database/DatabaseUtil'], function($, DatabaseUtil) {
 												list[user.name] = stickers/messages.length;
 							}
 						)
-					); 
+					)
 				});
 				
 				$.when.apply($, promises).then(function() {
