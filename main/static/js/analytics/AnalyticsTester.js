@@ -5,9 +5,9 @@ define(['jquery', 'analytics/AnalyticsTemplate'], function($, AnalyticsTemplate)
 		register: function(name, metric) {
 			analytics[name] = metric;
 		},
-		run: function() {
+		run: function(conversation) {
 			$.each(analytics, function(name, metric) {
-				metric.run(function(result) {
+				metric.run(conversation, function(result) {
 					console.log("Running metric: " + name + "....");
 					console.log(result);
 				});

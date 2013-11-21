@@ -1,13 +1,15 @@
 define(['jquery', 'database/DatabaseUtil'], function($, DatabaseUtil) {
 	var Analytic = {
-		run: function(callback) {
-			$.when(DatabaseUtil.getUsers()).then(function(users) {
+		run: function(conversation, callback) {
+			var dbUtil = DatabaseUtil.createInstance(conversation);
+		
+			$.when(dbUtil.getUsers()).then(function(users) {
 				var promises = [];
 				var list = {};
 		
 				$.each(users, function(index, user) {
 					promises.push(
-						DatabaseUtil.getMessages('person', x).then(
+						dbUtil.getMessages('person', x).then(
 							function(messages) {
 								list[user.name] = messages.length;
 							}
