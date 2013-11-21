@@ -1,4 +1,7 @@
-define(['jquery', 'analytics/AnalyticsTemplate'], function($, AnalyticsTemplate) {
+var deps=['jquery', 'analytics/TotalMessages', 'analytics/TotalStickers'];
+
+
+define(deps, function($, TotalMessages, TotalStickers) {
 	var analytics = {};
 	
 	var AnalyticsTester = {
@@ -16,7 +19,8 @@ define(['jquery', 'analytics/AnalyticsTemplate'], function($, AnalyticsTemplate)
 	};
 	
 	// register the analytics to run here
-	AnalyticsTester.register('Testing', AnalyticsTemplate);
+	AnalyticsTester.register('Testing', TotalMessages);
+	AnalyticsTester.register('Testing1', TotalStickers);
 	
 	return AnalyticsTester;
 })
