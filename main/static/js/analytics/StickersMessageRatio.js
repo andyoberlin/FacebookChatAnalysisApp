@@ -9,26 +9,20 @@ define(['jquery', 'database/DatabaseUtil'], function($, DatabaseUtil) {
 				
 				$.each(users, function(index, user) {
 					var stickers;
-					promises.push(
-						dbUtil.getMessages({
-							userID: user.uid,							
-							stickers: 'only' 
-							}).then(
-								function(Smessages) {
-									stickers= Smessages.length;
-									}).then(
-										dbUtil.getMessages(user).then(
-											function(messages) {
-												list[user.name] = stickers/messages.length;
-							}
-						)
-					)
+					promises.push(dbUtil.getMessages({
+						userID: user.uid,							
+						stickers: 'only' 
+					}).then(function(Smessages) {
+						stickers= Smessages.length;
+					}).then(dbUtil.getMessages(user).then(
+						function(messages) {
+							list[user.name] = stickers/messages.length;
+					});
 				});
 				
 				$.when.apply($, promises).then(function() {
 					callback(list);
 				});
-			});	
 		}
 	};
 	
