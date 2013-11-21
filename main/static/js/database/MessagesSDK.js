@@ -212,7 +212,7 @@ define(['jquery', 'facebook', 'persistence_store_web_sql'], function($, FB, pers
 			query.list(null, function(results) {
 				var messages = [];
 				
-				$.each(results, function (r) {
+				$.each(results, function (index, r) {
 			        messages.push({
 			        	uid: r.uid,
 			        	message: r.message,
@@ -232,7 +232,7 @@ define(['jquery', 'facebook', 'persistence_store_web_sql'], function($, FB, pers
 			self.FriendModel.all().list(null, function(results) {
 				var friends = [];
 				
-				$.each(results, function (r) {
+				$.each(results, function (index, r) {
 			        friends.push({
 			        	uid: r.uid,
 			        	name: r.name
