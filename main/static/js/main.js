@@ -120,7 +120,7 @@ require(dependencies, function($, LoginSDK, Util, ConversationSDK, ConversationV
 					
 					$.when(msgSDK.getMessages()).then(function(messages) {
 						$.each(messages, function(index, msg) {
-							console.log(message.message);
+							console.log(msg.message);
 						});
 					});
 				});
