@@ -65,12 +65,12 @@ define(['jquery', 'facebook', 'persistence_store_web_sql'], function($, FB, pers
 			});
 		}
 		else {
-			FB.api('/fql?q=SELECT+message+FROM+thread+WHERE+thread_id+=+' + self.conversation, function(response) {
+			FB.api('/fql', { q: 'SELECT message FROM thread WHERE thread_id = ' + self.conversation }, function(response) {
 				if (response && response.data && response.data.lemgth > 0) {
 					self.state.totalMessages = response.data[0].message_count;
 				}
 				
-				FB.api('/' + this.conversation + '/comments', function(response) {
+				FB.api('/' + self.conversation + '/comments', function(response) {
 					if (response && response.data) {
 						// get the message count by analyzing the id of the most recent message
 						if (!self.state.totalMessages) {
