@@ -117,6 +117,12 @@ require(dependencies, function($, LoginSDK, Util, ConversationSDK, ConversationV
 					progressBar.css('width', "100%").attr('aria-valuenow', 100);
 					loadingMsg.text(msgSDK.state.message);
 					progressBar.parent().removeClass("active");
+					
+					$.when(msgSDK.getMessages()).then(function(messages) {
+						$.each(messages, function(index, msg) {
+							console.log(message.message);
+						});
+					});
 				});
 				
 				msgSDK.update();
