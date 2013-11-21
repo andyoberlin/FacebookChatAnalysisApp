@@ -194,17 +194,19 @@ define(['jquery', 'facebook', 'persistence_store_web_sql'], function($, FB, pers
 		return $.Deferred(function(deferredObj) {
 			var query = self.MessageModel.all();
 			
-			// deal with user queries
-			if (opts.userID) {
-				query = query.filter('from', '=', self.FriendModel({ uid : userID }));
-			}
-			
-			// deal with sticker queries
-			if (opts.stickers == 'only') {
-				query = query.filter('message', '=', 'NULL');
-			}
-			else if (opts.stickers == 'without') {
-				query = query.filter('message', '!=', 'NULL');
+			if (opts) {
+				// deal with user queries
+				if (opts.userID) {
+					query = query.filter('from', '=', self.FriendModel({ uid : userID }));
+				}
+				
+				// deal with sticker queries
+				if (opts.stickers == 'only') {
+					query = query.filter('message', '=', 'NULL');
+				}
+				else if (opts.stickers == 'without') {
+					query = query.filter('message', '!=', 'NULL');
+				}
 			}
 			
 			query.list(null, function(results) {
