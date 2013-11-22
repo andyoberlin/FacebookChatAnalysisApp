@@ -193,7 +193,7 @@ define(['jquery', 'facebook', 'persistence_store_web_sql'], function($, FB, pers
 			if (opts) {
 				// deal with user queries
 				if (opts.userID) {
-					query = query.filter('from', '=', new self.FriendModel({ uid : userID }));
+					query = query.filter('from', '=', userID);
 				}
 				
 				// deal with sticker queries
