@@ -3,9 +3,10 @@ define(['goog!visualization,1,packages:[corechart]'], function() {
 		create: function(parent, opts) {
 			var options = {
 	            title: opts.title,
-	            hAxis: {title: opts.xLabel},
-	            vAxis: {title: opts.yLabel, minValue: 0},
-	            colors: ['red', 'blue']
+	            hAxis: { title: opts.xLabel },
+	            vAxis: { title: opts.yLabel, minValue: 0 },
+	            colors: ['#5aa9c2'],
+	            legend: { position: 'none' }
 	        };
 			
 			var data = [[opts.xLabel, opts.yLabel]];
