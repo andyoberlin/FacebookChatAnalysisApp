@@ -149,7 +149,7 @@ define(['jquery', 'facebook', 'persistence_store_web_sql'], function($, FB, pers
 		var self = this;
 		
 		$.each(messages, function(index, message) {
-			self.FriendModel.findBy(null, null, 'uid', message.from.id, function(friend) {
+			self.FriendModel.filter('uid', '=', message.from.id).one(null, function(friend) {
 				if (!friend) {
 					friend = new self.FriendModel({
 						uid: message.from.id,
