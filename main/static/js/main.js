@@ -47,7 +47,7 @@ require.config({
 var dependencies = [
 	'jquery', 'facebookLogin', 'lib/util', 'conversations/ConversationSDK',
 	'conversations/ConversationView', 'database/MessagesSDK', 
-	'analytics/AnalyticsPlatform', 'analytics/AnalyticsTester'
+	'analytics/AnalyticsPlatform'//, 'analytics/AnalyticsTester'
 ];
 
 require(dependencies, function($, LoginSDK, Util, ConversationSDK, ConversationView, MessagesSDK, AnalyticsPlatform, AnalyticsTester) {
