@@ -9,7 +9,7 @@ define(['jquery', 'visualization/ColumnChart'], function($, ColumnChart) {
 		
 				$.each(users, function(index, user) {
 					promises.push(
-						msgSDK.getMessages({ userID : user.uid }).then(
+						msgSDK.getMessages({ user : user }).then(
 							function(messages) {
 								list[user.name] = messages.length;
 							}

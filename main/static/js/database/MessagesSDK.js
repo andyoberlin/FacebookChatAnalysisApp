@@ -180,7 +180,7 @@ define(['jquery', 'facebook', 'persistence_store_web_sql'], function($, FB, pers
 	 * 
 	 * @param opts: The options to get the messages desired with the
 	 * following possible properties:
-	 * 		userID: The uid of the user whose messages are desired
+	 * 		user: The user whose messages are desired
 	 * 		time:   The time range for the desired messages
 	 * 		stickers: Whether to include stickers ("only", "with", "without")
 	 */
@@ -193,7 +193,7 @@ define(['jquery', 'facebook', 'persistence_store_web_sql'], function($, FB, pers
 			if (opts) {
 				// deal with user queries
 				if (opts.userID) {
-					query = query.filter('friend', '=', opts.userID);
+					query = query.filter('friend', '=', opts.user);
 				}
 				
 				// deal with sticker queries
@@ -209,11 +209,7 @@ define(['jquery', 'facebook', 'persistence_store_web_sql'], function($, FB, pers
 				var messages = [];
 				
 				$.each(results, function (index, r) {
-			        messages.push({
-			        	uid: r.uid,
-			        	message: r.message,
-			        	time: r.time
-			        });
+			        messages.push(r);
 			    });
 				
 				deferredObj.resolve(messages);
@@ -229,10 +225,7 @@ define(['jquery', 'facebook', 'persistence_store_web_sql'], function($, FB, pers
 				var friends = [];
 				
 				$.each(results, function (index, r) {
-			        friends.push({
-			        	uid: r.uid,
-			        	name: r.name
-			        });
+			        friends.push(r);
 			    });
 				
 				deferredObj.resolve(friends);
