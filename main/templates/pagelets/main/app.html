@@ -1,6 +1,5 @@
 <head>
 	<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/app.css" />
-	<script data-main="{{ STATIC_URL }}js/main" src="{{ STATIC_URL }}js/lib/require.js"></script>
 </head>
 <body>
 	<script id="conversationTemplate" type="text/template">
@@ -10,7 +9,7 @@
 		</div>
 	</script>
 	<script id="analyticTemplate" type="text/template">
-		<div class="analytic" data-analytic="<%= id %>">
+		<div class="analytic selected" data-analyticid="<%= id %>">
 			<div class="text-overflow"><strong><%= name %></strong></div>
 			<div class="text-overflow"><%= shortDescription %></div>
 		</div>
@@ -95,7 +94,8 @@
 		    </div>
 	    </div>
 	</div>
-	<div>
+	<div id="analyticsPanel">
 	
 	</div>
+	<script data-main="{{ STATIC_URL }}js/main" src="{{ STATIC_URL }}js/lib/require.js"></script>
 </body>

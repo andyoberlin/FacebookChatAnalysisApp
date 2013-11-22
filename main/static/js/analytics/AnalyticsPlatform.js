@@ -1,22 +1,20 @@
-var deps = ['jquery', 'underscore'];
+var deps = ['jquery', 'underscore', 'analytics/TotalMessages'];
 
-define(deps, function($, _) {
+define(deps, function($, _, TotalMessages) {
 	var analytics = [];
 	
 	var AnalyticsPlatform = {
 		register: function(analytic) {
 			analytics.push(analytic);
 		},
-		run: function(ids) {
-			var renderedAnalytics = $();
-			
+		renderResults: function(ids, parent) {
 			$.each(ids, function(index, id) {
-				renderedAnalytics.add(analytics[id].render());
+				analytics[id].render(function(card) {
+					parent.append(card);
+				});
 			});
-			
-			return renderedAnalytics;
 		},
-		render: function() {
+		renderMenu: function() {
 			var analyticMenu = $();
 			
 			var AnalyticTemplate = _.template($('#analyticTemplate').html());
@@ -34,7 +32,7 @@ define(deps, function($, _) {
 	};
 	
 	// register Analytics here
-	
+	AnalyticsPlatform.register(TotalMessages);
 	
 	return AnalyticsPlatform;
 });

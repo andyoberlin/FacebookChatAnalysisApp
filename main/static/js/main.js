@@ -37,7 +37,10 @@ require.config({
 		bootstrap: '/static/js/lib/bootstrap.min',
 		persistence: '/static/js/lib/persistence/persistence',
 		persistence_store_sql: '/static/js/lib/persistence/persistence.store.sql',
-		persistence_store_web_sql: '/static/js/lib/persistence/persistence.store.websql'
+		persistence_store_web_sql: '/static/js/lib/persistence/persistence.store.websql',
+		async : '/static/js/lib/async',
+        goog : '/static/js/lib/goog',
+        propertyParser : '/static/js/lib/propertyParser'
 	}
 })
 
@@ -92,7 +95,7 @@ require(dependencies, function($, LoginSDK, Util, ConversationSDK, ConversationV
 			convoSDK.next();
 			
 			// setup the analytics platform
-			$('#analytics').append(AnalyticsPlatform.render());
+			$('#analytics').append(AnalyticsPlatform.renderMenu());
 			
 			// setup the analysis runner
 			$('#analyzeBtn').on('click', function() {
@@ -118,11 +121,13 @@ require(dependencies, function($, LoginSDK, Util, ConversationSDK, ConversationV
 					loadingMsg.text(msgSDK.state.message);
 					progressBar.parent().removeClass("active");
 					
-					$.when(msgSDK.getMessages()).then(function(messages) {
-						$.each(messages, function(index, msg) {
-							console.log(msg.message);
-						});
+					// get all the analytics that have chosen to run
+					var ids = [];
+					$('#analytics').children('.analytic.selected').each(function() {
+						ids.push($(this).data('analyticid'));
 					});
+					
+					AnalyticsPlatform.renderResults(ids, $('#analyticsPanel').empty());
 				});
 				
 				msgSDK.update();
