@@ -65,7 +65,7 @@ define(['jquery', 'facebook', 'persistence_store_web_sql'], function($, FB, pers
 			});
 		}
 		else {
-			persistence.reset(null, function() {
+			persistence.reset(null, function(result, err) {
 				FB.api('/fql', { q: 'SELECT message_count FROM thread WHERE thread_id = ' + self.conversation }, function(response) {
 					if (response && response.data && response.data.length > 0) {
 						self.state.totalMessages = response.data[0].message_count;
@@ -192,7 +192,7 @@ define(['jquery', 'facebook', 'persistence_store_web_sql'], function($, FB, pers
 			if (opts) {
 				// deal with user queries
 				if (opts.userID) {
-					query = query.filter('from', '=', self.FriendModel({ uid : userID }));
+					query = query.filter('from', '=', new self.FriendModel({ uid : userID }));
 				}
 				
 				// deal with sticker queries
