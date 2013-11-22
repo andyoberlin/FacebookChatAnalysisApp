@@ -4,7 +4,7 @@ define(['goog!visualization,1,packages:[corechart]'], function() {
 			var options = {
 	            title: opts.title,
 	            hAxis: {title: opts.xLabel},
-	            vAxis: {title: opts.yLabel}
+	            vAxis: {title: opts.yLabel, minValue: 0}
 	        };
 			
 			var data = [[opts.xLabel, opts.yLabel]];
