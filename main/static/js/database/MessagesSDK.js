@@ -136,7 +136,7 @@ define(['jquery', 'facebook', 'persistence_store_web_sql'], function($, FB, pers
 				name: "TEXT"
 			});
 			
-			this.MessageModel.hasOne('from', this.FriendModel);
+			this.MessageModel.hasOne('friend', this.FriendModel);
 			
 			persistence.schemaSync();
 			
@@ -163,7 +163,7 @@ define(['jquery', 'facebook', 'persistence_store_web_sql'], function($, FB, pers
 				var msg = new self.MessageModel({
 					uid: message.id,
 					message: message.message ? message.message : "NULL",
-					from: friend,
+					friend: friend,
 					time: Date.parse(message.created_time)
 				});
 				
@@ -193,7 +193,7 @@ define(['jquery', 'facebook', 'persistence_store_web_sql'], function($, FB, pers
 			if (opts) {
 				// deal with user queries
 				if (opts.userID) {
-					query = query.filter('from', '=', opts.userID);
+					query = query.filter('friend', '=', opts.userID);
 				}
 				
 				// deal with sticker queries
