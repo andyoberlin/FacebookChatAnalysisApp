@@ -26,6 +26,7 @@ define(['jquery', 'facebook', 'persistence_store_web_sql'], function($, FB, pers
 				self.fetchNewMessages(lastMessage);
 			},
 			function() {
+				self.initializeDatabase();
 				persistence.reset(null, function() {
 					self.initializeDatabase();
 					self.fetchOldMessages();
