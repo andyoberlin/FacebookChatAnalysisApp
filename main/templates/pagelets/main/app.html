@@ -3,12 +3,12 @@
 </head>
 <body>
 	<script id="conversationTemplate" type="text/template">
-		<div class="conversation" data-convoid="<%= id %>">
+		<div class="conversation menuItem" data-convoid="<%= id %>">
 			<div class="text-overflow"><strong><%= participants %></strong></div>
 			<div class="text-overflow"><%= message %></div>
 		</div>
 	</script>
-	<script id="analyticTemplate" type="text/template">
+	<script id="analyticTemplate menuItem" type="text/template">
 		<div class="analytic selected" data-analyticid="<%= id %>">
 			<div class="text-overflow"><strong><%= name %></strong></div>
 			<div class="text-overflow"><%= shortDescription %></div>

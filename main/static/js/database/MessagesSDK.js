@@ -144,38 +144,35 @@ define(['jquery', 'facebook', 'persistence_store_web_sql'], function($, FB, pers
 	};
 	
 	MessagesSDK.prototype.storeMessages = function(messages) {
-		if (this.initialized) {
-			console.log("Storing messages...");
-			
-			var self = this;
-			
-			$.each(messages, function(index, message) {
-				self.FriendModel.findBy('uid', message.from.id, function(friend) {
-					if (!friend) {
-						friend = new self.FriendModel({
-							uid: message.from.id,
-							name: message.from.name
-						});
-						
-						persistence.add(friend);
-					}
-					
-					var msg = new self.MessageModel({
-						uid: message.id,
-						message: message.message ? message.message : "NULL",
-						from: friend,
-						time: Date.parse(message.created_time)
+		console.log("Storing messages...");
+		
+		var self = this;
+		
+		self.initializeDatabase();
+		
+		$.each(messages, function(index, message) {
+			self.FriendModel.findBy('uid', message.from.id, function(friend) {
+				if (!friend) {
+					friend = new self.FriendModel({
+						uid: message.from.id,
+						name: message.from.name
 					});
 					
-					persistence.add(msg);
+					persistence.add(friend);
+				}
+				
+				var msg = new self.MessageModel({
+					uid: message.id,
+					message: message.message ? message.message : "NULL",
+					from: friend,
+					time: Date.parse(message.created_time)
 				});
+				
+				persistence.add(msg);
 			});
-			
-			console.log("Finished storing messages.");
-		}
-		else {
-			console.log("Trying to store messages before database initialization.");
-		}
+		});
+		
+		console.log("Finished storing messages.");
 	};
 	
 	/**
@@ -190,6 +187,8 @@ define(['jquery', 'facebook', 'persistence_store_web_sql'], function($, FB, pers
 	 */
 	MessagesSDK.prototype.getMessages = function(opts) {
 		var self = this;
+		
+		self.initializeDatabase();
 		
 		return $.Deferred(function(deferredObj) {
 			var query = self.MessageModel.all();
@@ -227,6 +226,8 @@ define(['jquery', 'facebook', 'persistence_store_web_sql'], function($, FB, pers
 	
 	MessagesSDK.prototype.getUsers = function() {
 		var self = this;
+		
+		self.initializeDatabase();
 		
 		return $.Deferred(function(deferredObj) {
 			self.FriendModel.all().list(null, function(results) {
