@@ -18,8 +18,6 @@ define(['jquery', 'facebook', 'persistence_store_web_sql'], function($, FB, pers
 	 * minimize amount needed to be downloaded.
 	 */
 	MessagesSDK.prototype.update = function() {
-		this.initializeDatabase();
-		
 		var self = this;
 		
 		this.getLastMessage(
@@ -27,7 +25,10 @@ define(['jquery', 'facebook', 'persistence_store_web_sql'], function($, FB, pers
 				self.fetchNewMessages(lastMessage);
 			},
 			function() {
-				self.fetchOldMessages();
+				persistence.reset(null, function() {
+					this.initializeDatabase();
+					self.fetchOldMessages();
+				});
 			}
 		);
 	};
@@ -65,36 +66,34 @@ define(['jquery', 'facebook', 'persistence_store_web_sql'], function($, FB, pers
 			});
 		}
 		else {
-			persistence.reset(null, function(result, err) {
-				FB.api('/fql', { q: 'SELECT message_count FROM thread WHERE thread_id = ' + self.conversation }, function(response) {
-					if (response && response.data && response.data.length > 0) {
-						self.state.totalMessages = response.data[0].message_count;
-					}
-					
-					FB.api('/' + self.conversation + '/comments', function(response) {
-						if (response && response.data) {
-							// get the message count by analyzing the id of the most recent message
-							if (!self.state.totalMessages) {
-								var numMessages = parseInt(response.data[response.data.length - 1].id.split("_")[1]);
-								
-								if (!isNaN(numMessages)) {
-									self.state.totalMessages = numMessages;
-								}
+			FB.api('/fql', { q: 'SELECT message_count FROM thread WHERE thread_id = ' + self.conversation }, function(response) {
+				if (response && response.data && response.data.length > 0) {
+					self.state.totalMessages = response.data[0].message_count;
+				}
+				
+				FB.api('/' + self.conversation + '/comments', function(response) {
+					if (response && response.data) {
+						// get the message count by analyzing the id of the most recent message
+						if (!self.state.totalMessages) {
+							var numMessages = parseInt(response.data[response.data.length - 1].id.split("_")[1]);
+							
+							if (!isNaN(numMessages)) {
+								self.state.totalMessages = numMessages;
 							}
-							
-							self.state.completeMessages = response.data.length;
-							
-							$(self).trigger('sdk.update');
-							
-							self.storeMessages(response.data);
-							self.fetchOldMessages(response.paging.next);
 						}
-						else {
-							self.state.updating = false;
-							self.state.message = "Completed downloading messages.";
-							$(self).trigger('sdk.complete');
-						}
-					});
+						
+						self.state.completeMessages = response.data.length;
+						
+						$(self).trigger('sdk.update');
+						
+						self.storeMessages(response.data);
+						self.fetchOldMessages(response.paging.next);
+					}
+					else {
+						self.state.updating = false;
+						self.state.message = "Completed downloading messages.";
+						$(self).trigger('sdk.complete');
+					}
 				});
 			});
 		}
