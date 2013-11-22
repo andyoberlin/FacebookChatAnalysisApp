@@ -22,11 +22,12 @@ define(['jquery', 'facebook', 'persistence_store_web_sql'], function($, FB, pers
 		
 		this.getLastMessage(
 			function(lastMessage) {
+				self.initializeDatabase();
 				self.fetchNewMessages(lastMessage);
 			},
 			function() {
 				persistence.reset(null, function() {
-					this.initializeDatabase();
+					self.initializeDatabase();
 					self.fetchOldMessages();
 				});
 			}
