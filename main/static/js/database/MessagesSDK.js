@@ -192,7 +192,7 @@ define(['jquery', 'facebook', 'persistence_store_web_sql'], function($, FB, pers
 			
 			if (opts) {
 				// deal with user queries
-				if (opts.userID) {
+				if (opts.user) {
 					query = query.filter('friend', '=', opts.user.id);
 				}
 				
