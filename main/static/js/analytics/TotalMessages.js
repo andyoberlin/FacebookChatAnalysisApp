@@ -24,8 +24,8 @@ define(['jquery', 'database/MessagesSDK', 'visualization/ColumnChart'], function
 				});
 			});	
 		},
-		render: function(callback) {
-			Analytic.run(function(data) {
+		render: function(conversation, callback) {
+			Analytic.run(conversation, function(data) {
 				var card = $('<div />');
 				
 				ColumnChart.create(card, {

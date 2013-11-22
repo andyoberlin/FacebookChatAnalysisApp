@@ -7,9 +7,9 @@ define(deps, function($, _, TotalMessages) {
 		register: function(analytic) {
 			analytics.push(analytic);
 		},
-		renderResults: function(ids, parent) {
+		renderResults: function(conversation, ids, parent) {
 			$.each(ids, function(index, id) {
-				analytics[id].render(function(card) {
+				analytics[id].render(conversation, function(card) {
 					parent.append(card);
 				});
 			});
