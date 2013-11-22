@@ -50,7 +50,7 @@ var dependencies = [
 	'analytics/AnalyticsPlatform'//, 'analytics/AnalyticsTester'
 ];
 
-require(dependencies, function($, LoginSDK, Util, ConversationSDK, ConversationView, MessagesSDK, AnalyticsPlatform, AnalyticsTester) {
+require(dependencies, function($, LoginSDK, Util, ConversationSDK, ConversationView, MessagesSDK, AnalyticsPlatform) {
 	// Sets up the Facebook Login for this app with the proper permissions
 	// and switches between the main application and the login prompt to
 	// start
@@ -147,6 +147,4 @@ require(dependencies, function($, LoginSDK, Util, ConversationSDK, ConversationV
 	});
 	
 	loginPanel.find('.facebookLoginButton').on('click', Util.scopeCallback(loginSDK, loginSDK.login));
-	
-	AnalyticsTester.run();
 });
