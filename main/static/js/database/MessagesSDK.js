@@ -66,7 +66,7 @@ define(['jquery', 'facebook', 'persistence_store_web_sql'], function($, FB, pers
 		}
 		else {
 			persistence.reset(null, function() {
-				FB.api('/fql', { q: 'SELECT message FROM thread WHERE thread_id = ' + self.conversation }, function(response) {
+				FB.api('/fql', { q: 'SELECT message_count FROM thread WHERE thread_id = ' + self.conversation }, function(response) {
 					if (response && response.data && response.data.length > 0) {
 						self.state.totalMessages = response.data[0].message_count;
 					}
@@ -149,7 +149,7 @@ define(['jquery', 'facebook', 'persistence_store_web_sql'], function($, FB, pers
 		var self = this;
 		
 		$.each(messages, function(index, message) {
-			self.FriendModel.findBy('uid', message.from.id, function(friend) {
+			self.FriendModel.findBy(null, null, 'uid', message.from.id, function(friend) {
 				if (!friend) {
 					friend = new self.FriendModel({
 						uid: message.from.id,
