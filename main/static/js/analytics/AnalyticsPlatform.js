@@ -20,11 +20,11 @@ define(deps, function($, _, TotalMessages) {
 			var AnalyticTemplate = _.template($('#analyticTemplate').html());
 			
 			$.each(analytics, function(index, analytic) {
-				analyticMenu.add(AnalyticTemplate({
+				analyticMenu.add($(AnalyticTemplate({
 					id: index,
 					name: analytic.name,
 					shortDescription: analytic.shortDescription
-				}));
+				})));
 			});
 			
 			return analyticMenu;
