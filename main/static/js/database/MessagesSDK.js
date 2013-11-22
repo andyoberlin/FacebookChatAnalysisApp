@@ -28,7 +28,7 @@ define(['jquery', 'facebook', 'persistence_store_web_sql'], function($, FB, pers
 			function() {
 				self.initializeDatabase();
 				persistence.reset(null, function() {
-					self.initializeDatabase();
+					self.initializeDatabase(true);
 					self.fetchOldMessages();
 				});
 			}
@@ -120,8 +120,8 @@ define(['jquery', 'facebook', 'persistence_store_web_sql'], function($, FB, pers
 		error();
 	};
 	
-	MessagesSDK.prototype.initializeDatabase = function() {
-		if (!this.initialized) {
+	MessagesSDK.prototype.initializeDatabase = function(force) {
+		if (!this.initialized || force) {
 			persistence.store.websql.config(persistence, 'conversation_' + this.conversation,
 				'Stores the messages from Facebook for analysis purposes', 10 * 1024 * 1024);
 			
