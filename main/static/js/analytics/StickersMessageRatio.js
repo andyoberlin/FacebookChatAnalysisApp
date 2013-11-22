@@ -6,24 +6,23 @@ define(['jquery', 'database/DatabaseUtil'], function($, DatabaseUtil) {
 			$.when(dbUtil.getUsers()).then(function(users) {
 				var promises = [];
 				var list = {};
-		
+				
 				$.each(users, function(index, user) {
-					promises.push(
-						dbUtil.getMessages('person', {
-							user
-							stickers: 'only' 
-							}).then(
-								function(messages) {
-									list[user.name] = messages.length;
-							}
-						)
-					); 
+					var stickers;
+					promises.push(dbUtil.getMessages({
+						userID: user.uid,							
+						stickers: 'only' 
+					}).then(function(Smessages) {
+						stickers= Smessages.length;
+					}).then(dbUtil.getMessages(user).then(
+						function(messages) {
+							list[user.name] = stickers/messages.length;
+					})
 				});
 				
 				$.when.apply($, promises).then(function() {
 					callback(list);
 				});
-			});	
 		}
 	};
 	
