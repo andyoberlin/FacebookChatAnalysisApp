@@ -1,17 +1,15 @@
-define(['jquery', 'database/MessagesSDK', 'visualization/ColumnChart'], function($, MessagesSDK, ColumnChart) {
+define(['jquery', 'visualization/ColumnChart'], function($, ColumnChart) {
 	var Analytic = {
 		name: 'Total Messages',
 		shortDescription: 'Calculates the total messages sent by each conversation member.',
-		run: function(conversation, callback) {
-			var dbUtil = MessagesSDK.createInstance(conversation);
-		
-			$.when(dbUtil.getUsers()).then(function(users) {
+		run: function(msgSDK, callback) {
+			$.when(msgSDK.getUsers()).then(function(users) {
 				var promises = [];
 				var list = {};
 		
 				$.each(users, function(index, user) {
 					promises.push(
-						dbUtil.getMessages(user).then(
+						msgSDK.getMessages(user).then(
 							function(messages) {
 								list[user.name] = messages.length;
 							}
@@ -24,8 +22,8 @@ define(['jquery', 'database/MessagesSDK', 'visualization/ColumnChart'], function
 				});
 			});	
 		},
-		render: function(conversation, callback) {
-			Analytic.run(conversation, function(data) {
+		render: function(msgSDK, callback) {
+			Analytic.run(msgSDK, function(data) {
 				var card = $('<div />');
 				
 				ColumnChart.create(card, {

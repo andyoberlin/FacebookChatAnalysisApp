@@ -111,9 +111,7 @@ require(dependencies, function($, LoginSDK, Util, ConversationSDK, ConversationV
 				});
 				
 				// get the conversation ID
-				var convoID = convosPanel.find('.conversation.selected').data('convoid');
-				
-				var msgSDK = MessagesSDK.createInstance(convoID);
+				var msgSDK = MessagesSDK.createInstance(convosPanel.find('.conversation.selected').data('convoid'));
 				
 				$(msgSDK).on('sdk.update', function() {
 					if (loadingMsg.text() != msgSDK.state.message) {
@@ -130,7 +128,7 @@ require(dependencies, function($, LoginSDK, Util, ConversationSDK, ConversationV
 					loadingMsg.text(msgSDK.state.message);
 					progressBar.parent().removeClass("active");
 					
-					AnalyticsPlatform.renderResults(convoID, ids, $('#analyticsPanel').empty());
+					AnalyticsPlatform.renderResults(msgSDK, ids, $('#analyticsPanel').empty());
 				});
 				
 				msgSDK.update();
