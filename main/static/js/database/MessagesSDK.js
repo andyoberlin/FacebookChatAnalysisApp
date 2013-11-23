@@ -115,7 +115,7 @@ define(['jquery', 'facebook', 'persistence_store_web_sql'], function($, FB, pers
 		}
 		
 		FB.api('/fql', { q: 'SELECT message_id, author_id, body, created_time FROM message WHERE thread_id = "' + 
-			self.conversation + '" AND created_time > ' + Date.parse(lastMessage.time) + ' LIMIT 25 OFFSET ' + offset},
+			self.conversation + '" AND created_time > ' + (Date.parse(lastMessage.time) / 1000) + ' LIMIT 25 OFFSET ' + offset},
 			function(response) {
 				if (response.data.length == 25) {
 					self.fetchNewMessages({ time: response.data[response.data.length - 1].created_time }, offset + 25);
