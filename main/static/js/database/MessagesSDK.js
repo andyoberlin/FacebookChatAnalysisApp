@@ -9,6 +9,8 @@ define(['jquery', 'facebook', 'persistence_store_web_sql'], function($, FB, pers
 			totalMessages: 0,
 			completeMessages: 0
 		};
+		
+		persistence.debug = false;
 	}
 	
 	/**
@@ -52,8 +54,8 @@ define(['jquery', 'facebook', 'persistence_store_web_sql'], function($, FB, pers
 						
 						$(self).trigger('sdk.update');
 						
-						self.storeMessages(response.data);
 						self.fetchOldMessages(response.paging.next);
+						self.storeMessages(response.data);
 					}
 					else {
 						self.state.updating = false;
@@ -88,8 +90,8 @@ define(['jquery', 'facebook', 'persistence_store_web_sql'], function($, FB, pers
 						
 						$(self).trigger('sdk.update');
 						
-						self.storeMessages(response.data);
 						self.fetchOldMessages(response.paging.next);
+						self.storeMessages(response.data);
 					}
 					else {
 						self.state.updating = false;
@@ -117,28 +119,42 @@ define(['jquery', 'facebook', 'persistence_store_web_sql'], function($, FB, pers
 	};
 	
 	MessagesSDK.prototype.getLastMessage = function(success, error) {
-		error();
+		this.initializeDatabase();
+		
+		this.MessageModel.order('time', false).one(function(result) {
+			if (result) {
+				success(result);
+			}
+			else {
+				error();
+			}
+		});
 	};
 	
 	MessagesSDK.prototype.initializeDatabase = function(force) {
 		if (!this.initialized || force) {
-			persistence.store.websql.config(persistence, 'conversation_' + this.conversation,
-				'Stores the messages from Facebook for analysis purposes', 10 * 1024 * 1024);
-			
-			this.MessageModel = persistence.define('Message', {
-				uid: "TEXT",
-				message: "TEXT",
-				time: "DATE"
-			});
-			
-			this.FriendModel = persistence.define('Friend', {
-				uid: "TEXT",
-				name: "TEXT"
-			});
-			
-			this.MessageModel.hasOne('friend', this.FriendModel);
-			
-			persistence.schemaSync();
+			try {
+				persistence.store.websql.config(persistence, 'conversation_' + this.conversation,
+					'Stores the messages from Facebook for analysis purposes', 10 * 1024 * 1024);
+				
+				this.MessageModel = persistence.define('Message', {
+					uid: "TEXT",
+					message: "TEXT",
+					time: "DATE"
+				});
+				
+				this.FriendModel = persistence.define('Friend', {
+					uid: "TEXT",
+					name: "TEXT"
+				});
+				
+				this.MessageModel.hasOne('friend', this.FriendModel);
+				
+				persistence.schemaSync();
+			}
+			catch(e) {
+				persistence.store.memory.config(persistence);
+			}
 			
 			this.initialized = true;
 		}
