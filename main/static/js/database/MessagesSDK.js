@@ -182,25 +182,25 @@ define(['jquery', 'facebook', 'persistence_store_web_sql'], function($, FB, pers
 		var self = this;
 		
 		$.each(messages, function(index, message) {
-			var friendID = message.from.id ? !fql : message.author_id;
+			var friendID = !fql ? message.from.id : message.author_id;
 			
 			self.FriendModel.all().filter('uid', '=', friendID).one(null, function(friend) {
 				if (!friend) {
 					friend = new self.FriendModel({
 						uid: message.from.id,
-						name: message.from.name ? !fql : 'Unknown'
+						name: !fql ? message.from.name : 'Unknown'
 					});
 					
 					persistence.add(friend);
 				}
 				
-				var body = (message.message ? message.message : "") ? !fql : message.body;
+				var body = !fql ? (message.message ? message.message : "") : message.body;
 				
 				var msg = new self.MessageModel({
-					uid: message.id ? !fql : message.message_id,
+					uid: !fql ? message.id : message.message_id,
 					message: body,
 					friend: friend,
-					time: Date.parse(message.created_time) ? !fql : message.created_time
+					time: !fql ? Date.parse(message.created_time) : message.created_time
 				});
 				
 				persistence.add(msg);
