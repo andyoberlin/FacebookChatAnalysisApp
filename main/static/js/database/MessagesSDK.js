@@ -103,19 +103,36 @@ define(['jquery', 'facebook', 'persistence_store_web_sql'], function($, FB, pers
 		}
 	};
 	
-	MessagesSDK.prototype.fetchNewMessages = function(lastMessage) {
+	MessagesSDK.prototype.fetchNewMessages = function(lastMessage, offset) {
 		var self = this;
 		self.state.message = "Loading new messages...";
 		self.state.updating = true;
-		self.state.completedMessages = 0;
 		self.state.totalMessages = 0;
+		self.state.completeMessages = 0;
 		
-		setTimeout(function() {
-			self.state.message = "Completed message update.";
-			self.state.updating = false;
-			self.state.completedMessages = 1;
-			self.state.totalMessages = 1;
-		}, 1000);
+		if (!offset) {
+			offset = 0;
+		}
+		
+		FB.api('/fql', { q: 'SELECT message_id, author_id, body, created_time FROM message WHERE thread_id = "' + 
+			self.conversation + '" AND created_time > ' + lastMessage.time + ' LIMIT 25 OFFSET ' + offset},
+			function(response) {
+				if (response.data.length == 25) {
+					self.fetchNewMessages({ time: response.data[response.data.length - 1].created_time }, offset + 25);
+				}
+				else {
+					self.state.message = "Completed downloading new messages.";
+					$(self).trigger('sdk.complete');
+				}
+				
+				self.state.completeMessages += response.data.length;
+				self.state.totalMessages = 1;
+				
+				$(self).trigger('sdk.update');
+				
+				self.storeMessages(response.data);
+			}
+		);
 	};
 	
 	MessagesSDK.prototype.getLastMessage = function(success, error) {
@@ -160,27 +177,31 @@ define(['jquery', 'facebook', 'persistence_store_web_sql'], function($, FB, pers
 		}
 	};
 	
-	MessagesSDK.prototype.storeMessages = function(messages) {
+	MessagesSDK.prototype.storeMessages = function(messages, fql) {
 		console.log("Storing messages...");
 		
 		var self = this;
 		
 		$.each(messages, function(index, message) {
+			var friendID = message.from.id ? !fql : message.author_id;
+			
 			self.FriendModel.all().filter('uid', '=', message.from.id).one(null, function(friend) {
 				if (!friend) {
 					friend = new self.FriendModel({
 						uid: message.from.id,
-						name: message.from.name
+						name: message.from.name ? !fql : 'Unknown'
 					});
 					
 					persistence.add(friend);
 				}
 				
+				var body = (message.message ? message.message : "") ? !fql : message.body;
+				
 				var msg = new self.MessageModel({
-					uid: message.id,
-					message: message.message ? message.message : "NULL",
+					uid: message.id ? !fql : message.message_id,
+					message: body,
 					friend: friend,
-					time: Date.parse(message.created_time)
+					time: Date.parse(message.created_time) ? !fql : message.created_time
 				});
 				
 				persistence.add(msg);
@@ -214,10 +235,10 @@ define(['jquery', 'facebook', 'persistence_store_web_sql'], function($, FB, pers
 				
 				// deal with sticker queries
 				if (opts.stickers == 'only') {
-					query = query.filter('message', '=', 'NULL');
+					query = query.filter('message', '=', '');
 				}
 				else if (opts.stickers == 'without') {
-					query = query.filter('message', '!=', 'NULL');
+					query = query.filter('message', '!=', '');
 				}
 			}
 			
