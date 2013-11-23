@@ -138,7 +138,7 @@ define(['jquery', 'facebook', 'persistence_store_web_sql'], function($, FB, pers
 	MessagesSDK.prototype.getLastMessage = function(success, error) {
 		this.initializeDatabase();
 		
-		this.MessageModel.order('time', false).one(function(result) {
+		this.MessageModel.all().order('time', false).one(function(result) {
 			if (result) {
 				success(result);
 			}
