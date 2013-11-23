@@ -129,7 +129,7 @@ define(['jquery', 'facebook', 'persistence_store_web_sql'], function($, FB, pers
 					$(self).trigger('sdk.complete');
 				}
 				
-				self.storeMessages(response.data);
+				self.storeMessages(response.data, true);
 			}
 		);
 	};
