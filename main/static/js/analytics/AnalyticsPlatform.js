@@ -36,7 +36,7 @@ define(deps, function($, _, TotalMessages) {
 					while (i < elsByKey.length) {
 						var curPanel = $('<div />').addClass('row');
 						
-						for (var j = 0; j < key; j++) {
+						for (var j = 0; j < key && i < elsByKey.length; j++) {
 							var card = CardTemplate({
 								el: elsByKey[i].html(),
 								layout: 'col-sm-' + (12.0/key)
