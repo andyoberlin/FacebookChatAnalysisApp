@@ -14,7 +14,7 @@ define(deps, function($, _, TotalMessages) {
 			var els = {};
 			
 			$.each(ids, function(index, id) {
-				promises.push($.DeferredObject(function(deferredObj) {
+				promises.push($.Deferred(function(deferredObj) {
 					analytics[id].render(msgSDK, function(card, perRow) {
 						if (!(perRow in els)) {
 							els[perRow] = [];
