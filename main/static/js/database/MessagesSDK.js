@@ -184,7 +184,7 @@ define(['jquery', 'facebook', 'persistence_store_web_sql'], function($, FB, pers
 		$.each(messages, function(index, message) {
 			var friendID = !fql ? message.from.id : message.author_id;
 			
-			self.FriendModel.all().filter('uid', '=', friendID).one(null, function(friend) {
+			self.FriendModel.all().filter('uid', '=', "" + friendID).one(null, function(friend) {
 				if (!friend) {
 					friend = new self.FriendModel({
 						uid: message.from.id,
