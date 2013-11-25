@@ -21,7 +21,7 @@ define(deps, function($, _, TotalMessages) {
 						}
 						els.push(card);
 					});
-				});
+				}));
 			});
 				
 			$.when.apply($, promises).then(function() {
