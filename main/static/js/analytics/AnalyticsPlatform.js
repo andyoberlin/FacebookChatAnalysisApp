@@ -40,7 +40,7 @@ define(deps, function($, _, TotalMessages) {
 								el: elsByKey[i].html(),
 								layout: 'col-sm-' + (12.0/key)
 							});
-							curPanel.append(card);
+							curPanel.append($(card));
 							i++;
 						}
 						
