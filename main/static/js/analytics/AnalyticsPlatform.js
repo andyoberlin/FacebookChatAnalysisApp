@@ -8,9 +8,44 @@ define(deps, function($, _, TotalMessages) {
 			analytics.push(analytic);
 		},
 		renderResults: function(msgSDK, ids, parent) {
+			var CardTemplate = _.template($('#cardTemplate').html());
+			
+			var promises = [];
+			var els = {};
+			
 			$.each(ids, function(index, id) {
-				analytics[id].render(msgSDK, function(card) {
-					parent.append(card);
+				promises.push($.DeferredObject(function(deferredObj) {
+					analytics[id].render(msgSDK, function(card, perRow) {
+						if (!(perRow in els)) {
+							els[perRow] = [];
+						}
+						els.push(card);
+					});
+				});
+			});
+				
+			$.when.apply($, promises).then(function() {
+				var keys = Object.keys(els);
+				keys.sort();
+				
+				$.each(keys, function(index, key) {
+					var elsByKey = els[key];
+					
+					var i = 0;
+					while (i < elsByKey.length) {
+						var curPanel = $('<div />').addClass('row');
+						
+						for (var j = 0; j < key; j++) {
+							var card = CardTemplate({
+								el: elsByKey[i].html(),
+								layout: 'col-sm-' + (12.0/key)
+							});
+							curPanel.append(card);
+							i++;
+						}
+						
+						parent.append(curPanel);
+					}
 				});
 			});
 		},

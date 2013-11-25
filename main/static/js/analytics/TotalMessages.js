@@ -30,10 +30,11 @@ define(['jquery', 'visualization/ColumnChart'], function($, ColumnChart) {
 					data: data,
 					xLabel: "Conversation Member",
 					yLabel: "Total Messages Sent",
-					title: "Total Messages Sent per Person"
+					title: "Total Messages Sent per Person",
+					width: 500
 				});
 				
-				callback(card);
+				callback(card, 2); // 2 means that this will take up half of the given space
 			});
 		}
 	};
