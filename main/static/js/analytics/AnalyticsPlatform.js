@@ -19,7 +19,7 @@ define(deps, function($, _, TotalMessages) {
 						if (!(perRow in els)) {
 							els[perRow] = [];
 						}
-						els.push(card);
+						els[perRow].push(card);
 					});
 				}));
 			});
