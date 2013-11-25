@@ -11,6 +11,7 @@ define(['jquery', 'facebook', 'persistence_store_memory_backup'], function($, FB
 		};
 		
 		persistence.debug = false;
+		this.isWebSQL = false;
 	}
 	
 	/**
@@ -152,9 +153,11 @@ define(['jquery', 'facebook', 'persistence_store_memory_backup'], function($, FB
 			try {
 				persistence.store.websql.config(persistence, 'conversation_' + this.conversation,
 					'Stores the messages from Facebook for analysis purposes', 10 * 1024 * 1024);
+				this.isWebSQL = true;
 			}
 			catch(e) {
 				persistence.store.memory.config(persistence);
+				this.isWebSQL = false;
 			}
 			
 			this.MessageModel = persistence.define('Message', {
@@ -226,30 +229,60 @@ define(['jquery', 'facebook', 'persistence_store_memory_backup'], function($, FB
 		return $.Deferred(function(deferredObj) {
 			var query = self.MessageModel.all();
 			
-			if (opts) {
-				// deal with user queries
-				if (opts.user) {
-					query = query.filter('friend', '=', opts.user.id);
+			if (self.isWebSQL) {
+				if (opts) {
+					// deal with user queries
+					if (opts.user) {
+						query = query.filter('friend', '=', opts.user.id);
+					}
+					
+					// deal with sticker queries
+					if (opts.stickers == 'only') {
+						query = query.filter('message', '=', '');
+					}
+					else if (opts.stickers == 'without') {
+						query = query.filter('message', '!=', '');
+					}
 				}
 				
-				// deal with sticker queries
-				if (opts.stickers == 'only') {
-					query = query.filter('message', '=', '');
-				}
-				else if (opts.stickers == 'without') {
-					query = query.filter('message', '!=', '');
-				}
+				query.list(null, function(results) {
+					var messages = [];
+					
+					$.each(results, function (index, r) {
+				        messages.push(r);
+				    });
+					
+					deferredObj.resolve(messages);
+				});
 			}
-			
-			query.list(null, function(results) {
-				var messages = [];
-				
-				$.each(results, function (index, r) {
-			        messages.push(r);
-			    });
-				
-				deferredObj.resolve(messages);
-			});
+			else {
+				query.list(null, function(results) {
+					var messages = [];
+						
+					$.each(function(index, r) {
+						var allowed = true;
+						if (opts) {
+							if (opts.user) {
+								allowed &= r.friend.id == opts.user.id;
+							}
+							
+							// deal with sticker queries
+							if (opts.stickers == 'only') {
+								allowed &= r.message == '';
+							}
+							else if (opts.stickers == 'without') {
+								allowed &= r.message != '';
+							}
+						}
+						
+						if (allowed) {
+							messages.push(r);
+						}
+					});
+					
+					deferredObj.resolve(messages);
+				});
+			}
 		}).promise();
 	};
 	
