@@ -152,25 +152,25 @@ define(['jquery', 'facebook', 'persistence_store_memory_backup'], function($, FB
 			try {
 				persistence.store.websql.config(persistence, 'conversation_' + this.conversation,
 					'Stores the messages from Facebook for analysis purposes', 10 * 1024 * 1024);
-				
-				this.MessageModel = persistence.define('Message', {
-					uid: "TEXT",
-					message: "TEXT",
-					time: "DATE"
-				});
-				
-				this.FriendModel = persistence.define('Friend', {
-					uid: "TEXT",
-					name: "TEXT"
-				});
-				
-				this.MessageModel.hasOne('friend', this.FriendModel);
-				
-				persistence.schemaSync();
 			}
 			catch(e) {
 				persistence.store.memory.config(persistence);
 			}
+			
+			this.MessageModel = persistence.define('Message', {
+				uid: "TEXT",
+				message: "TEXT",
+				time: "DATE"
+			});
+			
+			this.FriendModel = persistence.define('Friend', {
+				uid: "TEXT",
+				name: "TEXT"
+			});
+			
+			this.MessageModel.hasOne('friend', this.FriendModel);
+			
+			persistence.schemaSync();
 			
 			this.initialized = true;
 		}
