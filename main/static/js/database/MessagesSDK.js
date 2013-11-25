@@ -1,4 +1,4 @@
-define(['jquery', 'facebook', 'persistence_store_web_sql'], function($, FB, persistence) {
+define(['jquery', 'facebook', 'persistence_store_memory_backup'], function($, FB, persistence) {
 	
 	function MessagesSDK(conversation) {
 		this.conversation = conversation;

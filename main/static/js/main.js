@@ -28,6 +28,12 @@ require.config({
 	    	init: function() {
 	    		return persistence;
 	    	}
+	    },
+	    persistence_store_memory_backup: {
+	    	deps: ['persistence', 'persistence_store_web_sql'],
+	    	init: function() {
+	    		return persistence;
+	    	}
 	    }
 	},
 	paths: {
@@ -38,6 +44,7 @@ require.config({
 		persistence: '/static/js/lib/persistence/persistence',
 		persistence_store_sql: '/static/js/lib/persistence/persistence.store.sql',
 		persistence_store_web_sql: '/static/js/lib/persistence/persistence.store.websql',
+		persistence_store_memory_backup: '/static/js/lib/persistence/persistence.store.memory',
 		async : '/static/js/lib/async',
         goog : '/static/js/lib/goog',
         propertyParser : '/static/js/lib/propertyParser'
