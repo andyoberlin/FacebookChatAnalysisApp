@@ -20,6 +20,7 @@ define(deps, function($, _, TotalMessages) {
 							els[perRow] = [];
 						}
 						els[perRow].push(card);
+						deferredObj.resolve();
 					});
 				}).promise());
 			});
