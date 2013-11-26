@@ -250,7 +250,7 @@ define(['jquery', 'facebook', 'jquery_indexeddb'], function($, FB) {
 					// the stickers from the normal text messages for easy separation later
 					$.indexedDB('conversation_' + self.conversation).objectStore("Messages").index("friend_uid")
 						.each(function(message) {
-							userMessages[message.is_sticker ? "sticker" : "no-sticker"].push(message);
+							userMessages[message.value.is_sticker ? "sticker" : "no-sticker"].push(message.value);
 						}, opts.user.uid).done(function() {
 							// filter further by is_sticker
 							if (opts.stickers == 'only') {
