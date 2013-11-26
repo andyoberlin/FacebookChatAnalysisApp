@@ -269,7 +269,7 @@ define(['jquery', 'facebook', 'jquery_indexeddb'], function($, FB) {
 					var messages = [];
 					$.indexedDB('conversation_' + self.conversation).objectStore("Messages").index("is_sticker")
 						.openCursor(IDBKeyRange.only(opts.stickers == 'only')).each(function(message) {
-							messages.push(message);
+							messages.push(message.value);
 						}).done(function() {
 							deferredObj.resolve(messages);
 						});
@@ -290,7 +290,7 @@ define(['jquery', 'facebook', 'jquery_indexeddb'], function($, FB) {
 		return $.Deferred(function(deferredObj) {
 			var friends = [];
 			$.indexedDB('conversation_' + self.conversation).objectStore("Friends").each(function(friend) {
-				friends.push(friend);
+				friends.push(friend.value);
 			}).done(function() {
 				deferredObj.resolve(friends);
 			});
