@@ -193,7 +193,7 @@ define(['jquery', 'facebook', 'jquery_indexeddb'], function($, FB) {
 			$.indexedDB('conversation_' + self.conversation).objectStore("Friends").get(friendID)
 				.done(function(result, event) {
 					if (!result) {
-						$.indexedDB('conversation_' + self.conversation).objectStore("Friends").add({
+						$.indexedDB('conversation_' + self.conversation).objectStore("Friends").put({
 							uid: friendID,
 							name: !fql ? message.from.name : 'Unknown'
 						});
@@ -201,7 +201,7 @@ define(['jquery', 'facebook', 'jquery_indexeddb'], function($, FB) {
 					
 					var body = !fql ? (message.message ? message.message : "") : message.body;
 					
-					$.indexedDB('conversation_' + self.conversation).objectStore("Messages").add({
+					$.indexedDB('conversation_' + self.conversation).objectStore("Messages").put({
 						uid: !fql ? message.id : message.message_id,
 						message: body,
 						friend_uid: friendID,
