@@ -10,7 +10,7 @@ define(['jquery', 'facebook', 'jquery_indexeddb'], function($, FB) {
 			completeMessages: 0
 		};
 		
-		persistence.debug = false;
+		//persistence.debug = false;
 	}
 	
 	/**
