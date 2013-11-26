@@ -205,13 +205,13 @@ define(['jquery', 'facebook', 'jquery_indexeddb'], function($, FB) {
 			// new message
 			$.indexedDB('conversation_' + self.conversation).objectStore("Friends").get(friendID)
 				.done(function(result, event) {
-					addMessage();
-				})
-				.fail(function(error, event) {
-					$.indexedDB('conversation_' + self.conversation).objectStore("Friends").add({
-						uid: friendID,
-						name: !fql ? message.from.name : 'Unknown'
-					});
+					if (!result) {
+						$.indexedDB('conversation_' + self.conversation).objectStore("Friends").add({
+							uid: friendID,
+							name: !fql ? message.from.name : 'Unknown'
+						});
+					}
+					
 					addMessage();
 				});
 		});
