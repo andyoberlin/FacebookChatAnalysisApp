@@ -138,6 +138,8 @@ define(['jquery', 'facebook', 'jquery_indexeddb'], function($, FB) {
 	MessagesSDK.prototype.getLastMessage = function(success, error) {
 		var self = this;
 		self.initializeDatabase(function() {
+			error();
+			/*
 			self.MessageModel.all().order('time', false).one(function(result) {
 				if (result) {
 					success(result);
@@ -145,7 +147,7 @@ define(['jquery', 'facebook', 'jquery_indexeddb'], function($, FB) {
 				else {
 					error();
 				}
-			});
+			});*/
 		});
 	};
 	
