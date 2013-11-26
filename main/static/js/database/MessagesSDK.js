@@ -188,19 +188,6 @@ define(['jquery', 'facebook', 'jquery_indexeddb'], function($, FB) {
 		$.each(messages, function(index, message) {
 			var friendID = !fql ? message.from.id : message.author_id;
 			
-			// Function for adding a single message
-			var addMessage = function() {
-				var body = !fql ? (message.message ? message.message : "") : message.body;
-				
-				$.indexedDB('conversation_' + self.conversation).objectStore("Messages").add({
-					uid: !fql ? message.id : message.message_id,
-					message: body,
-					friend_uid: friendID,
-					time: !fql ? Date.parse(message.created_time) : message.created_time,
-					is_sticker: body == '' ? true : false 
-				});
-			};
-			
 			// Check if the friend has been created yet. If not, add the friend then add the
 			// new message
 			$.indexedDB('conversation_' + self.conversation).objectStore("Friends").get(friendID)
@@ -212,7 +199,15 @@ define(['jquery', 'facebook', 'jquery_indexeddb'], function($, FB) {
 						});
 					}
 					
-					addMessage();
+					var body = !fql ? (message.message ? message.message : "") : message.body;
+					
+					$.indexedDB('conversation_' + self.conversation).objectStore("Messages").add({
+						uid: !fql ? message.id : message.message_id,
+						message: body,
+						friend_uid: friendID,
+						time: !fql ? Date.parse(message.created_time) : message.created_time,
+						is_sticker: body == '' ? true : false 
+					});
 				});
 		});
 		
