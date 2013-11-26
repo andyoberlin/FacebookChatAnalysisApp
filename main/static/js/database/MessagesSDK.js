@@ -137,24 +137,20 @@ define(['jquery', 'facebook', 'jquery_indexeddb'], function($, FB) {
 	
 	MessagesSDK.prototype.getLastMessage = function(success, error) {
 		var self = this;
+		error();
+		/*
 		self.initializeDatabase(function() {
-			error();
-			/*
-			self.MessageModel.all().order('time', false).one(function(result) {
-				if (result) {
-					success(result);
-				}
-				else {
-					error();
-				}
-			});*/
+			$.indexedDB('conversation_' + self.conversation).objectStore("Messages").index("time")
+			
 		});
+		*/
 	};
 	
 	MessagesSDK.prototype.initializeDatabase = function(callback, force) {
 		var self = this;
 		if (!self.initialized || force) {
 			$.indexedDB('conversation_' + this.conversation, {
+				version: "2",
 				schema : {
 					"1" : function(tx) {
 						tx.createObjectStore("Friends", {
@@ -167,7 +163,9 @@ define(['jquery', 'facebook', 'jquery_indexeddb'], function($, FB) {
 						
 						messagesStore.createIndex("friend_uid");
 						messagesStore.createIndex("is_sticker");
-						
+					},
+					"2" : function(tx) {
+						tx.objectStore("Messages").createIndex("time");
 						self.initialized = true;
 					}
 				}
@@ -181,8 +179,6 @@ define(['jquery', 'facebook', 'jquery_indexeddb'], function($, FB) {
 	};
 	
 	MessagesSDK.prototype.storeMessages = function(messages, fql) {
-		console.log("Storing messages...");
-		
 		var self = this;
 		
 		$.each(messages, function(index, message) {
@@ -210,8 +206,6 @@ define(['jquery', 'facebook', 'jquery_indexeddb'], function($, FB) {
 					});
 				});
 		});
-		
-		console.log("Finished storing messages.");
 	};
 	
 	/**
