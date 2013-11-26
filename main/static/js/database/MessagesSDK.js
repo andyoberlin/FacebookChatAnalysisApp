@@ -254,13 +254,13 @@ define(['jquery', 'facebook', 'jquery_indexeddb'], function($, FB) {
 						}, opts.user.uid).done(function() {
 							// filter further by is_sticker
 							if (opts.stickers == 'only') {
-								deferredObj.resolve(userMessages['stickers']);
+								deferredObj.resolve(userMessages['sticker']);
 							}
 							else if (opts.stickers == 'without') {
-								deferredObj.resolve(userMessages['no-stickers']);
+								deferredObj.resolve(userMessages['no-sticker']);
 							}
 							else {
-								deferredObj.resolve(userMessages['stickers'].concat(userMessages['no-stickers']));
+								deferredObj.resolve(userMessages['sticker'].concat(userMessages['no-sticker']));
 							}
 						});
 				}
