@@ -12,6 +12,7 @@ require.config({
 	    	exports : '_'
 	    },
 	    bootstrap: ['jquery'],
+	    jquery_indexeddb: ['jquery'],
 	    persistence: {
 	    	init: function() {
 	    		return persistence;
@@ -39,6 +40,7 @@ require.config({
 	paths: {
 		facebook: '//connect.facebook.net/en_US/all',
 		jquery: '/static/js/lib/jquery-1.10.2.min',
+		jquery_indexeddb: '/static/js/lib/jquery.indexeddb',
 		underscore: '/static/js/lib/underscore.min',
 		bootstrap: '/static/js/lib/bootstrap.min',
 		persistence: '/static/js/lib/persistence/persistence',

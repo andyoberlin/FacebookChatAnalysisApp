@@ -1,4 +1,4 @@
-define(['jquery', 'facebook', 'persistence_store_memory_backup'], function($, FB, persistence) {
+define(['jquery', 'facebook', 'jquery_indexeddb'], function($, FB) {
 	
 	function MessagesSDK(conversation) {
 		this.conversation = conversation;
@@ -11,7 +11,6 @@ define(['jquery', 'facebook', 'persistence_store_memory_backup'], function($, FB
 		};
 		
 		persistence.debug = false;
-		this.isWebSQL = false;
 	}
 	
 	/**
@@ -25,14 +24,15 @@ define(['jquery', 'facebook', 'persistence_store_memory_backup'], function($, FB
 		
 		this.getLastMessage(
 			function(lastMessage) {
-				self.initializeDatabase();
-				self.fetchNewMessages(lastMessage);
+				self.initializeDatabase(function() {
+					self.fetchNewMessages(lastMessage);
+				});
 			},
 			function() {
-				self.initializeDatabase();
-				persistence.reset(null, function() {
-					self.initializeDatabase(true);
-					self.fetchOldMessages();
+				$.indexedDB('conversation_' + self.conversation).deleteDatabase().done(function() {
+					self.initializeDatabase(function() {
+						self.fetchOldMessages();
+					});
 				});
 			}
 		);
@@ -136,46 +136,42 @@ define(['jquery', 'facebook', 'persistence_store_memory_backup'], function($, FB
 	};
 	
 	MessagesSDK.prototype.getLastMessage = function(success, error) {
-		this.initializeDatabase();
-		
-		this.MessageModel.all().order('time', false).one(function(result) {
-			if (result) {
-				success(result);
-			}
-			else {
-				error();
-			}
+		var self = this;
+		self.initializeDatabase(function() {
+			self.MessageModel.all().order('time', false).one(function(result) {
+				if (result) {
+					success(result);
+				}
+				else {
+					error();
+				}
+			});
 		});
 	};
 	
-	MessagesSDK.prototype.initializeDatabase = function(force) {
-		if (!this.initialized || force) {
-			try {
-				persistence.store.websql.config(persistence, 'conversation_' + this.conversation,
-					'Stores the messages from Facebook for analysis purposes', 10 * 1024 * 1024);
-				this.isWebSQL = true;
-			}
-			catch(e) {
-				persistence.store.memory.config(persistence);
-				this.isWebSQL = false;
-			}
-			
-			this.MessageModel = persistence.define('Message', {
-				uid: "TEXT",
-				message: "TEXT",
-				time: "DATE"
+	MessagesSDK.prototype.initializeDatabase = function(callback, force) {
+		var self = this;
+		if (!self.initialized || force) {
+			$.indexedDB('conversation_' + this.conversation, {
+				schema : {
+					"1" : function(tx) {
+						tx.createObjectStore("Friends", {
+							"keyPath" : "uid"
+						});
+						
+						tx.createObjectStore("Messages", {
+							"keyPath" : "uid"
+						}).createIndex("friend_uid").createIndex("is_sticker");
+						
+						self.initialized = true;
+					}
+				}
+			}).then(function() {
+				callback();
 			});
-			
-			this.FriendModel = persistence.define('Friend', {
-				uid: "TEXT",
-				name: "TEXT"
-			});
-			
-			this.MessageModel.hasOne('friend', this.FriendModel);
-			
-			persistence.schemaSync();
-			
-			this.initialized = true;
+		}
+		else {
+			callback();
 		}
 	};
 	
@@ -187,27 +183,32 @@ define(['jquery', 'facebook', 'persistence_store_memory_backup'], function($, FB
 		$.each(messages, function(index, message) {
 			var friendID = !fql ? message.from.id : message.author_id;
 			
-			self.FriendModel.all().filter('uid', '=', "" + friendID).one(null, function(friend) {
-				if (!friend) {
-					friend = new self.FriendModel({
-						uid: message.from.id,
-						name: !fql ? message.from.name : 'Unknown'
-					});
-					
-					persistence.add(friend);
-				}
-				
+			// Function for adding a single message
+			var addMessage = function() {
 				var body = !fql ? (message.message ? message.message : "") : message.body;
 				
-				var msg = new self.MessageModel({
+				$.indexedDB('conversation_' + self.conversation).objectStore("Messages").add({
 					uid: !fql ? message.id : message.message_id,
 					message: body,
-					friend: friend,
-					time: !fql ? Date.parse(message.created_time) : message.created_time
+					friend_uid: friendID,
+					time: !fql ? Date.parse(message.created_time) : message.created_time,
+					is_sticker: body == '' ? true : false 
 				});
-				
-				persistence.add(msg);
-			});
+			};
+			
+			// Check if the friend has been created yet. If not, add the friend then add the
+			// new message
+			$.indexedDB('conversation_' + self.conversation).objectStore("Friends").get(friendID)
+				.done(function(result, event) {
+					addMessage();
+				})
+				.fail(function(error, event) {
+					$.indexedDB('conversation_' + self.conversation).objectStore("Friends").add({
+						uid: friendID,
+						name: !fql ? message.from.name : 'Unknown'
+					});
+					addMessage();
+				});
 		});
 		
 		console.log("Finished storing messages.");
@@ -227,61 +228,58 @@ define(['jquery', 'facebook', 'persistence_store_memory_backup'], function($, FB
 		var self = this;
 		
 		return $.Deferred(function(deferredObj) {
-			var query = self.MessageModel.all();
-			
-			if (self.isWebSQL) {
-				if (opts) {
-					// deal with user queries
-					if (opts.user) {
-						query = query.filter('friend', '=', opts.user.id);
-					}
-					
-					// deal with sticker queries
-					if (opts.stickers == 'only') {
-						query = query.filter('message', '=', '');
-					}
-					else if (opts.stickers == 'without') {
-						query = query.filter('message', '!=', '');
-					}
-				}
-				
-				query.list(null, function(results) {
-					var messages = [];
-					
-					$.each(results, function (index, r) {
-				        messages.push(r);
-				    });
-					
+			// function for getting all the messages
+			var defaultMessages = function() {
+				var messages = [];
+				$.indexedDB('conversation_' + self.conversation).objectStore("Messages").each(function(message) {
+					messages.push(message);
+				}).done(function() {
 					deferredObj.resolve(messages);
 				});
-			}
-			else {
-				query.list(null, function(results) {
-					var messages = [];
-						
-					$.each(function(index, r) {
-						var allowed = true;
-						if (opts) {
-							if (opts.user) {
-								allowed &= r.friend.id == opts.user.id;
-							}
-							
-							// deal with sticker queries
+			};
+			
+			if (opts) {
+				if (opts.user) {
+					// deal with user queries first
+					var userMessages = {
+						"sticker" : [],
+						"no-sticker" : []
+					};
+					
+					// filters by user and automatically puts the user's messages into an array that separates
+					// the stickers from the normal text messages for easy separation later
+					$.indexedDB('conversation_' + self.conversation).objectStore("Messages").index("friend_uid")
+						.openCursor(IDBKeyRange.only(opts.user.uid)).each(function(message) {
+							userMessages[message.is_sticker ? "sticker" : "no-sticker"].push(message);
+						}).done(function() {
+							// filter further by is_sticker
 							if (opts.stickers == 'only') {
-								allowed &= r.message == '';
+								deferredObj.resolve(userMessages['stickers']);
 							}
 							else if (opts.stickers == 'without') {
-								allowed &= r.message != '';
+								deferredObj.resolve(userMessages['no-stickers']);
 							}
-						}
-						
-						if (allowed) {
-							messages.push(r);
-						}
-					});
-					
-					deferredObj.resolve(messages);
-				});
+							else {
+								deferredObj.resolve(userMessages['stickers'].concat(userMessages['no-stickers']));
+							}
+						});
+				}
+				else if (opts.stickers && (opts.stickers == 'only' || opts.stickers == 'without')) {
+					// no user query, but there is a sticker query
+					var messages = [];
+					$.indexedDB('conversation_' + self.conversation).objectStore("Messages").index("is_sticker")
+						.openCursor(IDBKeyRange.only(opts.stickers == 'only')).each(function(message) {
+							messages.push(message);
+						}).done(function() {
+							deferredObj.resolve(messages);
+						});
+				}
+				else {
+					defaultMessages();
+				}
+			}
+			else {
+				defaultMessages();
 			}
 		}).promise();
 	};
@@ -290,13 +288,10 @@ define(['jquery', 'facebook', 'persistence_store_memory_backup'], function($, FB
 		var self = this;
 		
 		return $.Deferred(function(deferredObj) {
-			self.FriendModel.all().list(null, function(results) {
-				var friends = [];
-				
-				$.each(results, function (index, r) {
-			        friends.push(r);
-			    });
-				
+			var friends = [];
+			$.indexedDB('conversation_' + self.conversation).objectStore("Friends").each(function(friend) {
+				friends.push(friend);
+			}).done(function() {
 				deferredObj.resolve(friends);
 			});
 		}).promise();
