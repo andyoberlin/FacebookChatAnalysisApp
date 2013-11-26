@@ -137,13 +137,20 @@ define(['jquery', 'facebook', 'jquery_indexeddb'], function($, FB) {
 	
 	MessagesSDK.prototype.getLastMessage = function(success, error) {
 		var self = this;
-		error();
-		/*
 		self.initializeDatabase(function() {
-			$.indexedDB('conversation_' + self.conversation).objectStore("Messages").index("time")
-			
+			var lastMessage = null;
+			$.indexedDB('conversation_' + self.conversation).objectStore("Messages").index("time").each(function(last) {
+				lastMessage = last.value;
+				return false;
+			}, null, "prev").done(function() {
+				if (lastMessage == null) {
+					error();
+				}
+				else {
+					success(lastMessage);
+				}
+			});
 		});
-		*/
 	};
 	
 	MessagesSDK.prototype.initializeDatabase = function(callback, force) {
