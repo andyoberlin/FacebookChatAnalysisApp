@@ -206,7 +206,7 @@ define(['jquery', 'facebook', 'jquery_indexeddb'], function($, FB) {
 						message: body,
 						friend_uid: friendID,
 						time: !fql ? Date.parse(message.created_time) : message.created_time,
-						is_sticker: body == '' ? true : false 
+						is_sticker: body == '' ? 1 : 0 
 					});
 				});
 		});
@@ -249,9 +249,9 @@ define(['jquery', 'facebook', 'jquery_indexeddb'], function($, FB) {
 					// filters by user and automatically puts the user's messages into an array that separates
 					// the stickers from the normal text messages for easy separation later
 					$.indexedDB('conversation_' + self.conversation).objectStore("Messages").index("friend_uid")
-						.openCursor(IDBKeyRange.only(opts.user.uid)).each(function(message) {
+						.each(function(message) {
 							userMessages[message.is_sticker ? "sticker" : "no-sticker"].push(message);
-						}).done(function() {
+						}, opts.user.uid).done(function() {
 							// filter further by is_sticker
 							if (opts.stickers == 'only') {
 								deferredObj.resolve(userMessages['stickers']);
@@ -268,9 +268,9 @@ define(['jquery', 'facebook', 'jquery_indexeddb'], function($, FB) {
 					// no user query, but there is a sticker query
 					var messages = [];
 					$.indexedDB('conversation_' + self.conversation).objectStore("Messages").index("is_sticker")
-						.openCursor(IDBKeyRange.only(opts.stickers == 'only')).each(function(message) {
+						.each(function(message) {
 							messages.push(message.value);
-						}).done(function() {
+						}, opts.stickers == 'only' ? 1 : 0).done(function() {
 							deferredObj.resolve(messages);
 						});
 				}
