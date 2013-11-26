@@ -156,7 +156,7 @@ define(['jquery', 'facebook', 'jquery_indexeddb'], function($, FB) {
 		if (!self.initialized || force) {
 			$.indexedDB('conversation_' + this.conversation, {
 				schema : {
-					"0" : function(tx) {
+					"1" : function(tx) {
 						tx.createObjectStore("Friends", {
 							"keyPath" : "uid"
 						});
