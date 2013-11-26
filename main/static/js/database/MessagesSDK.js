@@ -161,9 +161,12 @@ define(['jquery', 'facebook', 'jquery_indexeddb'], function($, FB) {
 							"keyPath" : "uid"
 						});
 						
-						tx.createObjectStore("Messages", {
+						var messagesStore = tx.createObjectStore("Messages", {
 							"keyPath" : "uid"
-						}).createIndex("friend_uid").createIndex("is_sticker");
+						});
+						
+						messagesStore.createIndex("friend_uid");
+						messagesStore.createIndex("is_sticker");
 						
 						self.initialized = true;
 					}
