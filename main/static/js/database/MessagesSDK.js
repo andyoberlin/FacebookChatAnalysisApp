@@ -157,7 +157,6 @@ define(['jquery', 'facebook', 'jquery_indexeddb'], function($, FB) {
 		var self = this;
 		if (!self.initialized || force) {
 			$.indexedDB('conversation_' + this.conversation, {
-				version: "2",
 				schema : {
 					"1" : function(tx) {
 						tx.createObjectStore("Friends", {
@@ -170,13 +169,11 @@ define(['jquery', 'facebook', 'jquery_indexeddb'], function($, FB) {
 						
 						messagesStore.createIndex("friend_uid");
 						messagesStore.createIndex("is_sticker");
-					},
-					"2" : function(tx) {
-						tx.objectStore("Messages").createIndex("time");
-						self.initialized = true;
+						messagesStore.createIndex("time");
 					}
 				}
 			}).then(function() {
+				self.initialized = true;
 				callback();
 			});
 		}
