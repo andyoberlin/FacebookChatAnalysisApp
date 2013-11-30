@@ -3,12 +3,12 @@ define(['jquery', 'analytics/Util', 'visualization/ColumnChart'], function($, Ut
 		var hSet = Util.stringToSet(word.toLowerCase());
 		delete hSet['h'];
 		delete hSet['a'];
-		return word.length > 1 && 'ha' in word && $.isEmptyObject(hSet);
+		return word.length > 1 && word.indexOf('ha') != -1 && $.isEmptyObject(hSet);
 	};
 	
 	var Analytic = {
-		name: 'Lol Count',
-		shortDescription: 'Calculates the number of lol\'s you use in a conversation.',
+		name: 'Haha Count',
+		shortDescription: 'Calculates the number of haha\'s you use in a conversation.',
 		run: function(msgSDK, callback) {
 			$.when(msgSDK.getUsers()).then(function(users) {
 				var promises = [];
