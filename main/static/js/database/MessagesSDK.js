@@ -40,6 +40,56 @@ define(['jquery', 'facebook', 'jquery_indexeddb'], function($, FB) {
 		);
 	};
 	
+	MessagesSDK.prototype.fetchOldMessages = function(offset) {
+		var self = this;
+		self.state.updating = true;
+		self.state.message = "Loading previous messages...";
+		
+		var fetchMessages = function(offset) {
+			FB.api('/fql', { q: 'SELECT message_id, author_id, body, created_time FROM message WHERE thread_id = "' + 
+				self.conversation + '" LIMIT 25 OFFSET ' + offset},
+				function(response) {
+					if (response.error) {
+						$(self).trigger('sdk.error');
+					}
+					else {
+						if (response.data.length == 25) {
+							self.state.completeMessages += response.data.length;
+							$(self).trigger('sdk.update');
+							
+							self.fetchMessages(offset + 25);
+						}
+						else {
+							self.state.message = "Completed downloading new messages.";
+							$(self).trigger('sdk.complete');
+						}
+						
+						self.storeMessages(response.data, true);
+					}
+				}
+			);
+		};
+		
+		FB.api('/' + self.conversation + '/?fields=to', function(response) {
+			if (response.error) {
+				$(self).trigger('sdk.error');
+			}
+			else {
+				self.storeUsers(response.to.data);
+				FB.api('/fql', { q: 'SELECT message_count FROM thread WHERE thread_id = ' + self.conversation }, function(response) {
+					if (response.error) {
+						$(self).trigger('sdk.error');
+					}
+					else {
+						self.state.totalMessages = response.data[0].message_count;
+						fetchMessages(0);
+					}
+				});
+			}
+		});
+	}
+	
+	/*
 	MessagesSDK.prototype.fetchOldMessages = function(pagingURL) {
 		var self = this;
 		self.state.updating = true;
@@ -120,6 +170,7 @@ define(['jquery', 'facebook', 'jquery_indexeddb'], function($, FB) {
 			});
 		}
 	};
+	*/
 	
 	MessagesSDK.prototype.fetchNewMessages = function(lastMessage, offset) {
 		var self = this;
@@ -212,33 +263,27 @@ define(['jquery', 'facebook', 'jquery_indexeddb'], function($, FB) {
 		var self = this;
 		
 		$.each(messages, function(index, message) {
-			var friendID = !fql ? "" + message.from.id : "" + message.author_id;
+			var friendID = !fql ? "" + message.from.id : "" + message.author_id;		
+			var body = !fql ? (message.message ? message.message : "") : message.body;
 			
-			// Check if the friend has been created yet. If not, add the friend then add the
-			// new message
-			$.indexedDB('conversation_' + self.conversation).objectStore("Friends").get(friendID)
-				.done(function(result, event) {
-					if (!result) {
-						$.indexedDB('conversation_' + self.conversation).objectStore("Friends").put({
-							uid: friendID,
-							name: !fql ? message.from.name : 'Unknown'
-						});
-					}
-					
-					var body = !fql ? (message.message ? message.message : "") : message.body;
-					
-					$.indexedDB('conversation_' + self.conversation).objectStore("Messages").put({
-						uid: !fql ? "" + message.id : "" + message.message_id,
-						message: body,
-						friend_uid: friendID,
-						time: !fql ? Date.parse(message.created_time) : message.created_time,
-						is_sticker: body == '' ? 1 : 0 
-					}).fail(function(e) {
-						console.error(e);
-					});
-				}).fail(function(e) {
-					console.error(e);
-				});
+			$.indexedDB('conversation_' + self.conversation).objectStore("Messages").put({
+				uid: !fql ? "" + message.id : "" + message.message_id,
+				message: body,
+				friend_uid: friendID,
+				time: !fql ? Date.parse(message.created_time) : message.created_time,
+				is_sticker: body == '' ? 1 : 0 
+			}).fail(function(e) {
+				console.error(e);
+			});
+		});
+	};
+	
+	MessagesSDK.prototype.storeUsers = function(users) {
+		$.each(users, function(index, user) {
+			$.indexedDB('conversation_' + self.conversation).objectStore("Friends").put({
+				uid: "" + user.id,
+				name: user.name
+			});
 		});
 	};
 	
