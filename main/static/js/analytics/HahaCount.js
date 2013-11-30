@@ -17,7 +17,7 @@ define(['jquery', 'analytics/Util', 'visualization/ColumnChart'], function($, Ut
 				$.each(users, function(index, user) {
 					list[user.name] = 0;
 					promises.push(
-						msgSDK.getMessages({ user : user }).then(
+						msgSDK.getMessages({ user : user, stickers: 'without' }).then(
 							function(messages) {
 								$.each(messages, function(index, message) {
 									var words = message.message.split("\\s+");
