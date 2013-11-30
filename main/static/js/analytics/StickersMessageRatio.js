@@ -18,13 +18,16 @@ define(['jquery', 'visualization/ColumnChart'], function($, ColumnChart) {
 					};
 					
 					promises.push(
-						msgSDK.getMessages(stickerOpts).then(function(stickerMsgs) {
-							list[user.name] = stickerMsgs.length;
-						}).then(
-							msgSDK.getMessages(generalOpts).then(function(messages) {
-								list[user.name] = 100 * list[user.name]/messages.length;
-							})
-						).promise()
+						$.Deferred(function(deferredObj) {
+							return msgSDK.getMessages(stickerOpts).then(function(stickerMsgs) {
+								list[user.name] = stickerMsgs.length;
+							}).then(
+								msgSDK.getMessages(generalOpts).then(function(messages) {
+									list[user.name] = 100 * list[user.name]/messages.length;
+									deferredObj.resolve();
+								})
+							).promise();
+						})
 					);
 				});
 				
