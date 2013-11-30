@@ -57,7 +57,7 @@ define(['jquery', 'facebook', 'jquery_indexeddb'], function($, FB) {
 							self.state.completeMessages += response.data.length;
 							$(self).trigger('sdk.update');
 							
-							self.fetchMessages(offset + 25);
+							fetchMessages(offset + 25);
 						}
 						else {
 							self.state.message = "Completed downloading new messages.";
