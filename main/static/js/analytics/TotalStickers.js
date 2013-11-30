@@ -1,4 +1,4 @@
-define(['jquery', 'visualization/ColumnChart'], function($, DatabaseUtil) {
+define(['jquery', 'visualization/ColumnChart'], function($, ColumnChart) {
 	var Analytic = {
 		name: "Total Stickers",
 		shortDescription: "Calculates the total stickers sent by each conversation member.",
