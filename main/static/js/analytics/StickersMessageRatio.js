@@ -1,28 +1,52 @@
-define(['jquery', 'database/DatabaseUtil'], function($, DatabaseUtil) {
+define(['jquery'], function($) {
 	var Analytic = {
-		run: function(conversation, callback) {
-			var dbUtil = DatabaseUtil.createInstance(conversation);
-		
-			$.when(dbUtil.getUsers()).then(function(users) {
+		name: "Sticker to Message Ratio",
+		shortDescription: "Calculates the ratio of stickers to total messages sent",	
+		run: function(msgSDK, callback) {
+			$.when(msgSDK.getUsers()).then(function(users) {
 				var promises = [];
 				var list = {};
 				
 				$.each(users, function(index, user) {
-					var stickers;
-					promises.push(dbUtil.getMessages({
-						userID: user.uid,							
+					var stickerOpts = {
+						user: user,							
 						stickers: 'only' 
-					}).then(function(Smessages) {
-						stickers= Smessages.length;
-					}).then(dbUtil.getMessages(user).then(
-						function(messages) {
-							list[user.name] = stickers/messages.length;
-					})
+					};
+					
+					var generalOpts = {
+						user: user	
+					};
+					
+					promises.push(
+						msgSDK.getMessages(stickerOpts).then(function(stickerMsgs) {
+							list[user.name] = stickerMsgs.length;
+						}).then(
+							dbUtil.getMessages(generalOpts).then(function(messages) {
+								list[user.name] = 100 * list[user.name]/messages.length;
+							})
+						)
+					);
 				});
 				
 				$.when.apply($, promises).then(function() {
 					callback(list);
 				});
+			});
+		},
+		render: function(msgSDK, callback) {
+			Analytic.run(msgSDK, function(data) {
+				var card = $('<div />');
+				
+				ColumnChart.create(card, {
+					data: data,
+					xLabel: "Conversation Member",
+					yLabel: "Sticker to Message Ratio (%)",
+					title: "Sticker to Message Ratio per Person",
+					width: 500
+				});
+				
+				callback(card, 2); // 2 means that this will take up half of the given space
+			});
 		}
 	};
 	
