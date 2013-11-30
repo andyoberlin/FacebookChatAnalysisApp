@@ -121,6 +121,7 @@ require(dependencies, function($, LoginSDK, Util, ConversationSDK, ConversationV
 				
 				// get the conversation ID
 				var msgSDK = MessagesSDK.createInstance(convosPanel.find('.conversation.selected').data('convoid'));
+				progressBar.parent().addClass("active");
 				
 				$(msgSDK).on('sdk.update', function() {
 					if (msgSDK.state.totalMessages) {
