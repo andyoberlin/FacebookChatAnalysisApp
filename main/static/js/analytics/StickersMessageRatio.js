@@ -21,7 +21,7 @@ define(['jquery', 'visualization/ColumnChart'], function($, ColumnChart) {
 						msgSDK.getMessages(stickerOpts).then(function(stickerMsgs) {
 							list[user.name] = stickerMsgs.length;
 						}).then(
-							dbUtil.getMessages(generalOpts).then(function(messages) {
+							msgSDK.getMessages(generalOpts).then(function(messages) {
 								list[user.name] = 100 * list[user.name]/messages.length;
 							})
 						)
