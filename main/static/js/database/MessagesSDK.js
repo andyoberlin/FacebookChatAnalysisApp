@@ -249,7 +249,7 @@ define(['jquery', 'facebook', 'jquery_indexeddb'], function($, FB) {
 	 * @param opts: The options to get the messages desired with the
 	 * following possible properties:
 	 * 		user: The user whose messages are desired
-	 * 		time:   The time range for the desired messages
+	 * 		time:   The time range for the desired messages and ordering
 	 * 		stickers: Whether to include stickers ("only", "with", "without")
 	 */
 	MessagesSDK.prototype.getMessages = function(opts) {
@@ -301,6 +301,15 @@ define(['jquery', 'facebook', 'jquery_indexeddb'], function($, FB) {
 						}, opts.stickers == 'only' ? 1 : 0).done(function() {
 							deferredObj.resolve(messages);
 						});
+				}
+				else if (opts.time) {
+					var order = (opts.time ? (opts.time == 'ascending' ? 'next' : 'prev') : 'next');
+					var messages = [];
+					$.indexedDB('conversation_' + self.conversation).objectStore('Messages').index('time').each(function(message) {
+						messages.push(message);
+					}, null, order).done(function() {
+						deferredObj.resolve(messages);
+					});
 				}
 				else {
 					defaultMessages();
