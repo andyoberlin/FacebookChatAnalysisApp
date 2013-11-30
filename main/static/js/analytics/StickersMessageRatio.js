@@ -24,7 +24,7 @@ define(['jquery', 'visualization/ColumnChart'], function($, ColumnChart) {
 							msgSDK.getMessages(generalOpts).then(function(messages) {
 								list[user.name] = 100 * list[user.name]/messages.length;
 							})
-						)
+						).promise()
 					);
 				});
 				
