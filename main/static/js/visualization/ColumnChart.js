@@ -6,8 +6,9 @@ define(['goog!visualization,1,packages:[corechart]'], function() {
 	            hAxis: { title: opts.xLabel },
 	            vAxis: { title: opts.yLabel, minValue: 0 },
 	            colors: ['#5aa9c2'],
-	            legend: { position: 'none' },
-	            width: opts.width ? opts.width : 500
+	            legend: 'none' ,
+	            width: opts.width ? opts.width : 500,
+	            enableInteractivity: true
 	        };
 			
 			var data = [[opts.xLabel, opts.yLabel]];

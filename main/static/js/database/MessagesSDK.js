@@ -50,20 +50,25 @@ define(['jquery', 'facebook', 'jquery_indexeddb'], function($, FB) {
 				url: pagingURL,
 				dataType: 'json',
 				success: function(response) {
-					if (response && response.data && response.data.length > 0) {
-						if (self.state.totalMessages) {
-							self.state.completeMessages += response.data.length;
-						}
-						
-						$(self).trigger('sdk.update');
-						
-						self.fetchOldMessages(response.paging.next);
-						self.storeMessages(response.data);
+					if (response.error) {
+						$(self).trigger('sdk.error');
 					}
 					else {
-						self.state.updating = false;
-						self.state.message = "Completed downloading messages.";
-						$(self).trigger('sdk.complete');
+						if (response && response.data && response.data.length > 0) {
+							if (self.state.totalMessages) {
+								self.state.completeMessages += response.data.length;
+							}
+							
+							$(self).trigger('sdk.update');
+							
+							self.fetchOldMessages(response.paging.next);
+							self.storeMessages(response.data);
+						}
+						else {
+							self.state.updating = false;
+							self.state.message = "Completed downloading messages.";
+							$(self).trigger('sdk.complete');
+						}
 					}
 				},
 				error: function() {
@@ -74,34 +79,44 @@ define(['jquery', 'facebook', 'jquery_indexeddb'], function($, FB) {
 		}
 		else {
 			FB.api('/fql', { q: 'SELECT message_count FROM thread WHERE thread_id = ' + self.conversation }, function(response) {
-				if (response && response.data && response.data.length > 0) {
-					self.state.totalMessages = response.data[0].message_count;
+				if (response.error) {
+					$(self).trigger('sdk.error');
 				}
-				
-				FB.api('/' + self.conversation + '/comments', function(response) {
-					if (response && response.data) {
-						// get the message count by analyzing the id of the most recent message
-						if (!self.state.totalMessages) {
-							var numMessages = parseInt(response.data[response.data.length - 1].id.split("_")[1]);
-							
-							if (!isNaN(numMessages)) {
-								self.state.totalMessages = numMessages;
+				else {
+					if (response && response.data && response.data.length > 0) {
+						self.state.totalMessages = response.data[0].message_count;
+					}
+					
+					FB.api('/' + self.conversation + '/comments', function(response) {
+						if (response.error) {
+							$(self).trigger('error');
+						}
+						else {
+							if (response && response.data) {
+								// get the message count by analyzing the id of the most recent message
+								if (!self.state.totalMessages) {
+									var numMessages = parseInt(response.data[response.data.length - 1].id.split("_")[1]);
+									
+									if (!isNaN(numMessages)) {
+										self.state.totalMessages = numMessages;
+									}
+								}
+								
+								self.state.completeMessages = response.data.length;
+								
+								$(self).trigger('sdk.update');
+								
+								self.fetchOldMessages(response.paging.next);
+								self.storeMessages(response.data);
+							}
+							else {
+								self.state.updating = false;
+								self.state.message = "Completed downloading messages.";
+								$(self).trigger('sdk.complete');
 							}
 						}
-						
-						self.state.completeMessages = response.data.length;
-						
-						$(self).trigger('sdk.update');
-						
-						self.fetchOldMessages(response.paging.next);
-						self.storeMessages(response.data);
-					}
-					else {
-						self.state.updating = false;
-						self.state.message = "Completed downloading messages.";
-						$(self).trigger('sdk.complete');
-					}
-				});
+					});
+				}
 			});
 		}
 	};
@@ -120,19 +135,24 @@ define(['jquery', 'facebook', 'jquery_indexeddb'], function($, FB) {
 		FB.api('/fql', { q: 'SELECT message_id, author_id, body, created_time FROM message WHERE thread_id = "' + 
 			self.conversation + '" AND created_time > ' + (lastMessage.time / 1000) + ' LIMIT 25 OFFSET ' + offset},
 			function(response) {
-				if (response.data.length == 25) {
-					self.state.completeMessages += response.data.length;
-					self.state.totalMessages = 1;
-					$(self).trigger('sdk.update');
-					
-					self.fetchNewMessages({ time: response.data[response.data.length - 1].created_time }, offset + 25);
+				if (response.error) {
+					$(self).trigger('sdk.error');
 				}
 				else {
-					self.state.message = "Completed downloading new messages.";
-					$(self).trigger('sdk.complete');
+					if (response.data.length == 25) {
+						self.state.completeMessages += response.data.length;
+						self.state.totalMessages = 1;
+						$(self).trigger('sdk.update');
+						
+						self.fetchNewMessages({ time: response.data[response.data.length - 1].created_time }, offset + 25);
+					}
+					else {
+						self.state.message = "Completed downloading new messages.";
+						$(self).trigger('sdk.complete');
+					}
+					
+					self.storeMessages(response.data, true);
 				}
-				
-				self.storeMessages(response.data, true);
 			}
 		);
 	};

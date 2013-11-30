@@ -1,6 +1,6 @@
-var deps = ['jquery', 'underscore', 'analytics/TotalMessages'];
+var deps = ['jquery', 'underscore', 'analytics/TotalMessages', 'analytics/TotalStickers'];
 
-define(deps, function($, _, TotalMessages) {
+define(deps, function($, _, TotalMessages, TotalStickers) {
 	var analytics = [];
 	
 	var AnalyticsPlatform = {
@@ -71,6 +71,7 @@ define(deps, function($, _, TotalMessages) {
 	
 	// register Analytics here
 	AnalyticsPlatform.register(TotalMessages);
+	AnalyticsPlatform.register(TotalStickers)
 	
 	return AnalyticsPlatform;
 });

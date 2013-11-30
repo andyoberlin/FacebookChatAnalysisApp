@@ -140,6 +140,12 @@ require(dependencies, function($, LoginSDK, Util, ConversationSDK, ConversationV
 					AnalyticsPlatform.renderResults(msgSDK, ids, $('#analyticsPanel').empty());
 				});
 				
+				$(msgSDK).on('sdk.error', function() {
+					loadingMsg.text("You have too many messages in this conversation. Wait a small amount of time and " + 
+						" the program will pick up where it left off when you click Analyze again");
+					progressBar.parent().removeClass("active");
+				});
+				
 				msgSDK.update();
 			});
 			
