@@ -212,7 +212,7 @@ define(['jquery', 'facebook', 'jquery_indexeddb'], function($, FB) {
 		var self = this;
 		
 		$.each(messages, function(index, message) {
-			var friendID = !fql ? message.from.id : message.author_id;
+			var friendID = !fql ? "" + message.from.id : "" + message.author_id;
 			
 			// Check if the friend has been created yet. If not, add the friend then add the
 			// new message
@@ -228,7 +228,7 @@ define(['jquery', 'facebook', 'jquery_indexeddb'], function($, FB) {
 					var body = !fql ? (message.message ? message.message : "") : message.body;
 					
 					$.indexedDB('conversation_' + self.conversation).objectStore("Messages").put({
-						uid: !fql ? message.id : message.message_id,
+						uid: !fql ? "" + message.id : "" + message.message_id,
 						message: body,
 						friend_uid: friendID,
 						time: !fql ? Date.parse(message.created_time) : message.created_time,
