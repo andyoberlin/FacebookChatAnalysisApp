@@ -9,7 +9,7 @@ define(['jquery', 'visualization/ColumnChart'], function($, ColumnChart) {
 		
 				$.each(users, function(index, user) {
 					var opts = {
-						userID: user.uid,
+						user: user,
 						stickers: 'only' 
 					};
 					promises.push(
