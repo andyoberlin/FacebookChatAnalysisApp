@@ -1,9 +1,9 @@
 var deps = [
     'jquery', 'underscore', 'analytics/TotalMessages', 'analytics/TotalStickers',
-    'analytics/StickersMessageRatio', 'analytics/LolCount'
+    'analytics/StickersMessageRatio', 'analytics/LolCount', 'analytics/HahaCount'
 ];
 
-define(deps, function($, _, TotalMessages, TotalStickers, StickersMessageRatio, LolCount) {
+define(deps, function($, _, TotalMessages, TotalStickers, StickersMessageRatio, LolCount, HahaCount) {
 	var analytics = [];
 	
 	var AnalyticsPlatform = {
@@ -77,6 +77,7 @@ define(deps, function($, _, TotalMessages, TotalStickers, StickersMessageRatio, 
 	AnalyticsPlatform.register(TotalStickers);
 	AnalyticsPlatform.register(StickersMessageRatio);
 	AnalyticsPlatform.register(LolCount);
+	AnalyticsPlatform.register(HahaCount);
 	
 	return AnalyticsPlatform;
 });
