@@ -101,7 +101,7 @@ define(['jquery', 'facebook', 'jquery_indexeddb'], function($, FB) {
 		}
 		
 		FB.api('/fql', { q: 'SELECT message_id, author_id, body, created_time FROM message WHERE thread_id = "' + 
-			self.conversation + '" AND created_time > ' + lastMessage.time + ' LIMIT 25 OFFSET ' + offset},
+			self.conversation + '" AND created_time > ' + (lastMessage.time / 1000) + ' LIMIT 25 OFFSET ' + offset},
 			function(response) {
 				if (response.error) {
 					$(self).trigger('sdk.error');
@@ -187,7 +187,7 @@ define(['jquery', 'facebook', 'jquery_indexeddb'], function($, FB) {
 				uid: !fql ? "" + message.id : "" + message.message_id,
 				message: body,
 				friend_uid: friendID,
-				time: !fql ? Date.parse(message.created_time) : message.created_time,
+				time: !fql ? Date.parse(message.created_time) : message.created_time * 1000,
 				is_sticker: body == '' ? 1 : 0 
 			}).fail(function(e) {
 				console.error(e);
