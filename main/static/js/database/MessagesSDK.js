@@ -279,6 +279,8 @@ define(['jquery', 'facebook', 'jquery_indexeddb'], function($, FB) {
 	};
 	
 	MessagesSDK.prototype.storeUsers = function(users) {
+		var self = this;
+		
 		$.each(users, function(index, user) {
 			$.indexedDB('conversation_' + self.conversation).objectStore("Friends").put({
 				uid: "" + user.id,
