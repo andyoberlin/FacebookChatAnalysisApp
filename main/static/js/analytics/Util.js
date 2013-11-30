@@ -2,13 +2,13 @@ define(['jquery'], function($) {
 	var Util = {
 		stringToSet : function(str) {
 			var set = {};
-			$.each(str, function(index, c) {
-				if (! (c in set)) {
-					set[c] = 0;
+			for (var i = 0; i < str.length; i++) {
+				if (! (str[i] in set)) {
+					set[str[i]] = 0;
 				}
 				
-				set[c]++;
-			});
+				set[str[i]]++;
+			};
 			
 			return set;
 		},
