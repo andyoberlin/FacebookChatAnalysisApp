@@ -32,7 +32,7 @@ define(['jquery', 'facebook', 'jquery_indexeddb'], function($, FB) {
 				$.indexedDB('conversation_' + self.conversation).deleteDatabase().done(function() {
 					self.initializeDatabase(function() {
 						self.fetchOldMessages();
-					});
+					}, true);
 				}).fail(function(e) {
 					console.error(e);
 				});
