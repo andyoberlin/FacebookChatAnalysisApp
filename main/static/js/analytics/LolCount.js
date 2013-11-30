@@ -33,8 +33,8 @@ define(['jquery', 'analytics/Util', 'visualization/ColumnChart'], function($, Ut
 					promises.push(
 						msgSDK.getMessages({ user : user }).then(
 							function(messages) {
-								$.each(messages, function(index, messages) {
-									var words = messages.split(/s+/);
+								$.each(messages, function(index, message) {
+									var words = message.message.split(/s+/);
 									$.each(words, function(index, word) {
 										if (isLol(Util.stripPunctuation(word))) {
 											list[user.name]++;
