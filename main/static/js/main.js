@@ -123,12 +123,10 @@ require(dependencies, function($, LoginSDK, Util, ConversationSDK, ConversationV
 				var msgSDK = MessagesSDK.createInstance(convosPanel.find('.conversation.selected').data('convoid'));
 				
 				$(msgSDK).on('sdk.update', function() {
-					if (loadingMsg.text() != msgSDK.state.message) {
-						loadingMsg.text(msgSDK.state.message);
-					}
 					if (msgSDK.state.totalMessages) {
-						var value = 100 * (msgSDK.state.completeMessages + 0.0) / msgSDK.state.totalMessages;
+						var value = 100 * msgSDK.state.completeMessages / msgSDK.state.totalMessages;
 						progressBar.css('width', "" + value + "%").attr('aria-valuenow', value);
+						loadingMsg.text(msgSDK.state.message + " " + msgSDK.state.completeMessages + " / " + msgSDK.state.totalMessages);
 					}
 				});
 				
