@@ -33,7 +33,7 @@ define(['jquery', 'facebook', 'jquery_indexeddb'], function($, FB) {
 					self.initializeDatabase(function() {
 						self.fetchOldMessages();
 					});
-				}).fail(function(ev, e) {
+				}).fail(function(e) {
 					console.error(e);
 				});
 			}
@@ -151,8 +151,8 @@ define(['jquery', 'facebook', 'jquery_indexeddb'], function($, FB) {
 				else {
 					success(lastMessage);
 				}
-			}).fail(function(ev, e) {
-				console.error(e)
+			}).fail(function(e) {
+				console.error(e);
 			});
 		});
 	};
@@ -176,9 +176,11 @@ define(['jquery', 'facebook', 'jquery_indexeddb'], function($, FB) {
 						messagesStore.createIndex("time");
 					}
 				}
-			}).then(function() {
+			}).done(function() {
 				self.initialized = true;
 				callback();
+			}).fail(function(e) {
+				console.error(e);
 			});
 		}
 		else {
@@ -211,10 +213,10 @@ define(['jquery', 'facebook', 'jquery_indexeddb'], function($, FB) {
 						friend_uid: friendID,
 						time: !fql ? Date.parse(message.created_time) : message.created_time,
 						is_sticker: body == '' ? 1 : 0 
-					}).fail(function(ev, e) {
+					}).fail(function(e) {
 						console.error(e);
 					});
-				}).fail(function(ev, e) {
+				}).fail(function(e) {
 					console.error(e);
 				});
 		});
