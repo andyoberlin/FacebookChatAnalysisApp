@@ -47,6 +47,7 @@ define(['jquery', 'jChartFX'], function($, jChartFX) {
 	            series.setGallery(jChartFX.Gallery.Bar);
 	            
 	            chart.getAxisX().getTitle().setText("Conversation Member");
+	            chart.getAxisX().setLabelAngle(20);
 	            chart.getAxisY().getTitle().setText("Sticker to Message Ratio (%)");
 	            chart.getAxisY().getLabelsFormat().setFormat(jChartFX.AxisFormat.Percentage);
 	            chart.getAllSeries().setMultipleColors(true);
