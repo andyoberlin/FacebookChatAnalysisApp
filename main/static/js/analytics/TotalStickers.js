@@ -26,7 +26,7 @@ define(['jquery', 'jChartFX'], function($, jChartFX) {
 		},
 		render: function(msgSDK, callback) {
 			Analytic.run(msgSDK, function(data) {
-				var card = $('<div />').height(350);
+				var card = $('<div />').height(300);
 				
 				var chart = new jChartFX.Chart();
 	            chart.getData().setSeries(1);
@@ -53,7 +53,7 @@ define(['jquery', 'jChartFX'], function($, jChartFX) {
 					chart.create(card[0]);
 				});
 				
-				callback(card, 2); // 2 means that this will take up half of the given space
+				callback(card, 3); // 2 means that this will take up half of the given space
 			});
 		}
 	};
