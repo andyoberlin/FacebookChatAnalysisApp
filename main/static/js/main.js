@@ -18,13 +18,13 @@ require.config({
 	    		return sfx;
 	    	}
 	    },
-	    jChartFXVector: {
-	    	deps: ['jChartFXSys'],
+	    jChartFXVector: ['jChartFXSys'],
+	    jChartFX: {
+	    	deps: ['jChartFXVector'],
 	    	init: function() {
 	    		return cfx;
 	    	}
-	    },
-	    jChartFX: ['jChartFXVector']
+	    }
 	},
 	paths: {
 		facebook: '//connect.facebook.net/en_US/all',
