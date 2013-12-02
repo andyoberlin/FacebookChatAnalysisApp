@@ -42,11 +42,12 @@ define(deps, function($, _, TotalMessages, TotalStickers, StickersMessageRatio, 
 						
 						for (var j = 0; j < key && i < elsByKey.length; j++) {
 							var card = CardTemplate({
-								el: elsByKey[i].html(),
 								layout: 'col-sm-' + (12.0/key)
 							});
+							card.append(elsByKey[i]);
+							
 							curPanel.append($(card));
-							$(card).trigger('card.rendered');
+							$(elsByKey[i]).trigger('card.rendered');
 							i++;
 						}
 					}
