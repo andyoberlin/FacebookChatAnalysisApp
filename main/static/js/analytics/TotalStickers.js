@@ -39,6 +39,7 @@ define(['jquery', 'jChartFX'], function($, jChartFX) {
 	            chart.getAxisY().getTitle().setText("Total Stickers Sent");
 	            chart.getAllSeries().setMultipleColors(true);
 	            chart.getAnimations().getLoad().setEnabled(true);
+	            chart.getAnimations().getLoad().setDirection(jChartFX.AnimationDirection.Upward);
 	            
 	            var cData = [];
 	            $.each(data, function(name, val) {
