@@ -51,7 +51,7 @@ define(['jquery', 'jChartFX'], function($, jChartFX) {
 	            chart.getAxisY().getLabelsFormat().setFormat(jChartFX.AxisFormat.Percentage);
 	            chart.getAllSeries().setMultipleColors(true);
 	            chart.getLegendBox().setVisible(false);
-	            chart.getToolTips().setFormat("%N in %S");
+	            chart.setToolTipFormat("%v");
 
 	            var cData = [];
 	            $.each(data, function(name, val) {
