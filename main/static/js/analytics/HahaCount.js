@@ -48,7 +48,7 @@ define(['jquery', 'analytics/Util', 'jChartFX'], function($, Util, jChartFX) {
 	            series.setGallery(jChartFX.Gallery.Bar);
 	            
 	            chart.getAxisX().getTitle().setText("Conversation Member");
-	            chart.getAxisY().getTitle().setText("Total Stickers Sent");
+	            chart.getAxisY().getTitle().setText("Total Haha's Sent");
 	            chart.getAllSeries().setMultipleColors(true);
 	            chart.getLegendBox().setVisible(false);
 	            chart.getAnimations().getLoad().setEnabled(true);
