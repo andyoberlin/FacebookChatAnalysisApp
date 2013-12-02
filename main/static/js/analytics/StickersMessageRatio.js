@@ -1,4 +1,4 @@
-define(['jquery', 'visualization/ColumnChart'], function($, ColumnChart) {
+define(['jquery', 'visualization/ColumnChart', 'jChartFX'], function($, ColumnChart, jChartFX) {
 	var Analytic = {
 		name: "Sticker to Message Ratio",
 		shortDescription: "Calculates the ratio of stickers to total messages sent",	
