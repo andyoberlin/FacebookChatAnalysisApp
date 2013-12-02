@@ -61,7 +61,7 @@ define(['jquery', 'jChartFX'], function($, jChartFX) {
 	            });
 	            
 	            chart.setDataSource(data);
-	            chart.create(card);
+	            chart.create(card[0]);
 				
 				callback(card, 2); // 2 means that this will take up half of the given space
 			});
