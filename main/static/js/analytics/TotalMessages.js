@@ -35,6 +35,7 @@ define(['jquery', 'jChartFX'], function($, jChartFX) {
 	            chart.getAxisX().getTitle().setText("Conversation Member");
 	            chart.getAxisY().getTitle().setText("Total Messages Sent");
 	            chart.getAllSeries().setMultipleColors(true);
+	            chart.getLegendBox().setVisible(false);
 	            chart.getAnimations().getLoad().setEnabled(true);
 	            
 	            var cData = [];

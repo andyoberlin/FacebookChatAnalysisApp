@@ -50,6 +50,7 @@ define(['jquery', 'jChartFX'], function($, jChartFX) {
 	            chart.getAxisY().getTitle().setText("Sticker to Message Ratio (%)");
 	            chart.getAxisY().getLabelsFormat().setFormat(jChartFX.AxisFormat.Percentage);
 	            chart.getAllSeries().setMultipleColors(true);
+	            chart.getLegendBox().setVisible(false);
 	            chart.getAnimations().getLoad().setEnabled(true);
 	            
 	            var cData = [];
