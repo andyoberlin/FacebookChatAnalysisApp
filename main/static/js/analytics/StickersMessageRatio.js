@@ -52,15 +52,15 @@ define(['jquery', 'jChartFX'], function($, jChartFX) {
 	            chart.getAxisY().getLabelsFormat().setFormat(jChartFX.AxisFormat.Percentage);
 	            chart.getAllSeries().setMultipleColors(true);
 
-	            var data = [];
+	            var cData = [];
 	            $.each(data, function(name, val) {
-	            	data.push({
+	            	cData.push({
 	            		"Name" : name,
 	            		"Value": val
 	            	});
 	            });
 	            
-	            chart.setDataSource(data);
+	            chart.setDataSource(cData);
 	            chart.create(card[0]);
 				
 				callback(card, 2); // 2 means that this will take up half of the given space
