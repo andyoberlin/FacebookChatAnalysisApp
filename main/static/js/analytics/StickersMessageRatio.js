@@ -38,11 +38,12 @@ define(['jquery', 'jChartFX'], function($, jChartFX) {
 		},
 		render: function(msgSDK, callback) {
 			Analytic.run(msgSDK, function(data) {
-				var card = $('<div />');
+				var card = $('<div />').height(350);
 				
 				var chart = new jChartFX.Chart();
 	            chart.getData().setSeries(1);
 	            chart.getAxisY().setMin(0);
+	            chart.getAxisY().setMax(100);
 	            
 	            var series = chart.getSeries().getItem(0);
 	            series.setGallery(jChartFX.Gallery.Bar);
