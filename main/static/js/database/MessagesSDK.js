@@ -1,4 +1,4 @@
-define(['jquery', 'facebook', 'jquery_indexeddb'], function($, FB) {
+define(['jquery', 'facebook', 'jquery_indexeddb', 'indexeddb_polyfill'], function($, FB) {
 	
 	function MessagesSDK(conversation) {
 		this.conversation = conversation;

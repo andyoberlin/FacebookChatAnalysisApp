@@ -9,7 +9,10 @@ require.config({
 	        }
 	    },
 	    bootstrap: ['jquery'],
-	    jquery_indexeddb: ['jquery', 'indexeddb_polyfill'],
+	    jquery_indexeddb: ['jquery'],
+	    indexeddb_polyfill: {
+	    	exports: 'indexedDB'
+	    },
 	    underscore : {
 	    	exports : '_'
 	    },
