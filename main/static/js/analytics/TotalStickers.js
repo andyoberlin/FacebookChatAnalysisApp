@@ -38,7 +38,6 @@ define(['jquery', 'jChartFX'], function($, jChartFX) {
 	            chart.getAxisX().setLabelAngle(20);
 	            chart.getAxisY().getTitle().setText("Total Stickers Sent");
 	            chart.getAllSeries().setMultipleColors(true);
-	            chart.getLegendBox().setVisible(false);
 	            chart.getAnimations().getLoad().setEnabled(true);
 	            
 	            var cData = [];
@@ -54,7 +53,7 @@ define(['jquery', 'jChartFX'], function($, jChartFX) {
 					chart.create(card[0]);
 				});
 				
-				callback(card, 3); // 2 means that this will take up half of the given space
+				callback(card, 2); // 2 means that this will take up half of the given space
 			});
 		}
 	};

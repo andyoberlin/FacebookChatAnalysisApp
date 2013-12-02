@@ -50,7 +50,6 @@ define(['jquery', 'analytics/Util', 'jChartFX'], function($, Util, jChartFX) {
 	            chart.getAxisX().getTitle().setText("Conversation Member");
 	            chart.getAxisY().getTitle().setText("Total Stickers Sent");
 	            chart.getAllSeries().setMultipleColors(true);
-	            chart.getLegendBox().setVisible(false);
 	            chart.getAnimations().getLoad().setEnabled(true);
 	            
 	            var cData = [];
@@ -66,7 +65,7 @@ define(['jquery', 'analytics/Util', 'jChartFX'], function($, Util, jChartFX) {
 					chart.create(card[0]);
 				});
 				
-				callback(card, 3); // 2 means that this will take up half of the given space
+				callback(card, 2); // 2 means that this will take up half of the given space
 			});
 		}
 	};

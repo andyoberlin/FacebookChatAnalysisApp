@@ -54,9 +54,6 @@ define(['jquery', 'jChartFX'], function($, jChartFX) {
 	            
 	            var cData = [];
 	            $.each(data, function(name, val) {
-	            	if (data.length > 4) {
-	            		name = name.slice(0, 7);
-	            	}
 	            	cData.push({
 	            		"Name" : name,
 	            		"Value": val
@@ -68,7 +65,7 @@ define(['jquery', 'jChartFX'], function($, jChartFX) {
 					chart.create(card[0]);
 				});
 				
-				callback(card, 3); // 2 means that this will take up half of the given space
+				callback(card, 2); // 2 means that this will take up half of the given space
 			});
 		}
 	};
