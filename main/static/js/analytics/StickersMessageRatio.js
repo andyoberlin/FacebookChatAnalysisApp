@@ -42,8 +42,6 @@ define(['jquery', 'jChartFX'], function($, jChartFX) {
 				
 				var chart = new jChartFX.Chart();
 	            chart.getData().setSeries(1);
-	            chart.getAxisY().setMin(0);
-	            chart.getAxisY().setMax(1);
 	            
 	            var series = chart.getSeries().getItem(0);
 	            series.setGallery(jChartFX.Gallery.Bar);
@@ -53,6 +51,7 @@ define(['jquery', 'jChartFX'], function($, jChartFX) {
 	            chart.getAxisY().getLabelsFormat().setFormat(jChartFX.AxisFormat.Percentage);
 	            chart.getAllSeries().setMultipleColors(true);
 	            chart.getLegendBox().setVisible(false);
+	            chart.setToolTips(true);
 
 	            var cData = [];
 	            $.each(data, function(name, val) {
