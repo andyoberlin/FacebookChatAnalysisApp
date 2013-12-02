@@ -26,7 +26,7 @@ define(['jquery', 'jChartFX'], function($, jChartFX) {
 		},
 		render: function(msgSDK, callback) {
 			Analytic.run(msgSDK, function(data) {
-				var card = $('<div />').height(300);
+				var card = $('<div />').height(350);
 				
 				var chart = new jChartFX.Chart();
 	            chart.getData().setSeries(1);
