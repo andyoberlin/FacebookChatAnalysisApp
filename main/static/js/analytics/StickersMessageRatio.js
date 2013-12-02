@@ -23,7 +23,7 @@ define(['jquery', 'jChartFX'], function($, jChartFX) {
 								list[user.name] = stickerMsgs.length;
 							}).then(
 								msgSDK.getMessages(generalOpts).then(function(messages) {
-									list[user.name] = 100 * list[user.name]/messages.length;
+									list[user.name] = list[user.name]/messages.length;
 									deferredObj.resolve();
 								})
 							).promise();
@@ -43,7 +43,7 @@ define(['jquery', 'jChartFX'], function($, jChartFX) {
 				var chart = new jChartFX.Chart();
 	            chart.getData().setSeries(1);
 	            chart.getAxisY().setMin(0);
-	            chart.getAxisY().setMax(100);
+	            chart.getAxisY().setMax(1);
 	            
 	            var series = chart.getSeries().getItem(0);
 	            series.setGallery(jChartFX.Gallery.Bar);
@@ -52,6 +52,7 @@ define(['jquery', 'jChartFX'], function($, jChartFX) {
 	            chart.getAxisY().getTitle().setText("Sticker to Message Ratio (%)");
 	            chart.getAxisY().getLabelsFormat().setFormat(jChartFX.AxisFormat.Percentage);
 	            chart.getAllSeries().setMultipleColors(true);
+	            chart1.getLegendBox().setVisible(false);
 
 	            var cData = [];
 	            $.each(data, function(name, val) {
