@@ -1,4 +1,4 @@
-define(['jquery', 'visualization/ColumnChart'], function($, ColumnChart) {
+define(['jquery', 'jChartFX'], function($, jChartFX) {
 	var Analytic = {
 		name: "Sticker to Message Ratio",
 		shortDescription: "Calculates the ratio of stickers to total messages sent",	
@@ -40,13 +40,28 @@ define(['jquery', 'visualization/ColumnChart'], function($, ColumnChart) {
 			Analytic.run(msgSDK, function(data) {
 				var card = $('<div />');
 				
-				ColumnChart.create(card, {
-					data: data,
-					xLabel: "Conversation Member",
-					yLabel: "Sticker to Message Ratio (%)",
-					title: "Sticker to Message Ratio per Person",
-					width: 500
-				});
+				var chart = new jChartFX.Chart();
+	            chart.getData().setSeries(1);
+	            chart.getAxisY().setMin(0);
+	            
+	            var series = chart.getSeries().getItem(0);
+	            series.setGallery(cfx.Gallery.Bar);
+	            
+	            chart.getAxisX().getTitle().setText("Conversation Member");
+	            chart.getAxisY().getTitle().setText("Sticker to Message Ratio (%)");
+	            chart.getAxisY().getLabelsFormat().setFormat(cfx.AxisFormat.Percentage);
+	            chart.getAllSeries().setMultipleColors(true);
+
+	            var data = [];
+	            $.each(data, function(name, val) {
+	            	data.push({
+	            		"Name" : name,
+	            		"Value": val
+	            	});
+	            });
+	            
+	            chart.setDataSource(data);
+	            chart.create(card);
 				
 				callback(card, 2); // 2 means that this will take up half of the given space
 			});

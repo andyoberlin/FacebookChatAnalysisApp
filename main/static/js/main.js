@@ -8,32 +8,20 @@ require.config({
 	            return $; 
 	        }
 	    },
+	    bootstrap: ['jquery'],
+	    jquery_indexeddb: ['jquery'],
 	    underscore : {
 	    	exports : '_'
 	    },
-	    bootstrap: ['jquery'],
-	    jquery_indexeddb: ['jquery'],
-	    persistence: {
+	    jChartFXSys: {
 	    	init: function() {
-	    		return persistence;
+	    		return sfx;
 	    	}
 	    },
-	    persistence_store_sql: {
-	    	deps: ['persistence'],
+	    jChartFX: {
+	    	deps: ['jChartFXSys'],
 	    	init: function() {
-	    		return persistence;
-	    	}
-	    },
-	    persistence_store_web_sql: {
-	    	deps: ['persistence', 'persistence_store_sql'],
-	    	init: function() {
-	    		return persistence;
-	    	}
-	    },
-	    persistence_store_memory_backup: {
-	    	deps: ['persistence', 'persistence_store_web_sql'],
-	    	init: function() {
-	    		return persistence;
+	    		return cfx;
 	    	}
 	    }
 	},
@@ -43,10 +31,8 @@ require.config({
 		jquery_indexeddb: '/static/js/lib/jquery.indexeddb',
 		underscore: '/static/js/lib/underscore.min',
 		bootstrap: '/static/js/lib/bootstrap.min',
-		persistence: '/static/js/lib/persistence/persistence',
-		persistence_store_sql: '/static/js/lib/persistence/persistence.store.sql',
-		persistence_store_web_sql: '/static/js/lib/persistence/persistence.store.websql',
-		persistence_store_memory_backup: '/static/js/lib/persistence/persistence.store.memory',
+		jChartFXSys: '/static/js/lib/jChartFX/jchartfx.system',
+		jChartFX: '/static/js/lib/jChartFX/jchartfx.coreVector',
 		async : '/static/js/lib/async',
         goog : '/static/js/lib/goog',
         propertyParser : '/static/js/lib/propertyParser'

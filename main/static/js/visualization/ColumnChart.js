@@ -1,4 +1,4 @@
-define(['goog!visualization,1,packages:[corechart]'], function() {
+define(['jChartFX'], function(jChartFX) {
 	var ColumnChart = {
 		create: function(parent, opts) {
 			var options = {

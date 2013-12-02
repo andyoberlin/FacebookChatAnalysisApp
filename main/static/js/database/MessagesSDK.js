@@ -53,8 +53,6 @@ define(['jquery', 'facebook', 'jquery_indexeddb'], function($, FB) {
 						$(self).trigger('sdk.error');
 					}
 					else {
-						self.storeMessages(response.data, true);
-						
 						if (response.data.length == 25) {
 							self.state.completeMessages += response.data.length;
 							$(self).trigger('sdk.update');
@@ -65,6 +63,8 @@ define(['jquery', 'facebook', 'jquery_indexeddb'], function($, FB) {
 							self.state.message = "Completed downloading new messages.";
 							$(self).trigger('sdk.complete');
 						}
+						
+						self.storeMessages(response.data, true);
 					}
 				}
 			);
@@ -107,8 +107,6 @@ define(['jquery', 'facebook', 'jquery_indexeddb'], function($, FB) {
 					$(self).trigger('sdk.error');
 				}
 				else {
-					self.storeMessages(response.data, true);
-					
 					if (response.data.length == 25) {
 						self.state.completeMessages += response.data.length;
 						self.state.totalMessages = 1;
@@ -120,6 +118,8 @@ define(['jquery', 'facebook', 'jquery_indexeddb'], function($, FB) {
 						self.state.message = "Completed downloading new messages.";
 						$(self).trigger('sdk.complete');
 					}
+					
+					self.storeMessages(response.data, true);
 				}
 			}
 		);
