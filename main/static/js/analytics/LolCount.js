@@ -1,4 +1,4 @@
-define(['jquery', 'analytics/Util', 'visualization/ColumnChart'], function($, Util, ColumnChart) {
+define(['jquery', 'analytics/Util', 'jChartFX'], function($, Util, jChartFX) {
 	var isLol = function(word) {
 		if (word.length < 3) {
             return false;
@@ -53,14 +53,31 @@ define(['jquery', 'analytics/Util', 'visualization/ColumnChart'], function($, Ut
 		},
 		render: function(msgSDK, callback) {
 			Analytic.run(msgSDK, function(data) {
-				var card = $('<div />');
+				var card = $('<div />').height(350);
 				
-				ColumnChart.create(card, {
-					data: data,
-					xLabel: "Conversation Member",
-					yLabel: "Number of Lol's",
-					title: "Total Lol's per Person",
-					width: 500
+				var chart = new jChartFX.Chart();
+	            chart.getData().setSeries(1);
+	            
+	            var series = chart.getSeries().getItem(0);
+	            series.setGallery(jChartFX.Gallery.Bar);
+	            
+	            chart.getAxisX().getTitle().setText("Conversation Member");
+	            chart.getAxisY().getTitle().setText("Total Lol's Sent");
+	            chart.getAllSeries().setMultipleColors(true);
+	            chart.getLegendBox().setVisible(false);
+	            chart.getAnimations().getLoad().setEnabled(true);
+	            
+	            var cData = [];
+	            $.each(data, function(name, val) {
+	            	cData.push({
+	            		"Name" : name,
+	            		"Value": val
+	            	});
+	            });
+	            
+	            chart.setDataSource(cData);
+				$(card).on('card.rendered', function() {
+					chart.create(card[0]);
 				});
 				
 				callback(card, 2); // 2 means that this will take up half of the given space
