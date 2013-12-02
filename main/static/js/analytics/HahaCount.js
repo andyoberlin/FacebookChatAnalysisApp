@@ -53,6 +53,11 @@ define(['jquery', 'analytics/Util', 'jChartFX'], function($, Util, jChartFX) {
 	            chart.getLegendBox().setVisible(false);
 	            chart.getAnimations().getLoad().setEnabled(true);
 	            
+	            var titles = chart.getTitles();
+	            var title = new cfx.TitleDockable(); 
+                title.setText("Haha's Sent");
+                titles.add(title);
+	            
 	            var cData = [];
 	            $.each(data, function(name, val) {
 	            	cData.push({

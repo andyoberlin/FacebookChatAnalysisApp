@@ -41,6 +41,11 @@ define(['jquery', 'jChartFX'], function($, jChartFX) {
 	            chart.getAnimations().getLoad().setEnabled(true);
 	            chart.getAnimations().getLoad().setDirection(jChartFX.AnimationDirection.Upward);
 	            
+	            var titles = chart.getTitles();
+	            var title = new cfx.TitleDockable(); 
+                title.setText("Total Stickers Sent");
+                titles.add(title);
+	            
 	            var cData = [];
 	            $.each(data, function(name, val) {
 	            	cData.push({

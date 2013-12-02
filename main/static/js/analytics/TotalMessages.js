@@ -38,6 +38,11 @@ define(['jquery', 'jChartFX'], function($, jChartFX) {
 	            chart.getLegendBox().setVisible(false);
 	            chart.getAnimations().getLoad().setEnabled(true);
 	            
+	            var titles = chart.getTitles();
+	            var title = new cfx.TitleDockable(); 
+                title.setText("Total Messages Sent");
+                titles.add(title);
+	            
 	            var cData = [];
 	            $.each(data, function(name, val) {
 	            	cData.push({
