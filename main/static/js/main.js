@@ -33,8 +33,8 @@ require.config({
 		underscore: '/static/js/lib/underscore.min',
 		bootstrap: '/static/js/lib/bootstrap.min',
 		jChartFXSys: '/static/js/lib/jChartFX/jchartfx.system',
+		jChartFXVector: '/static/js/lib/jChartFX/jchartfx.coreVector',
 		jChartFX: '/static/js/lib/jChartFX/jchartfx.advanced',
-		jChartFX: '/static/js/lib/jChartFX/jchartfx.coreVector',
 		async : '/static/js/lib/async',
         goog : '/static/js/lib/goog',
         propertyParser : '/static/js/lib/propertyParser'
