@@ -45,11 +45,11 @@ define(['jquery', 'jChartFX'], function($, jChartFX) {
 	            chart.getAxisY().setMin(0);
 	            
 	            var series = chart.getSeries().getItem(0);
-	            series.setGallery(cfx.Gallery.Bar);
+	            series.setGallery(jChartFX.Gallery.Bar);
 	            
 	            chart.getAxisX().getTitle().setText("Conversation Member");
 	            chart.getAxisY().getTitle().setText("Sticker to Message Ratio (%)");
-	            chart.getAxisY().getLabelsFormat().setFormat(cfx.AxisFormat.Percentage);
+	            chart.getAxisY().getLabelsFormat().setFormat(jChartFX.AxisFormat.Percentage);
 	            chart.getAllSeries().setMultipleColors(true);
 
 	            var data = [];

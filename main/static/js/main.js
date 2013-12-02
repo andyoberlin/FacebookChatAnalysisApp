@@ -14,6 +14,7 @@ require.config({
 	    	exports : '_'
 	    },
 	    jChartFXSys: {
+	    	deps: ['jquery'],
 	    	init: function() {
 	    		return sfx;
 	    	}
