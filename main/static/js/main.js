@@ -19,8 +19,9 @@ require.config({
 	    	}
 	    },
 	    jChartFXVector: ['jChartFXSys'],
+	    jChartFXAnimation: ['jChartFXVector'],
 	    jChartFX: {
-	    	deps: ['jChartFXVector'],
+	    	deps: ['jChartFXAnimation'],
 	    	init: function() {
 	    		return cfx;
 	    	}
@@ -34,6 +35,7 @@ require.config({
 		bootstrap: '/static/js/lib/bootstrap.min',
 		jChartFXSys: '/static/js/lib/jChartFX/jchartfx.system',
 		jChartFXVector: '/static/js/lib/jChartFX/jchartfx.coreVector',
+		jChartFX: '/static/js/lib/jChartFX/jchartfx.animation',
 		jChartFX: '/static/js/lib/jChartFX/jchartfx.advanced',
 		async : '/static/js/lib/async',
         goog : '/static/js/lib/goog',
