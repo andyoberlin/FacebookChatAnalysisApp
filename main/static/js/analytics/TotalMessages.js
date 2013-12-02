@@ -1,4 +1,4 @@
-define(['jquery', 'jChartFX'], function($, jChartFX) {
+define(['jquery', 'visualization/ColumnChart'], function($, ColumnChart) {
 	var Analytic = {
 		name: 'Total Messages',
 		shortDescription: 'Calculates the total messages sent by each conversation member.',
