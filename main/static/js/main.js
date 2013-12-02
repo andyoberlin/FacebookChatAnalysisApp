@@ -9,7 +9,7 @@ require.config({
 	        }
 	    },
 	    bootstrap: ['jquery'],
-	    jquery_indexeddb: ['jquery'],
+	    jquery_indexeddb: ['jquery', 'indexeddb_polyfill'],
 	    underscore : {
 	    	exports : '_'
 	    },
@@ -30,6 +30,7 @@ require.config({
 	paths: {
 		facebook: '//connect.facebook.net/en_US/all',
 		jquery: '/static/js/lib/jquery-1.10.2.min',
+		indexeddb_polyfill: '/static/js/lib/indexedDB.polyfill',
 		jquery_indexeddb: '/static/js/lib/jquery.indexeddb',
 		underscore: '/static/js/lib/underscore.min',
 		bootstrap: '/static/js/lib/bootstrap.min',
