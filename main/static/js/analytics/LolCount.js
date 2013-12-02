@@ -62,7 +62,6 @@ define(['jquery', 'analytics/Util', 'jChartFX'], function($, Util, jChartFX) {
 	            series.setGallery(jChartFX.Gallery.Bar);
 	            
 	            chart.getAxisX().getTitle().setText("Conversation Member");
-	            chart.getAxisX().setLabelAngle(20);
 	            chart.getAxisY().getTitle().setText("Total Lol's Sent");
 	            chart.getAllSeries().setMultipleColors(true);
 	            chart.getLegendBox().setVisible(false);

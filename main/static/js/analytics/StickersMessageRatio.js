@@ -47,15 +47,16 @@ define(['jquery', 'jChartFX'], function($, jChartFX) {
 	            series.setGallery(jChartFX.Gallery.Bar);
 	            
 	            chart.getAxisX().getTitle().setText("Conversation Member");
-	            chart.getAxisX().setLabelAngle(20);
 	            chart.getAxisY().getTitle().setText("Sticker to Message Ratio (%)");
 	            chart.getAxisY().getLabelsFormat().setFormat(jChartFX.AxisFormat.Percentage);
 	            chart.getAllSeries().setMultipleColors(true);
-	            chart.getLegendBox().setVisible(false);
 	            chart.getAnimations().getLoad().setEnabled(true);
 	            
 	            var cData = [];
 	            $.each(data, function(name, val) {
+	            	if (data.length > 4) {
+	            		name = name.slice(0, 7);
+	            	}
 	            	cData.push({
 	            		"Name" : name,
 	            		"Value": val
