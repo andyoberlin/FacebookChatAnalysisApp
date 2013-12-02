@@ -1,6 +1,6 @@
 define(['jChartFX'], function(jChartFX) {
 	var ColumnChart = {
-		create: function(parent, opts) {
+		create: function(opts) {
 			var chart = new jChartFX.Chart();
             chart.getData().setSeries(1);
             
