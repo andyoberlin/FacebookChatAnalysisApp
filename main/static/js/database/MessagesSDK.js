@@ -99,30 +99,47 @@ define(['jquery', 'facebook', 'jquery_indexeddb'], function($, FB) {
 		if (!offset) {
 			offset = 0;
 		}
-		
-		FB.api('/fql', { q: 'SELECT message_id, author_id, body, created_time FROM message WHERE thread_id = "' + 
-			self.conversation + '" AND created_time > ' + (lastMessage.time / 1000) + ' LIMIT 25 OFFSET ' + offset},
-			function(response) {
-				if (response.error) {
-					$(self).trigger('sdk.error');
-				}
-				else {
-					if (response.data.length == 25) {
-						self.state.completeMessages += response.data.length;
-						self.state.totalMessages = 1;
-						$(self).trigger('sdk.update');
-						
-						self.fetchNewMessages({ time: response.data[response.data.length - 1].created_time * 1000 }, offset + 25);
+		FB.api('/fql', { q: 'SELECT message_count FROM thread WHERE thread_id = ' + self.conversation }, function(response) {
+			if (response.error) {
+				$(self).trigger('sdk.error');
+			}
+			else {
+				$.indexedDB('conversation_' + self.conversation).objectStore('Messages').count().done(function(count) {
+					self.state.totalMessages = response.data[0].message_count - count;
+					
+					if (self.state.totalMessages > 0) {
+						FB.api('/fql', { q: 'SELECT message_id, author_id, body, created_time FROM message WHERE thread_id = "' + 
+							self.conversation + '" AND created_time > ' + (lastMessage.time / 1000) + ' LIMIT 25 OFFSET ' + offset},
+							function(response) {
+								if (response.error) {
+									$(self).trigger('sdk.error');
+								}
+								else {
+									if (response.data.length == 25) {
+										self.state.completeMessages += response.data.length;
+										$(self).trigger('sdk.update');
+										
+										self.fetchNewMessages({ time: response.data[response.data.length - 1].created_time * 1000 }, offset + 25);
+									}
+									else {
+										self.state.message = "Completed downloading new messages.";
+										$(self).trigger('sdk.complete');
+									}
+									
+									self.storeMessages(response.data, true);
+								}
+							}
+						);
 					}
 					else {
 						self.state.message = "Completed downloading new messages.";
 						$(self).trigger('sdk.complete');
 					}
-					
-					self.storeMessages(response.data, true);
-				}
+				}).fail(function(e) {
+					console.error(e);
+				});
 			}
-		);
+		});
 	};
 	
 	MessagesSDK.prototype.getLastMessage = function(success, error) {

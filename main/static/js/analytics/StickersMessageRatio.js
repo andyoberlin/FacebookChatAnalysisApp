@@ -52,7 +52,7 @@ define(['jquery', 'jChartFX'], function($, jChartFX) {
 	            chart.getAxisY().getTitle().setText("Sticker to Message Ratio (%)");
 	            chart.getAxisY().getLabelsFormat().setFormat(jChartFX.AxisFormat.Percentage);
 	            chart.getAllSeries().setMultipleColors(true);
-	            chart1.getLegendBox().setVisible(false);
+	            chart.getLegendBox().setVisible(false);
 
 	            var cData = [];
 	            $.each(data, function(name, val) {
