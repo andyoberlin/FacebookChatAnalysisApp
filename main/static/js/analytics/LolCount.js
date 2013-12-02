@@ -1,4 +1,4 @@
-define(['jquery', 'analytics/Util', 'jChartFX'], function($, Util, jChartFX) {
+define(['jquery', 'analytics/Util', 'visualization/ColumnChart'], function($, Util, ColumnChart) {
 	var isLol = function(word) {
 		if (word.length < 3) {
             return false;
@@ -55,32 +55,13 @@ define(['jquery', 'analytics/Util', 'jChartFX'], function($, Util, jChartFX) {
 			Analytic.run(msgSDK, function(data) {
 				var card = $('<div />').height(350);
 				
-				var chart = new jChartFX.Chart();
-	            chart.getData().setSeries(1);
-	            
-	            var series = chart.getSeries().getItem(0);
-	            series.setGallery(jChartFX.Gallery.Bar);
-	            
-	            chart.getAxisX().getTitle().setText("Conversation Member");
-	            chart.getAxisY().getTitle().setText("Total Lol's Sent");
-	            chart.getAllSeries().setMultipleColors(true);
-	            chart.getLegendBox().setVisible(false);
-	            chart.getAnimations().getLoad().setEnabled(true);
-	            
-	            var titles = chart.getTitles();
-	            var title = new cfx.TitleDockable(); 
-                title.setText("Lol's Sent");
-                titles.add(title);
-	            
-	            var cData = [];
-	            $.each(data, function(name, val) {
-	            	cData.push({
-	            		"Name" : name,
-	            		"Value": val
-	            	});
-	            });
-	            
-	            chart.setDataSource(cData);
+				var chart = ColumnChart.create({
+					title: 'Lol\'s Sent',
+					xLabel: 'Conversation Member',
+					yLabel: 'Total Lol\'s Sent',
+					data: data
+				});
+
 				$(card).on('card.rendered', function() {
 					chart.create(card[0]);
 				});

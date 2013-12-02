@@ -1,26 +1,35 @@
-define(['goog!visualization,1,packages:[corechart]'], function() {
+define(['jChartFX'], function(jChartFX) {
 	var ColumnChart = {
 		create: function(parent, opts) {
-			var options = {
-	            title: opts.title,
-	            hAxis: { title: opts.xLabel },
-	            vAxis: { title: opts.yLabel, minValue: 0 },
-	            colors: ['#5aa9c2'],
-	            legend: 'none' ,
-	            width: opts.width ? opts.width : 500,
-	            enableInteractivity: true
-	        };
-			
-			var data = [[opts.xLabel, opts.yLabel]];
-			
-			$.each(opts.data, function(key, val) {
-				data.push([key, val]);
-			});
-			
-			var data = google.visualization.arrayToDataTable(data);
-
-	        var chart = new google.visualization.ColumnChart(parent[0]);
-	        chart.draw(data, options);
+			var chart = new jChartFX.Chart();
+            chart.getData().setSeries(1);
+            
+            var series = chart.getSeries().getItem(0);
+            series.setGallery(jChartFX.Gallery.Bar);
+            
+            chart.getAxisX().getTitle().setText(opts.xLabel);
+            chart.getAxisY().getTitle().setText(opts.yLabel);
+            chart.getAllSeries().setMultipleColors(true);
+            chart.getLegendBox().setVisible(false);
+            chart.getAnimations().getLoad().setEnabled(true);
+            chart.getAnimations().getLoad().setDirection(jChartFX.AnimationDirection.Upward);
+            
+            var titles = chart.getTitles();
+            var title = new cfx.TitleDockable(); 
+            title.setText(opts.title);
+            titles.add(title);
+            
+            var cData = [];
+            $.each(opts.data, function(name, val) {
+            	cData.push({
+            		"Name" : name,
+            		"Value": val
+            	});
+            });
+            
+            chart.setDataSource(cData);
+            
+            return chart;
 		}
 	};
 	

@@ -26,32 +26,13 @@ define(['jquery', 'jChartFX'], function($, jChartFX) {
 			Analytic.run(msgSDK, function(data) {
 				var card = $('<div />').height(350);
 				
-				var chart = new jChartFX.Chart();
-	            chart.getData().setSeries(1);
-	            
-	            var series = chart.getSeries().getItem(0);
-	            series.setGallery(jChartFX.Gallery.Bar);
-	            
-	            chart.getAxisX().getTitle().setText("Conversation Member");
-	            chart.getAxisY().getTitle().setText("Total Messages Sent");
-	            chart.getAllSeries().setMultipleColors(true);
-	            chart.getLegendBox().setVisible(false);
-	            chart.getAnimations().getLoad().setEnabled(true);
-	            
-	            var titles = chart.getTitles();
-	            var title = new cfx.TitleDockable(); 
-                title.setText("Total Messages Sent");
-                titles.add(title);
-	            
-	            var cData = [];
-	            $.each(data, function(name, val) {
-	            	cData.push({
-	            		"Name" : name,
-	            		"Value": val
-	            	});
-	            });
-	            
-	            chart.setDataSource(cData);
+				var chart = ColumnChart.create({
+					title: 'Total Messages Sent',
+					xLabel: 'Conversation Member',
+					yLabel: 'Total Messages Sent',
+					data: data
+				});
+				
 				$(card).on('card.rendered', function() {
 					chart.create(card[0]);
 				});

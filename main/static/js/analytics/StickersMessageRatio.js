@@ -40,33 +40,15 @@ define(['jquery', 'jChartFX'], function($, jChartFX) {
 			Analytic.run(msgSDK, function(data) {
 				var card = $('<div />').height(350);
 				
-				var chart = new jChartFX.Chart();
-	            chart.getData().setSeries(1);
-	            
-	            var series = chart.getSeries().getItem(0);
-	            series.setGallery(jChartFX.Gallery.Bar);
-	            
-	            chart.getAxisX().getTitle().setText("Conversation Member");
-	            chart.getAxisY().getTitle().setText("Sticker to Message Ratio (%)");
+				var chart = ColumnChart.create({
+					title: 'Percentage of Messages that are Stickers',
+					xLabel: 'Conversation Member',
+					yLabel: 'Sticker to Message Ratio (%)',
+					data: data
+				});
+				
 	            chart.getAxisY().getLabelsFormat().setFormat(jChartFX.AxisFormat.Percentage);
-	            chart.getAllSeries().setMultipleColors(true);
-	            chart.getLegendBox().setVisible(false);
-	            chart.getAnimations().getLoad().setEnabled(true);
 	            
-	            var titles = chart.getTitles();
-	            var title = new cfx.TitleDockable(); 
-                title.setText("Percentage of Messages that are Stickers");
-                titles.add(title);
-	            
-	            var cData = [];
-	            $.each(data, function(name, val) {
-	            	cData.push({
-	            		"Name" : name,
-	            		"Value": val
-	            	});
-	            });
-	            
-	            chart.setDataSource(cData);
 				$(card).on('card.rendered', function() {
 					chart.create(card[0]);
 				});
