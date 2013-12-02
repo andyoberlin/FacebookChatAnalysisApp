@@ -14,13 +14,13 @@ require.config({
 	    	exports : '_'
 	    },
 	    jChartFXSys: {
-	    	deps: ['jquery'],
 	    	init: function() {
 	    		return sfx;
 	    	}
 	    },
+	    jChartFXAdvanced: ['jChartFXSys'],
 	    jChartFX: {
-	    	deps: ['jChartFXSys'],
+	    	deps: ['jChartFXAdvanced'],
 	    	init: function() {
 	    		return cfx;
 	    	}
@@ -33,6 +33,7 @@ require.config({
 		underscore: '/static/js/lib/underscore.min',
 		bootstrap: '/static/js/lib/bootstrap.min',
 		jChartFXSys: '/static/js/lib/jChartFX/jchartfx.system',
+		jChartFXAdvanced: '/static/js/lib/jChartFX/jchartfx.advanced',
 		jChartFX: '/static/js/lib/jChartFX/jchartfx.coreVector',
 		async : '/static/js/lib/async',
         goog : '/static/js/lib/goog',
