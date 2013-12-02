@@ -38,6 +38,7 @@ define(deps, function($, _, TotalMessages, TotalStickers, StickersMessageRatio, 
 					var i = 0;
 					while (i < elsByKey.length) {
 						var curPanel = $('<div />').addClass('row');
+						parent.append(curPanel);
 						
 						for (var j = 0; j < key && i < elsByKey.length; j++) {
 							var card = CardTemplate({
@@ -45,10 +46,9 @@ define(deps, function($, _, TotalMessages, TotalStickers, StickersMessageRatio, 
 								layout: 'col-sm-' + (12.0/key)
 							});
 							curPanel.append($(card));
+							$(card).trigger('card.rendered');
 							i++;
 						}
-						
-						parent.append(curPanel);
 					}
 				});
 			});
